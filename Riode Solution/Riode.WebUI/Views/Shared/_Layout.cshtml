@@ -232,7 +232,7 @@
                                     <ul>
                                         <li><a asp-controller="home" asp-action="about">About</a></li>
                                         <li><a asp-controller="home" asp-action="contact">Contact Us</a></li>
-                                        <li><a asp-controller="account" asp-action="login">My Account</a></li>
+                                        <li><a asp-controller="account" asp-action="index">My Account</a></li>
                                         <li><a asp-controller="home" asp-action="WishList">Wishlist</a></li>
                                         <li><a asp-controller="home" asp-action="faq">FAQs</a></li>
                                         <li><a asp-controller="home" asp-action="notFoundPage">Error 404</a></li>
@@ -242,37 +242,37 @@
                                 <li>
                                     <a asp-controller="home" asp-action="blog">Blog</a>
                                     @*<ul>
-                                        <li><a href="blog-classic.html">Classic</a></li>
-                                        <li><a href="blog-listing.html">Listing</a></li>
-                                        <li>
-                                            <a href="#">Grid</a>
-                                            <ul>
-                                                <li><a href="blog-grid-2col.html">Grid 2 columns</a></li>
-                                                <li><a href="blog-grid-3col.html">Grid 3 columns</a></li>
-                                                <li><a href="blog-grid-4col.html">Grid 4 columns</a></li>
-                                                <li><a href="blog-grid-sidebar.html">Grid sidebar</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="#">Masonry</a>
-                                            <ul>
-                                                <li><a href="blog-masonry-2col.html">Masonry 2 columns</a></li>
-                                                <li><a href="blog-masonry-3col.html">Masonry 3 columns</a></li>
-                                                <li><a href="blog-masonry-4col.html">Masonry 4 columns</a></li>
-                                                <li><a href="blog-masonry-sidebar.html">Masonry sidebar</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="#">Mask</a>
-                                            <ul>
-                                                <li><a href="blog-mask-grid.html">Blog mask grid</a></li>
-                                                <li><a href="blog-mask-masonry.html">Blog mask masonry</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="post-single.html">Single Post</a>
-                                        </li>
-                                    </ul>*@
+                                            <li><a href="blog-classic.html">Classic</a></li>
+                                            <li><a href="blog-listing.html">Listing</a></li>
+                                            <li>
+                                                <a href="#">Grid</a>
+                                                <ul>
+                                                    <li><a href="blog-grid-2col.html">Grid 2 columns</a></li>
+                                                    <li><a href="blog-grid-3col.html">Grid 3 columns</a></li>
+                                                    <li><a href="blog-grid-4col.html">Grid 4 columns</a></li>
+                                                    <li><a href="blog-grid-sidebar.html">Grid sidebar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#">Masonry</a>
+                                                <ul>
+                                                    <li><a href="blog-masonry-2col.html">Masonry 2 columns</a></li>
+                                                    <li><a href="blog-masonry-3col.html">Masonry 3 columns</a></li>
+                                                    <li><a href="blog-masonry-4col.html">Masonry 4 columns</a></li>
+                                                    <li><a href="blog-masonry-sidebar.html">Masonry sidebar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="#">Mask</a>
+                                                <ul>
+                                                    <li><a href="blog-mask-grid.html">Blog mask grid</a></li>
+                                                    <li><a href="blog-mask-masonry.html">Blog mask masonry</a></li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="post-single.html">Single Post</a>
+                                            </li>
+                                        </ul>*@
                                 </li>
                                 <li class="d-xl-show">
                                     <a asp-controller="home" asp-action="elements">Elements</a>
@@ -283,14 +283,14 @@
                                         <li><a asp-controller="home" asp-action="elements">Product Category</a></li>
                                         <li><a asp-controller="home" asp-action="elements">Buttons</a></li>
                                         <li><a asp-controller="home" asp-action="elements">Accordions</a></li>
-                                       @* <li><a href="element-alerts.html">Alert &amp; Notification</a></li>
-                                        <li><a href="element-tabs.html">Tabs</a></li>
-                                        <li><a href="element-testimonials.html">Testimonials</a></li>
-                                        <li><a href="element-blog-posts.html">Blog Posts</a></li>
-                                        <li><a href="element-instagrams.html">Instagrams</a></li>
-                                        <li><a href="element-cta.html">Call to Action</a></li>
-                                        <li><a href="element-icon-boxes.html">Icon Boxes</a></li>
-                                        <li><a href="element-icons.html">Icons</a></li>*@
+                                        @* <li><a href="element-alerts.html">Alert &amp; Notification</a></li>
+                                            <li><a href="element-tabs.html">Tabs</a></li>
+                                            <li><a href="element-testimonials.html">Testimonials</a></li>
+                                            <li><a href="element-blog-posts.html">Blog Posts</a></li>
+                                            <li><a href="element-instagrams.html">Instagrams</a></li>
+                                            <li><a href="element-cta.html">Call to Action</a></li>
+                                            <li><a href="element-icon-boxes.html">Icon Boxes</a></li>
+                                            <li><a href="element-icons.html">Icons</a></li>*@
                                     </ul>
                                 </li>
                                 <li>
@@ -711,7 +711,7 @@
     <!-- Main JS File -->
     <script src="~/assets/js/main.min.js"></script>
 
-    <script>
+   @* <script>
         $(document).ready(function () {
 
 
@@ -725,6 +725,8 @@
 
 
         });
-    </script>
+    </script>*@
+
+    @RenderSection("addjs", required: false)
 </body>
 </html>
