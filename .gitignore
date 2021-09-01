@@ -1,6 +1,0 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/Riode Solution/Riode.WebUI/bin/Debug/net5.0
-/Riode Solution/Riode.WebUI/obj
