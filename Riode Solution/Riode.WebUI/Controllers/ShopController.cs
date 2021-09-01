@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Riode.WebUI.Controllers
 {
-    public class CategoriesController : Controller
+    public class ShopController : Controller
     {
         public IActionResult Index()
         {
@@ -42,12 +42,20 @@ namespace Riode.WebUI.Controllers
             return View(viewmodel);
         }
 
-        /*
-                public IActionResult ShopListMode()
-                {
-                    return View();
-                }
-        */
+        public IActionResult Details(int id)
+        {
+            var db = new RiodeDBContext();
+            var product = db.Products
+             .Include(p => p.Images)
+             .FirstOrDefault(c => c.DeleteByUserId == null && c.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(product);
+        }
 
     }
 }
