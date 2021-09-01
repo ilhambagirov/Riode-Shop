@@ -112,62 +112,64 @@
                             </select>
                         </div>
                         <div class="toolbox-item toolbox-layout">
-                            <a asp-controller="categories" asp-action="ShopListMode" class="d-icon-mode-list btn-layout"></a>
-                            <a asp-controller="categories" asp-action="Index" class="d-icon-mode-grid btn-layout active"></a>
+                            <a href="#product-list"
+                               data-container-class="products-wrapper product-lists" class="d-icon-mode-list btn-layout"></a>
+                            <a href="#product-wrap"
+                               data-container-class="products-wrapper" class="d-icon-mode-grid btn-layout active"></a>
                         </div>
                     </div>
                 </nav>
-                <div class="row cols-2 cols-sm-3 products-wrapper @*product-lists*@" @*style="display:block;"*@>
+                <div id="productContainer" class="row cols-2 cols-sm-3 products-wrapper" @*style="display:block;"*@>
 
                     @foreach (var item in Model.Products)
                     {
-                    <div class="product">
-                        <figure class="product-media">
-                            <a asp-controller="shop" asp-action="details" asp-route-id="@item.Id">
-                                <img src="~/uploads/images/product/@item.Images.FirstOrDefault(c=>c.ProductId==c.Product.Id)?.FileName" alt="product" width="280" height="315">
-                            </a>
-                            <div class="product-label-group">
-                                <label class="product-label label-new">new</label>
-                                <label class="product-label label-sale">12% OFF</label>
-                            </div>
-                            <div class="product-action">
-                                <a href="#" class=" btn-cart" title="Add to cart">
-                                    <i class="d-icon-bag"></i>
-                                    <label>Add to cart</label>
+                        <div class="product">
+                            <figure class="product-media">
+                                <a asp-controller="shop" asp-action="details" asp-route-id="@item.Id">
+                                    <img src="~/uploads/images/product/@item.Images.FirstOrDefault(c=>c.ProductId==c.Product.Id)?.FileName" alt="product" width="280" height="315">
                                 </a>
-                                <a href="#" class=" btn-wishlist"
-                                   title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                <a class="btn-quickview" title="Quick View">
-                                    <i class="d-icon-search"></i>
-                                    <label>Quick View</label>
-                                </a>
-                            </div>
-                        </figure>
-                        <div class="product-details">
-                            <div class="product-cat">
-                                <a href="shop-grid-3col.html">@item.Category.Name</a>
-                            </div>
-                            <h3 class="product-name">
-                                <a asp-controller="shop" asp-action="details" asp-route-id="@item.Id">@item.Name</a>
-                            </h3>
-                            <div class="product-price">
-                                <ins class="new-price">$53.99</ins><del class="old-price">$67.99</del>
-                            </div>
-                            <div class="ratings-container">
-                                <div class="ratings-full">
-                                    <span class="ratings" style="width:60%"></span>
-                                    <span class="tooltiptext tooltip-top"></span>
+                                <div class="product-label-group">
+                                    <label class="product-label label-new">new</label>
+                                    <label class="product-label label-sale">12% OFF</label>
                                 </div>
-                                <a asp-controller="shop" asp-action="details" class="rating-reviews">( 16 reviews )</a>
+                                <div class="product-action">
+                                    <a href="#" class=" btn-cart" title="Add to cart">
+                                        <i class="d-icon-bag"></i>
+                                        <label>Add to cart</label>
+                                    </a>
+                                    <a href="#" class=" btn-wishlist"
+                                       title="Add to wishlist"><i class="d-icon-heart"></i></a>
+                                    <a class="btn-quickview" title="Quick View">
+                                        <i class="d-icon-search"></i>
+                                        <label>Quick View</label>
+                                    </a>
+                                </div>
+                            </figure>
+                            <div class="product-details">
+                                <div class="product-cat">
+                                    <a href="shop-grid-3col.html">@item.Category.Name</a>
+                                </div>
+                                <h3 class="product-name">
+                                    <a asp-controller="shop" asp-action="details" asp-route-id="@item.Id">@item.Name</a>
+                                </h3>
+                                <div class="product-price">
+                                    <ins class="new-price">$53.99</ins><del class="old-price">$67.99</del>
+                                </div>
+                                <div class="ratings-container">
+                                    <div class="ratings-full">
+                                        <span class="ratings" style="width:60%"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    </div>
+                                    <a asp-controller="shop" asp-action="details" class="rating-reviews">( 16 reviews )</a>
+                                </div>
+                                <p class="product-short-desc">
+                                    Sed egestas, ante et vulputate volutpat, eros pede semper est,
+                                    vitae luctus metus libero eu augue. Morbi purus liberpuro ate vol faucibus adipiscing.
+                                </p>
+
                             </div>
-                            <p class="product-short-desc">
-                                Sed egestas, ante et vulputate volutpat, eros pede semper est,
-                                vitae luctus metus libero eu augue. Morbi purus liberpuro ate vol faucibus adipiscing.
-                            </p>
-                          
+
                         </div>
-                       
-                    </div>
                     }
                 </div>
                 <nav class="toolbox toolbox-pagination">
@@ -196,6 +198,37 @@
         </div>
     </div>
 </div>
+
+@section addjs{
+    <script>
+
+        $(document).ready(function () {
+            $('.toolbox-layout a[href^="#product-"]').click(function (e) {
+                e.preventDefault();
+
+                $(e.currentTarget).parent().find('a').removeClass('active')
+                $(e.currentTarget).addClass('active')
+
+                const isList = $(e.currentTarget).attr('href') === '#product-list';
+                const data = $(e.currentTarget).data();
+                const container = $('#productContainer');
+                container.attr('class', data.containerClass);
+
+                (container).find('.product').each(function (index, item) {
+                    const actionContainer = $(item).find('.product-action');
+                    if (isList == true) {
+                        $(item).find('.product-details').append(actionContainer);
+                    } else {
+                        $(item).find('.product-media').append(actionContainer);
+                    }
+                })
+
+            })
+        })
+    </script>
+
+
+}
 
 @section addcss{
     <link href="~/assets/css/14.product-style.min.css" rel="stylesheet" />
