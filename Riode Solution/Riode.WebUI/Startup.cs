@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace Riode.WebUI
 {
@@ -11,6 +13,8 @@ namespace Riode.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddRouting(cfg => cfg.LowercaseUrls=true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -27,6 +31,15 @@ namespace Riode.WebUI
 
             app.UseEndpoints(endpoints =>
             {
+
+                endpoints.MapGet("/comingsSoon.html", async(context)=>{
+                   using (var sr = new StreamReader("views/Static/comingsSoon.html"))
+                    {
+                        context.Response.ContentType = "text/html";
+                       await context.Response.WriteAsync(sr.ReadToEnd());
+                    }
+                }
+                    );
                 endpoints.MapControllerRoute("default", "{controller=home}/{action=index}/{id?}");
             });
         }

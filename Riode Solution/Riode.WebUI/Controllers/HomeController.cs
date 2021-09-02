@@ -15,10 +15,6 @@ namespace Riode.WebUI.Controllers
             return View();
         }
 
-        public IActionResult WishList()
-        {
-            return View();
-        }
 
         public IActionResult FAQ()
         {

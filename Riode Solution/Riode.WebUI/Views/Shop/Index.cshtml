@@ -125,7 +125,7 @@
                     {
                         <div class="product">
                             <figure class="product-media">
-                                <a asp-controller="shop" asp-action="details" asp-route-id="@item.Id">
+                                <a asp-action="details" asp-route-id="@item.Id">
                                     <img src="~/uploads/images/product/@item.Images.FirstOrDefault(c=>c.ProductId==c.Product.Id)?.FileName" alt="product" width="280" height="315">
                                 </a>
                                 <div class="product-label-group">
