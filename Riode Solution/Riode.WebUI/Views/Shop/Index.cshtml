@@ -181,12 +181,22 @@
                                 <i class="d-icon-arrow-left"></i>Prev
                             </a>
                         </li>
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item page-item-dots"><a class="page-link" href="#">6</a></li>
+                        @for (int i = 1; i <= ViewBag.PageCount; i++)
+                        {
+                            if (ViewBag.Page == i)
+                            {
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" href="#">@i</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" asp-controller="Shop" asp-action="Index" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+
+                        }
                         <li class="page-item">
                             <a class="page-link page-link-next" href="#" aria-label="Next">
                                 Next<i class="d-icon-arrow-right"></i>
@@ -226,7 +236,7 @@
             })
         })
     </script>
-    <script src="~/assets/js/CatPro.js"></script>
+    @*<script src="~/assets/js/CatPro.js"></script>*@
 }
 
 @section addcss{

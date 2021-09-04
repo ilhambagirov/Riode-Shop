@@ -6,7 +6,7 @@ let gridicon = document.querySelector('.mode-grid')
 let anchor
 lis.forEach(li => {
     li.addEventListener('click', e => {
-        anchor = li.querySelector('a').innerText
+        anchor = li.querySelector('a').innerText//bags
         productForEach("block")
     })
     listicon.addEventListener('click', e => {

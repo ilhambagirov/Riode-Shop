@@ -2,13 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.ViewModels;
+using System;
 using System.Linq;
 
 namespace Riode.WebUI.Controllers
 {
     public class ShopController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
 
             var viewmodel = new CategoryViewModel();
@@ -33,9 +34,13 @@ namespace Riode.WebUI.Controllers
               .Where(c => c.DeleteByUserId == null)
               .ToList();
 
+            int productCount = 2;
+            ViewBag.PageCount = Decimal.Ceiling((decimal)db.Products.Where(c => c.DeleteByUserId == null).Count() / productCount);
+            ViewBag.Page = page;
+
             viewmodel.Products = db.Products
               .Include(p => p.Images.Where(i => i.IsMain == true))
-              .Where(c => c.DeleteByUserId == null)
+              .Where(c => c.DeleteByUserId == null).Skip((page-1)* productCount).Take(productCount)//2
               .ToList();
 
 

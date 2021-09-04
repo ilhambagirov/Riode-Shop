@@ -28,6 +28,10 @@ namespace Riode.WebUI.Models.DataContext
 
         public DbSet<Category> Category { get; set; }
 
+        public DbSet<Blog> Blogs { get; set; }
+
+        public DbSet<BlogImages> BlogImages { get; set; }
+
         public DbSet<Brands> Brands { get; set; }
         public DbSet<Size> Size { get; set; }
         public DbSet<Colors> Colors { get; set; }

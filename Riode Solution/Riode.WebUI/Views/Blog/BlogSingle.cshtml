@@ -1,4 +1,4 @@
-﻿
+﻿@model Blog
 @{
     ViewData["Title"] = "BlogSingle";
 }
@@ -19,7 +19,7 @@
                 <article class="post-single">
                     <figure class="post-media">
                         <a href="#">
-                            <img src="~/uploads/images/blog/single/1.jpg" width="880" height="450" alt="post" />
+                            <img style="object-fit:contain" src="~/uploads/images/blog/masonry/4col/@Model.Images.FirstOrDefault(b=> b.BlogId==Model.Id).Filename" width="880" height="450" alt="post" />
                         </a>
                     </figure>
                     <div class="post-details">
@@ -30,17 +30,12 @@
                         </div>
                         <h4 class="post-title">
                             <a href="#">
-                                Explore Fashion Trending For Women In Autumn
-                                2021
+                               @Model.Name
                             </a>
                         </h4>
                         <div class="post-body mb-7">
                             <p class="mb-5">
-                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                                Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque,
-                                aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin
-                                laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu
-                                nibh. Nullam mollis. Ut justo. Suspendisse potenti.
+                                @Model.Description
                             </p>
 
                             <p class="mb-6">
