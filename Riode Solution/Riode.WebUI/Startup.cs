@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Riode.WebUI.Models.DataContext;
@@ -10,14 +12,22 @@ namespace Riode.WebUI
 {
     public class Startup
     {
-       
+
+        IConfiguration configuration;
+        public Startup(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
 
-            services.AddRouting(cfg => cfg.LowercaseUrls=true);
+            services.AddRouting(cfg => cfg.LowercaseUrls = true);
 
-            services.AddDbContext<RiodeDBContext>();
+            services.AddDbContext<RiodeDBContext>(cfg =>
+            {
+                cfg.UseSqlServer(configuration.GetConnectionString("cString"));
+            });
 
         }
 
@@ -36,11 +46,12 @@ namespace Riode.WebUI
             app.UseEndpoints(endpoints =>
             {
 
-                endpoints.MapGet("/comingsSoon.html", async(context)=>{
-                   using (var sr = new StreamReader("views/Static/comingsSoon.html"))
+                endpoints.MapGet("/comingsSoon.html", async (context) =>
+                {
+                    using (var sr = new StreamReader("views/Static/comingsSoon.html"))
                     {
                         context.Response.ContentType = "text/html";
-                       await context.Response.WriteAsync(sr.ReadToEnd());
+                        await context.Response.WriteAsync(sr.ReadToEnd());
                     }
                 }
                     );
