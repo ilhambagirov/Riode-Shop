@@ -1,10 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.Entities;
 
 namespace Riode.WebUI.Controllers
 {
     public class HomeController : Controller
     {
+        readonly RiodeDBContext db;
+        public HomeController(RiodeDBContext db )
+        {
+            this.db = db;
+        }
         public IActionResult Index()
         {
             return View();

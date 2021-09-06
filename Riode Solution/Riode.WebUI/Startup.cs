@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Riode.WebUI.Models.DataContext;
 using System.IO;
 
 namespace Riode.WebUI
@@ -15,6 +16,9 @@ namespace Riode.WebUI
             services.AddControllersWithViews();
 
             services.AddRouting(cfg => cfg.LowercaseUrls=true);
+
+            services.AddDbContext<RiodeDBContext>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

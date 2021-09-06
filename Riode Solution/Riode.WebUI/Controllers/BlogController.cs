@@ -10,11 +10,15 @@ namespace Riode.WebUI.Controllers
 {
     public class BlogController : Controller
     {
+        readonly RiodeDBContext db;
+        public BlogController(RiodeDBContext db)
+        {
+            this.db = db;
+        }
         public IActionResult Blog(int page = 1)
         {
 
             int productCount = 3;
-            var db = new RiodeDBContext();
             ViewBag.pageCount = Decimal.Ceiling((decimal)db.Blogs.Where(c => c.DeleteByUserId == null).Count() / productCount);
             ViewBag.Page = page;
             var blogs = db.Blogs
@@ -26,7 +30,6 @@ namespace Riode.WebUI.Controllers
 
         public IActionResult BlogSingle(int id)
         {
-            var db = new RiodeDBContext();
             var blog = db.Blogs
             .Include(p => p.Images)
             .FirstOrDefault(c => c.DeleteByUserId == null && c.Id == id);
