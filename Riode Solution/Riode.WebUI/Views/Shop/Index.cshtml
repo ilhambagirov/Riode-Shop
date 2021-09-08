@@ -45,28 +45,30 @@
                         </div>
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">Size</h3>
-                            <ul class="widget-body filter-items">
+                            <ul class="widget-body filter-items" data-entity-name="sizes">
                                 @foreach (var item in Model.Size)
                                 {
-                                    <li><a href="#">@item.Name</a></li>
+                                    <li data-entity-id="@item.Id">
+                                        <a href="#">@item.Name</a>
+                                    </li>
                                 }
                             </ul>
                         </div>
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">Color</h3>
-                            <ul class="widget-body filter-items">
+                            <ul class="widget-body filter-items" data-entity-name="colors">
                                 @foreach (var item in Model.Colors)
                                 {
-                                    <li><a href="#">@item.Name</a></li>
+                                    <li data-entity-id="@item.Id"><a href="#">@item.Name</a></li>
                                 }
                             </ul>
                         </div>
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">Brands</h3>
-                            <ul class="widget-body filter-items">
+                            <ul class="widget-body filter-items" data-entity-name="brands">
                                 @foreach (var item in Model.Brands)
                                 {
-                                    <li><a href="#">@item.Name</a></li>
+                                    <li data-entity-id="@item.Id"><a href="#">@item.Name</a></li>
                                 }
                             </ul>
                         </div>
@@ -235,6 +237,118 @@
 
             })
         })
+
+
+        function setFilter() {
+
+            if ($.proccesId != undefined) {
+                clearTimeout($.proccesId);
+            }
+            $.proccesId = setTimeout(function () {
+                const filterObj = {};
+                $('ul[data-entity-name]').each(function (index, item) {
+                    const entityPropName = $(item).data('entity-name');
+                    filterObj[entityPropName] = [];
+
+                    $(item).find('li.active').each(function (i, value) {
+                        const entityId = $(value).data('entity-id');
+                        filterObj[entityPropName].push(entityId);
+                    })
+                })
+                console.log(filterObj);
+
+               /* const jsonFilterObj = JSON.stringify(filterObj)*/
+
+                $.ajax(
+                    {
+                        url: '@Url.Action("Filter")',
+                        type: 'POST',
+
+                        data: filterObj,
+                        contentType: 'application/x-www-form-urlencoded',
+
+                        //data: jsonFilterObj,
+                        //contentType: 'application/json',
+
+                        dataType: 'json',
+                        beforeSend: function () {
+                            console.log("before request")
+                        },
+                        success: function (response) {
+                            console.log(response)
+                            if (response.error == false) {
+                                $('#productContainer').html('');
+                                $.each(response.data, function (index, item) {
+                                    const productCard = $(`<div class="product">
+                            <figure class="product-media">
+                                <a href="/shop/details/${item.id}">
+                                    <img src="/uploads/images/product/${item.images[0].fileName}" alt="product" width="280" height="315">
+                                </a>
+                                <div class="product-label-group">
+                                    <label class="product-label label-new">new</label>
+                                    <label class="product-label label-sale">12% OFF</label>
+                                </div>
+                                <div class="product-action">
+                                    <a href="#" class=" btn-cart" title="Add to cart">
+                                        <i class="d-icon-bag"></i>
+                                        <label>Add to cart</label>
+                                    </a>
+                                    <a href="#" class=" btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
+                                    <a class="btn-quickview" title="Quick View">
+                                        <i class="d-icon-search"></i>
+                                        <label>Quick View</label>
+                                    </a>
+                                </div>
+                            </figure>
+                            <div class="product-details">
+                                <div class="product-cat">
+                                    <a href="shop-grid-3col.html">Bags</a>
+                                </div>
+                                <h3 class="product-name">
+                                    <a href="/shop/details/8">${item.name}</a>
+                                </h3>
+                                <div class="product-price">
+                                    <ins class="new-price">$53.99</ins><del class="old-price">$67.99</del>
+                                </div>
+                                <div class="ratings-container">
+                                    <div class="ratings-full">
+                                        <span class="ratings" style="width:60%"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    </div>
+                                    <a class="rating-reviews" href="/shop/details">( 16 reviews )</a>
+                                </div>
+                                <p class="product-short-desc">
+                                    ${item.shortDescription}
+                                </p>
+
+                            </div>
+
+                        </div>`)
+                                    $('#productContainer').append(productCard);
+                                })
+
+                                const isList = $('a[href="#product-list"].active');
+
+                                if (isList != undefined) {
+                                    $(isList)[0].click('');
+                                }
+
+                            }
+
+                        },
+                        error: function (response) {
+                            console.log(response)
+                        }
+                    }).always(function () {
+                        console.log("after request")
+                    })
+            }, 2000)
+
+
+
+        }
+
+
     </script>
     @*<script src="~/assets/js/CatPro.js"></script>*@
 }

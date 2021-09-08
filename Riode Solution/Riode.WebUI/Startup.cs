@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using Riode.WebUI.Models.DataContext;
 using System.IO;
 
@@ -20,8 +21,11 @@ namespace Riode.WebUI
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(cfg =>
+                {
+                    cfg.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
             services.AddRouting(cfg => cfg.LowercaseUrls = true);
 
             services.AddDbContext<RiodeDBContext>(cfg =>

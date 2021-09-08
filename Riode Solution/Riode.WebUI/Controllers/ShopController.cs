@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.Models.DataContext;
+using Riode.WebUI.Models.FormModels;
 using Riode.WebUI.Models.ViewModels;
 using System;
 using System.Linq;
@@ -37,17 +38,51 @@ namespace Riode.WebUI.Controllers
               .Where(c => c.DeleteByUserId == null)
               .ToList();
 
-            int productCount = 2;
-            ViewBag.PageCount = Decimal.Ceiling((decimal)db.Products.Where(c => c.DeleteByUserId == null).Count() / productCount);
-            ViewBag.Page = page;
+            /*  int productCount = 2;
+              ViewBag.PageCount = Decimal.Ceiling((decimal)db.Products.Where(c => c.DeleteByUserId == null).Count() / productCount);
+              ViewBag.Page = page;*/
 
             viewmodel.Products = db.Products
               .Include(p => p.Images.Where(i => i.IsMain == true))
-              .Where(c => c.DeleteByUserId == null).Skip((page-1)* productCount).Take(productCount)//2
+              .Include(C => C.Brand)
+              .Where(c => c.DeleteByUserId == null)/*.Skip((page-1)* productCount).Take(productCount)*///2
               .ToList();
 
 
             return View(viewmodel);
+        }
+
+        [HttpPost]
+        public IActionResult Filter(ShopFilterModel model)
+        {
+
+            var query = db.Products
+                 .Include(p => p.Images.Where(i => i.IsMain == true))
+                 .Include(c => c.Brand)
+                 .Include(c => c.ProductSizeColorCollection)
+                 .Where(c => c.DeleteByUserId == null)
+                 .AsQueryable();
+
+            if (model?.Brands?.Count() > 0)
+            {
+                query = query.Where(p => model.Brands.Contains(p.BrandId));
+            }
+
+            if (model?.Sizes?.Count() > 0)
+            {
+                query = query.Where(p => p.ProductSizeColorCollection.Any(pscc =>model.Sizes.Contains(pscc.SizeId)));
+            }
+
+            if (model?.Colors?.Count() > 0)
+            {
+                query = query.Where(p => p.ProductSizeColorCollection.Any(pscc => model.Colors.Contains(pscc.ColorId)));
+            }
+
+            return Json(new
+            {
+                error = false,
+                data = query.ToList()
+            });
         }
 
         public IActionResult Details(int id)
