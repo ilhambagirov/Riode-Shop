@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Riode.WebUI.Models.DataContext;
 using System.IO;
-
 namespace Riode.WebUI
 {
     public class Startup
@@ -59,6 +58,11 @@ namespace Riode.WebUI
                     }
                 }
                     );
+
+                endpoints.MapControllerRoute(
+                 name: "areas",
+                 pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+         );
                 endpoints.MapControllerRoute("default", "{controller=home}/{action=index}/{id?}");
             });
         }
