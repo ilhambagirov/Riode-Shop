@@ -59,6 +59,7 @@ namespace Riode.WebUI.Controllers
             var query = db.Products
                  .Include(p => p.Images.Where(i => i.IsMain == true))
                  .Include(c => c.Brand)
+                 .Include(c => c.Category)
                  .Include(c => c.ProductSizeColorCollection)
                  .Where(c => c.DeleteByUserId == null)
                  .AsQueryable();
@@ -78,11 +79,13 @@ namespace Riode.WebUI.Controllers
                 query = query.Where(p => p.ProductSizeColorCollection.Any(pscc => model.Colors.Contains(pscc.ColorId)));
             }
 
-            return Json(new
+            return PartialView("_ProductContainer", query.ToList());
+
+           /* return Json(new
             {
                 error = false,
                 data = query.ToList()
-            });
+            });*/
         }
 
         public IActionResult Details(int id)
