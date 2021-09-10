@@ -8,7 +8,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>BitCrypto</title>
+    <title>Riode Admin panel</title>
 
     <link rel="icon" href="~/uploads/images/mini_logo.png" type="image/png">
     <!-- Bootstrap CSS -->
@@ -57,8 +57,8 @@
     <!-- sidebar  -->
     <nav class="sidebar dark_sidebar">
         <div class="logo d-flex justify-content-between">
-            <a class="large_logo" href="index.html"><img src="~/uploads/images/logo_white.png" alt=""></a>
-            <a class="small_logo" href="index.html"><img src="~/uploads/images/mini_logo.png" alt=""></a>
+            <a class="large_logo" asp-controller="dashboard" asp-action="index" > <img style="color:white;" src="~/uploads/images/demos/demo23/logo-footer.png" alt="logo" width="153" height="44" /></a>
+            <a class="small_logo" asp-controller="dashboard" asp-action="index" ><img src="~/uploads/images/mini_logo.png" alt=""></a>
             <div class="sidebar_close_icon d-lg-none">
                 <i class="ti-close"></i>
             </div>
@@ -186,11 +186,11 @@
                 <ul>
                     <li><a href="role_permissions.html">Role & Permissions</a></li>
                     <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="login.html">Login</a></li>
+                    <li><a asp-controller="account" asp-action="login">Login</a></li>
                     <li><a href="resister.html">Register</a></li>
                     <li><a href="error_400.html">Error 404</a></li>
                     <li><a href="error_500.html">Error 500</a></li>
-                    <li><a href="forgot_pass.html">Forgot Password</a></li>
+                    <li><a asp-controller="account" asp-action="forgotpassword">Forgot Password</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="module_setting.html">Module Setting</a></li>
                     <li><a href="Products.html">Products</a></li>
@@ -659,7 +659,6 @@
     <!-- tag input -->
     <script src="~/admin/vendors/tagsinput/tagsinput.js"></script>
     <!-- text editor js -->
-
 
     <script src="~/admin/js/custom.js"></script>
 </body>

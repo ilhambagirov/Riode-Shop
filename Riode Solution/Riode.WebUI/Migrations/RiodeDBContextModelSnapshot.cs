@@ -181,6 +181,83 @@ namespace Riode.WebUI.Migrations
                     b.ToTable("Colors");
                 });
 
+            modelBuilder.Entity("Riode.WebUI.Models.Entities.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AnswerBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("AnswerDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeleteByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactPosts");
+                });
+
+            modelBuilder.Entity("Riode.WebUI.Models.Entities.FAQ", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeleteByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FAQs");
+                });
+
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Images", b =>
                 {
                     b.Property<int>("Id")
@@ -374,7 +451,7 @@ namespace Riode.WebUI.Migrations
                         .IsRequired();
 
                     b.HasOne("Riode.WebUI.Models.Entities.Products", "Product")
-                        .WithMany()
+                        .WithMany("ProductSizeColorCollection")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -424,6 +501,8 @@ namespace Riode.WebUI.Migrations
             modelBuilder.Entity("Riode.WebUI.Models.Entities.Products", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("ProductSizeColorCollection");
                 });
 #pragma warning restore 612, 618
         }

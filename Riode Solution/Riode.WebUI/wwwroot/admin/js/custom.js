@@ -123,7 +123,7 @@ $("#sidebar_menu >li a").filter(function() {
 
 
 
-    //count up js
+    count up js
     var count= $('.counter');
         if(count.length){
         count.counterUp({
