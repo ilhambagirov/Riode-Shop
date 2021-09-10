@@ -37,7 +37,7 @@ $( "#sidebar_menu" ).find( "li ul" ).removeClass("mm-show");
 var current = window.location.pathname
 $("#sidebar_menu >li a").filter(function() {
 
-    var link = $(this).attr("href");
+    var link = $(this).attr("class");
     if(link){
         if (current.indexOf(link) != -1) {
             $(this).parents().parents().children('ul.mm-collapse').addClass('mm-show').closest('li').addClass('mm-active');

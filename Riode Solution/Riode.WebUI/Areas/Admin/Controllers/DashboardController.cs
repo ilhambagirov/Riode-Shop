@@ -28,6 +28,17 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult Table()
+        {
+            return View();
+        }
+
+        public IActionResult Forms()
+        {
+            return View();
+        }
     }
-        
 }
+        
+

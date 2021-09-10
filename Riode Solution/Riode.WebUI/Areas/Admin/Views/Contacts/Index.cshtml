@@ -1,0 +1,170 @@
+﻿@model IEnumerable<Riode.WebUI.Models.Entities.Contact>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="main_content_iner ">
+    <div class="container-fluid p-0">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="dashboard_header mb_50">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="dashboard_header_title">
+                                <h3> Default Dashboard</h3>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="dashboard_breadcam text-right">
+                                <p><a href="index.html">Dashboard</a> <i class="fas fa-caret-right"></i> Mailbox</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="email-sidebar white_box">
+                    <ul class="text-left mt-2">
+                        <li><a asp-action="index"><i class="ti-user"></i> <span> <span>All</span>  <span class="round_badge">@ViewBag.all</span> </span> </a></li>
+                        <li><a asp-route-typeId="1"><i class="ti-crown"></i> <span> <span>Have Answered</span>  <span class="round_badge">@ViewBag.ha</span> </span> </a></li>
+                        <li><a asp-route-typeId="2"><i class="ti-star"></i> <span> <span>Not Answered</span>  <span class="round_badge">@ViewBag.na</span> </span> </a></li>
+                        <li><a asp-route-typeId="3"><i class="ti-announcement"></i> <span> <span>Marked</span> <span class="round_badge">@ViewBag.Marked</span>  </span> </a></li>
+                        <li><a asp-route-typeId="4"><i class="ti-pin"></i> <span> <span>Spam</span> </span> </a></li>
+                        <li><a asp-route-typeId="5"><i class="ti-trash"></i> <span> <span>Deleted</span>  </span> </a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="white_box QA_section mb_30">
+                    <div class="white_box_tittle list_header">
+                        <h4>Ilham Baghirov</h4>
+                        <div class="box_right d-flex lms_block">
+                            <div class="serach_field_2">
+                                <div class="search_inner">
+                                    <form Active="#">
+                                        <div class="search_field">
+                                            <input type="text" placeholder="Search content here...">
+                                        </div>
+                                        <button type="submit"> <i class="ti-search"></i> </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="QA_table ">
+                        <!-- table-responsive -->
+                        <table class="table lms_table_active">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <label class="primary_checkbox d-flex mr-12 ">
+                                            <input type="checkbox">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </th>
+                                    <th scope="col"></th>
+                                    <th scope="col">name</th>
+                                    <th scope="col">status</th>
+                                    <th scope="col">details</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    var pending = item.AnswerBy == null;
+                                    <tr @(pending ? "class=bold" : "")
+                                        @(pending ? "ondblclick=openMessage(this)" : "")
+                                        data-id="@item.Id">
+                                        <td scope="row">
+                                            <label class="primary_checkbox d-flex mr-12 ">
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <i class="">
+                                                <svg onclick="mark(this)" data-id="@item.Id" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star non-clicked" viewBox="0 0 16 16">
+                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                                                </svg>
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <div class="media align-items-center">
+                                                <img class="rounded-circle mr-3"
+                                                     letters="@item.Name"
+                                                     alt="" width="30" height="30">
+                                                <div class="media-body">
+                                                    <p>@item.Name</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p> @(pending? "Not Answered": "Have Answered")</p>
+                                        </td>
+                                        <td>
+                                            <p class="nowrap">@item.Comment</p>
+                                        </td>
+                                        <td>
+                                            <p class="nowrap">@item.Email</p>
+                                        </td>
+                                        <td>
+                                            @item.CreatedDate.ToString("dd MM, yyyy HH:mm")
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section addjs{
+    <script src="~/libs/imageletters/image-letter.js"></script>
+    <script>
+         function openMessage(element) {
+             let data = $(element).data('id');
+             window.location.href = `@Url.Action("Details")/${data}`;
+        }
+        $(document).ready(function () {
+            $(`a[href="${window.location.pathname + window.location.search}"]`).closest('li').addClass('active');
+        })
+        function mark(element) {
+            console.log(element)
+            if ($(element).hasClass('non-clicked')) {
+                $(element).css({ fill: "yellow" });
+                let starid = $(element).data('id')
+                window.location.href = `@Url.Action("Mark")/${starid}`;
+                $(element).removeClass('non-clicked')
+            } else {
+                $(element).css({ fill: "white" });
+                $(element).addClass('non-clicked')
+            }
+
+
+        }
+
+    </script>
+}
+
+
+@section addcss{
+
+    <style>
+        tr.bold > td {
+            font-weight: bold !important;
+        }
+
+            tr.bold > td > p {
+                font-weight: bold !important;
+            }
+    </style>
+
+}
+

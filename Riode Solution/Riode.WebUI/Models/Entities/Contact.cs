@@ -17,5 +17,7 @@ namespace Riode.WebUI.Models.Entities
         public string Answer { get; set; }
         public DateTime? AnswerDate { get; set; }
         public int? AnswerBy { get; set; }
+
+        public bool Marked { get; set; }
     }
 }
