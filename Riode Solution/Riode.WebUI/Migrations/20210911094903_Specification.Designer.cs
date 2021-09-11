@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Riode.WebUI.Models.DataContext;
 
 namespace Riode.WebUI.Migrations
 {
     [DbContext(typeof(RiodeDBContext))]
-    partial class RiodeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210911094903_Specification")]
+    partial class Specification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -433,8 +435,8 @@ namespace Riode.WebUI.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Name")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -463,7 +465,10 @@ namespace Riode.WebUI.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SpesificationId")
+                    b.Property<int>("SpesificatiionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SpesificationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -499,9 +504,6 @@ namespace Riode.WebUI.Migrations
 
                     b.Property<int>("SpesificationId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -599,9 +601,7 @@ namespace Riode.WebUI.Migrations
 
                     b.HasOne("Riode.WebUI.Models.Entities.Spesification", "Spesification")
                         .WithMany("SpesificationCategoryItem")
-                        .HasForeignKey("SpesificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SpesificationId");
 
                     b.Navigation("Category");
 

@@ -22,5 +22,8 @@ namespace Riode.WebUI.Models.DataContext
         public DbSet<ProductSizeColorItem> ProductSizeColorCollection { get; set; }
         public DbSet<FAQ> FAQs { get; set; }
         public DbSet<Contact> ContactPosts { get; set; }
+        public DbSet<Spesification> Spesifications { get; set; }
+        public DbSet<SpesificationCategoryItem> SpesificationCategoryCollection { get; set; }
+        public DbSet<SpesificationValues> SpesificationValues { get; set; }
     }
 }

@@ -92,6 +92,9 @@ namespace Riode.WebUI.Controllers
         {
             var product = db.Products
              .Include(p => p.Images)
+             .Include(p=>p.Brand)
+             .Include(p=>p.SpesificationValues.Where(s=>s.DeleteByUserId==null))
+             .ThenInclude(p=>p.Spesification)
              .FirstOrDefault(c => c.DeleteByUserId == null && c.Id == id);
             if (product == null)
             {

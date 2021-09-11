@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Riode.WebUI.Models.DataContext;
 
 namespace Riode.WebUI.Migrations
 {
     [DbContext(typeof(RiodeDBContext))]
-    partial class RiodeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210911095607_sptiny")]
+    partial class sptiny
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -499,9 +501,6 @@ namespace Riode.WebUI.Migrations
 
                     b.Property<int>("SpesificationId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
