@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace Riode.WebUI.Models.Entities
 {
-    public class Blog : BaseEntity
+    public class BlogCategory : BaseEntity
     {
+        public int? ParentId { get; set; }
+
+        public virtual BlogCategory Parent { get; set; }
+
+        public virtual ICollection<BlogCategory> Children { get; set; }
 
         [Required]
         public string Name { get; set; }
 
         public string Description { get; set; }
-        public int? BlogCategoryId { get; set; }
-        public virtual BlogCategory BlogCategory { get; set; }
-
-        public virtual ICollection<BlogImages> Images { get; set; }
     }
 }

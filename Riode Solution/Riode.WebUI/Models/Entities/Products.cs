@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
 namespace Riode.WebUI.Models.Entities
 {
     public class Products :BaseEntity

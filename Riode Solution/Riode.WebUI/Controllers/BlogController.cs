@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.Models.DataContext;
+using Riode.WebUI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,25 @@ namespace Riode.WebUI.Controllers
 
         public IActionResult BlogSingle(int id)
         {
-            var blog = db.Blogs
+
+            BlogCat bc = new BlogCat();
+
+            bc.BlogCats = db.BlogCategories
+               .Include(c => c.Parent)
+                .Include(c => c.Children)
+                .ThenInclude(c => c.Children)
+                .Where(c => c.ParentId == null && c.DeleteByUserId == null).ToList();
+
+            bc.Blog = db.Blogs
             .Include(p => p.Images)
             .FirstOrDefault(c => c.DeleteByUserId == null && c.Id == id);
-            return View(blog);
+
+            bc.Blogs = db.Blogs
+           .Include(p => p.Images)
+           .Where(c => c.DeleteByUserId == null)
+           .ToList();
+
+            return View(bc);
         }
     }
 }

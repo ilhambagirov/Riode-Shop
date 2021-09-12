@@ -1,4 +1,4 @@
-﻿@model Blog
+﻿@model BlogCat
 @{
     ViewData["Title"] = "BlogSingle";
 }
@@ -19,23 +19,23 @@
                 <article class="post-single">
                     <figure class="post-media">
                         <a href="#">
-                            <img style="object-fit:contain" src="~/uploads/images/blog/masonry/4col/@Model.Images.FirstOrDefault(b=> b.BlogId==Model.Id).Filename" width="880" height="450" alt="post" />
+                            <img style="object-fit:contain" src="~/uploads/images/blog/masonry/4col/@Model.Blog.Images.FirstOrDefault(b=> b.BlogId==Model.Blog.Id).Filename" width="880" height="450" alt="post" />
                         </a>
                     </figure>
                     <div class="post-details">
                         <div class="post-meta">
                             by <a href="#" class="post-author">John Doe</a>
-                            on <a href="#" class="post-date">Nov 22, 2018</a>
+                            on <a href="#" class="post-date">@Model.Blog.CreatedDate.ToString("dd MMM, yyyy")</a>
                             | <a href="#" class="post-comment"><span>2</span> Comments</a>
                         </div>
                         <h4 class="post-title">
                             <a href="#">
-                               @Model.Name
+                                @Model.Blog.Name
                             </a>
                         </h4>
                         <div class="post-body mb-7">
                             <p class="mb-5">
-                                @Model.Description
+                                @Model.Blog.Description
                             </p>
 
                             <p class="mb-6">
@@ -173,118 +173,41 @@
                                     }
                                 }">
 
-                        <div class="post">
-                            <figure class="post-media">
-                                <a href="#">
-                                    <img src="~/uploads/images/blog/single/3.jpg" width="380" height="250"
-                                         alt="post" />
-                                </a>
-                                <div class="post-calendar">
-                                    <span class="post-day">19</span>
-                                    <span class="post-month">JAN</span>
+                        @foreach (var item in Model.Blogs)
+                        {
+                            @if (item.Id != Model.Blog.Id)
+                            {
+                                <div class="post">
+                                    <figure class="post-media">
+                                        <a asp-controller="blog" asp-action="BlogSingle" asp-route-id="@item.Id">
+                                            <img src="~/uploads/images/blog/mask/masonry/@item.Images.FirstOrDefault(b=> b.BlogId==b.Id).Filename" width="380" height="250"
+                                                 alt="post" />
+                                        </a>
+                                        <div class="post-calendar">
+                                            <span class="post-day">@item.CreatedDate.ToString("dd")</span>
+                                            <span class="post-month">@item.CreatedDate.ToString("MMM")</span>
+                                        </div>
+                                    </figure>
+                                    <div class="post-details">
+                                        <h4 class="post-title">
+                                            <a href="post-single.html">
+                                                20% Off Coupon for
+                                                Week
+                                            </a>
+                                        </h4>
+                                        <p class="post-content">
+                                            @item.Name
+                                        </p>
+                                        <a href="post-single.html"
+                                           class="btn btn-link btn-underline btn-primary">
+                                            Read more<i class="d-icon-arrow-right"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                            </figure>
-                            <div class="post-details">
-                                <h4 class="post-title">
-                                    <a href="post-single.html">
-                                        20% Off Coupon for
-                                        Week
-                                    </a>
-                                </h4>
-                                <p class="post-content">
-                                    Lorem ipsum dolor sit amet,onadipiscing elit, sedsd
-                                    doeiu
-                                </p>
-                                <a href="post-single.html"
-                                   class="btn btn-link btn-underline btn-primary">
-                                    Read more<i class="d-icon-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="post">
-                            <figure class="post-media">
-                                <a href="#">
-                                    <img src="~/uploads/images/blog/single/4.jpg" width="380" height="250"
-                                         alt="post" />
-                                </a>
-                                <div class="post-calendar">
-                                    <span class="post-day">27</span>
-                                    <span class="post-month">SEP</span>
-                                </div>
-                            </figure>
-                            <div class="post-details">
-                                <h4 class="post-title">
-                                    <a href="post-single.html">
-                                        20% Off Coupon for
-                                        Week
-                                    </a>
-                                </h4>
-                                <p class="post-content">
-                                    Lorem ipsum dolor sit amet,onadipiscing elit, sedsd
-                                    doeiu
-                                </p>
-                                <a href="post-single.html"
-                                   class="btn btn-link btn-underline btn-primary">
-                                    Read more<i class="d-icon-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="post">
-                            <figure class="post-media">
-                                <a href="#">
-                                    <img src="~/uploads/images/blog/single/5.jpg" width="380" height="250"
-                                         alt="post" />
-                                </a>
-                                <div class="post-calendar">
-                                    <span class="post-day">12</span>
-                                    <span class="post-month">SEP</span>
-                                </div>
-                            </figure>
-                            <div class="post-details">
-                                <h4 class="post-title">
-                                    <a href="post-single.html">
-                                        20% Off Coupon for
-                                        Week
-                                    </a>
-                                </h4>
-                                <p class="post-content">
-                                    Lorem ipsum dolor sit amet,onadipiscing elit, sedsd
-                                    doeiu
-                                </p>
-                                <a href="post-single.html"
-                                   class="btn btn-link btn-underline btn-primary">
-                                    Read more<i class="d-icon-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="post">
-                            <figure class="post-media">
-                                <a href="#">
-                                    <img src="~/uploads/images/blog/single/4.jpg" width="380" height="250"
-                                         alt="post" />
-                                </a>
-                                <div class="post-calendar">
-                                    <span class="post-day">27</span>
-                                    <span class="post-month">SEP</span>
-                                </div>
-                            </figure>
-                            <div class="post-details">
-                                <h4 class="post-title">
-                                    <a href="post-single.html">
-                                        20% Off Coupon for
-                                        Week
-                                    </a>
-                                </h4>
-                                <p class="post-content">
-                                    Lorem ipsum dolor sit amet,onadipiscing elit, sedsd
-                                    doeiu
-                                </p>
-                                <a href="post-single.html"
-                                   class="btn btn-link btn-underline btn-primary">
-                                    Read more<i class="d-icon-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
+                            }
+
+                        }
+
                     </div>
                 </div>
                 <div class="comments">
@@ -417,26 +340,7 @@
                         </div>
                         <div class="widget widget-collapsible border-no">
                             <h3 class="widget-title">Blog Categories</h3>
-                            <ul class="widget-body filter-items search-ul">
-                                <li><a href="#">Accessories</a></li>
-                                <li>
-                                    <a href="#">Clothing</a>
-                                    <ul class="children">
-                                        <li><a href="#">Summer Sale</a></li>
-                                        <li><a href="#">Winter Sale</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Musicial instruments</a>
-                                    <ul class="children">
-                                        <li><a href="#">Headphone</a></li>
-                                        <li><a href="#">Speaker</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Fashion</a></li>
-                                <li><a href="#">Lifestyle</a></li>
-                                <li><a href="#">Backpack & Fashion bags</a></li>
-                            </ul>
+                            @Html.Raw(Model.BlogCats.GetCategoriesBlogRaw())
                         </div>
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">Popular Posts</h3>

@@ -7,7 +7,7 @@
     <div class="container">
         <ul class="breadcrumb">
             <li><a asp-controller="home" asp-action="index"><i class="d-icon-home"></i></a></li>
-            <li><a  asp-controller="home" asp-action="blog" class="active">Blog</a></li>
+            <li><a asp-controller="home" asp-action="blog" class="active">Blog</a></li>
             <li>Mask Masonry</li>
         </ul>
     </div>
@@ -36,15 +36,15 @@
                         </figure>
                         <div class="post-details">
                             <div class="post-meta">
-                                on <a href="#" class="post-date">Jun 22, 2018</a>
-                                | <a href="#" class="post-comment"><span>2</span> Comments</a>
+                                on <a href="#" class="post-date">@item.CreatedDate.ToString("dd MMM, yyyy")</a>
+                                |<a href="#" class="post-comment"><span>2</span> Comments</a>
                             </div>
                             <h4 class="post-title">
-                                <a asp-controller="blog" asp-action="BlogSingle">
+                                <a asp-controller="blog" asp-action="BlogSingle" asp-route-id="@item.Id">
                                     @item.Name
                                 </a>
                             </h4>
-                            <a asp-controller="blog" asp-action="BlogSingle" class="btn btn-link btn-underline btn-white">
+                            <a asp-controller="blog" asp-action="BlogSingle" asp-route-id="@item.Id" class="btn btn-link btn-underline btn-white">
                                 Read more<i class="d-icon-arrow-right"></i>
                             </a>
                         </div>
@@ -61,7 +61,7 @@
                     <i class="d-icon-arrow-left"></i>Prev
                 </a>
             </li>
-            @for (int i = 1; i <=ViewBag.PageCount; i++)
+            @for (int i = 1; i <= ViewBag.PageCount; i++)
             {
                 <li class="page-item active" aria-current="page"><a class="page-link" asp-controller="blog" asp-action="blog" asp-route-page="@i">@i</a></li>
             }
