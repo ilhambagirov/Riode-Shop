@@ -7,7 +7,7 @@ namespace Riode.WebUI.Models.ViewModels
 {
     public class BlogCat
     {
-        public List<BlogCategory> BlogCats { get; set; }
+        public List<Category> BlogCats { get; set; }
         public Blog Blog { get; set; }
 
         public List<Blog> Blogs { get; set; }

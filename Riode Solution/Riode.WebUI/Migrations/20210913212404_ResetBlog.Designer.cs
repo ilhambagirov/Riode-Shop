@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Riode.WebUI.Models.DataContext;
 
 namespace Riode.WebUI.Migrations
 {
     [DbContext(typeof(RiodeDBContext))]
-    partial class RiodeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210913212404_ResetBlog")]
+    partial class ResetBlog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace Riode.WebUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("CreatedByUserId")
                         .HasColumnType("int");
@@ -49,8 +48,6 @@ namespace Riode.WebUI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Blogs");
                 });
@@ -548,15 +545,6 @@ namespace Riode.WebUI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subscribes");
-                });
-
-            modelBuilder.Entity("Riode.WebUI.Models.Entities.Blog", b =>
-                {
-                    b.HasOne("Riode.WebUI.Models.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Riode.WebUI.Models.Entities.BlogImages", b =>

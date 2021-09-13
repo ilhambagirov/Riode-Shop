@@ -25,7 +25,6 @@ namespace Riode.WebUI.Models.DataContext
         public DbSet<Spesification> Spesifications { get; set; }
         public DbSet<SpesificationCategoryItem> SpesificationCategoryCollection { get; set; }
         public DbSet<SpesificationValues> SpesificationValues { get; set; }
-        public DbSet<BlogCategory> BlogCategories { get; set; }
         public DbSet<Subscribe> Subscribes { get; set; }
   
     }

@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Riode.WebUI.Controllers
 {
@@ -34,7 +32,7 @@ namespace Riode.WebUI.Controllers
 
             BlogCat bc = new BlogCat();
 
-            bc.BlogCats = db.BlogCategories
+            bc.BlogCats = db.Category
                .Include(c => c.Parent)
                 .Include(c => c.Children)
                 .ThenInclude(c => c.Children)
