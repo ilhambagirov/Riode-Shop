@@ -17,13 +17,15 @@
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/animate/animate.min.css">
 
+    <link href="~/libs/toastr.js/toastr.css" rel="stylesheet" />
+
     <!-- Plugins CSS File -->
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/magnific-popup/magnific-popup.min.css">
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/owl-carousel/owl.carousel.min.css">
 
     <!-- Main CSS File -->
     <link rel="stylesheet" type="text/css" href="~/assets/css/style.min.css">
-    @RenderSection("addcss", required:false)
+    @RenderSection("addcss", required: false)
 </head>
 <body class="home">
     <div class="page-wrapper">
@@ -270,9 +272,13 @@
                                     <h4 class="widget-title">Subscribe to our Newsletter</h4>
                                     <p class="mb-0">Get all the latest information, Sales and Offers.</p>
                                 </div>
-                                <form action="#" class="input-wrapper input-wrapper-inline">
+                                <form id="frmsubscribe" method="post" class="input-wrapper input-wrapper-inline">
                                     <input type="email" class="form-control" name="email" id="email"
-                                           placeholder="Email address here..." required />
+                                           placeholder="Email address here..."
+                                           data-rule-required="true"
+                                           data-msg-required="Fill the form!"
+                                           data-rule-email="true"
+                                           data-msg-email="Not an Email!" />
                                     <button class="btn btn-primary btn-rounded btn-md ml-2" type="submit">
                                         subscribe<i class="d-icon-arrow-right"></i>
                                     </button>
@@ -651,24 +657,73 @@
     <script src="~/assets/vendor/isotope/isotope.pkgd.min.js"></script>
     <script src="~/assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
     <script src="~/assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
+
+    <script src="~/libs/jquery-validate/jquery.validate.js"></script>
+    @*<script src="~/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>*@
+    <script src="~/libs/toastr.js/toastr.min.js"></script>
     <!-- Main JS File -->
     <script src="~/assets/js/main.min.js"></script>
 
-    @* <script>
-            $(document).ready(function () {
+    <script>
+       
+        $(document).ready(function () {
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            $('#frmsubscribe').submit(function (e) {
+                e.preventDefault();
 
+                if (!$(e.currentTarget).valid())
+                    return;
 
+                const formData = new FormData(e.currentTarget)
                 $.ajax({
-                    type: "POST",
-                    url: "https://localhost:44397/home/contact",
+                    url: '@Url.Action("Subscribe")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        console.log('before');
+                    },
                     success: function (response) {
-                        console.log(response);
+                        console.log(response)
+                        if (response.error == false) {
+                            toastr.success(response.message, "Successfuly")
+                            e.currentTarget.reset();
+                        }
+                        else {
+                            toastr.error(response.message, "Error")
+                        }
+
+                    },
+                    error: function (response) {
+                        toastr.error("Try Again", "Error!")
                     }
-                });
-
-
+                }).always(function () {
+                    console.log('after');
+                })
+            }).validate({
+                errorElement: 'span'
             });
-        </script>*@
+
+        });
+    </script>
 
 
 </body>
