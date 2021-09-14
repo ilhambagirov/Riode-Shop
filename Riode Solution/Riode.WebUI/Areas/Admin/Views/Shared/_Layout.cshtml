@@ -45,9 +45,13 @@
 
     <!-- menu css  -->
     <link rel="stylesheet" href="~/admin/css/metisMenu.css">
+
+
+
     <!-- style CSS -->
     <link rel="stylesheet" href="~/admin/css/style.css" />
     <link rel="stylesheet" href="~/admin/css/colors/default.css" id="colorSkinCSS">
+ 
     @RenderSection("addcss", required: false)
 </head>
 <body class="crm_body_bg">
@@ -141,7 +145,7 @@
                 </a>
             </li>
 
-            <li >
+            <li>
                 <a asp-controller="products" asp-action="index" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="~/uploads/images/menu-icon/17.svg" alt="">
@@ -547,6 +551,14 @@
     <!-- tag input -->
     <script src="~/admin/vendors/tagsinput/tagsinput.js"></script>
     <!-- text editor js -->
+
+    <script src="~/libs/jquery-treegrid/js/jquery.treegrid.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.tree').treegrid();
+        })
+    </script>
 
     <script src="~/admin/js/custom.js"></script>
 

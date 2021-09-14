@@ -7,6 +7,7 @@ namespace Riode.WebUI.Models.Entities
     { 
         [Required]
         public String Name { get; set; }
+        public String HexCode { get; set; }
         public String Description { get; set; }
     }
 }
