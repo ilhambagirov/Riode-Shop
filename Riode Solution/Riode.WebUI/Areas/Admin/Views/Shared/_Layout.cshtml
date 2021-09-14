@@ -48,7 +48,7 @@
     <!-- style CSS -->
     <link rel="stylesheet" href="~/admin/css/style.css" />
     <link rel="stylesheet" href="~/admin/css/colors/default.css" id="colorSkinCSS">
-    @RenderSection("addcss",required:false)
+    @RenderSection("addcss", required: false)
 </head>
 <body class="crm_body_bg">
 
@@ -58,8 +58,8 @@
     <!-- sidebar  -->
     <nav class="sidebar dark_sidebar">
         <div class="logo d-flex justify-content-between">
-            <a class="large_logo" asp-controller="dashboard" asp-action="index" > <img style="color:white;" src="~/uploads/images/demos/demo23/logo-footer.png" alt="logo" width="153" height="44" /></a>
-            <a class="small_logo" asp-controller="dashboard" asp-action="index" ><img src="~/uploads/images/mini_logo.png" alt=""></a>
+            <a class="large_logo" asp-controller="dashboard" asp-action="index"> <img style="color:white;" src="~/uploads/images/demos/demo23/logo-footer.png" alt="logo" width="153" height="44" /></a>
+            <a class="small_logo" asp-controller="dashboard" asp-action="index"><img src="~/uploads/images/mini_logo.png" alt=""></a>
             <div class="sidebar_close_icon d-lg-none">
                 <i class="ti-close"></i>
             </div>
@@ -140,13 +140,94 @@
                     </div>
                 </a>
             </li>
-            <li class="afterli">
-                <a class="" asp-controller="dashboard" asp-action="table" aria-expanded="false">
+
+            <li >
+                <a asp-controller="products" asp-action="index" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="~/uploads/images/menu-icon/17.svg" alt="">
                     </div>
                     <div class="nav_title">
-                        <span>Tables</span>
+                        <span>Products</span>
+                    </div>
+                </a>
+            </li>
+            <li class="afterli">
+                <a asp-controller="Categories" asp-action="index" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="~/uploads/images/menu-icon/17.svg" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Categories</span>
+                    </div>
+                </a>
+            </li>
+            <li class="afterli">
+                <a asp-controller="Brands" asp-action="index" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="~/uploads/images/menu-icon/17.svg" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Brands</span>
+                    </div>
+                </a>
+            </li>
+            <li class="afterli">
+                <a asp-controller="Colors" asp-action="index" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="~/uploads/images/menu-icon/17.svg" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Colors</span>
+                    </div>
+                </a>
+            </li>
+            <li class="afterli">
+                <a asp-controller="Sizes" asp-action="index" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="~/uploads/images/menu-icon/17.svg" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Sizes</span>
+                    </div>
+                </a>
+            </li>
+            <li class="afterli">
+                <a asp-controller="Blogs" asp-action="index" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="~/uploads/images/menu-icon/17.svg" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Blogs</span>
+                    </div>
+                </a>
+            </li>
+            <li class="afterli">
+                <a asp-controller="Subscribtions" asp-action="index" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="~/uploads/images/menu-icon/17.svg" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Subscribtions</span>
+                    </div>
+                </a>
+            </li>
+            <li class="afterli">
+                <a asp-controller="Spesifications" asp-action="index" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="~/uploads/images/menu-icon/17.svg" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Spesifications</span>
+                    </div>
+                </a>
+            </li>
+            <li class="afterli">
+                <a asp-controller="Faqs" asp-action="index" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="~/uploads/images/menu-icon/17.svg" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Faqs</span>
                     </div>
                 </a>
             </li>
@@ -155,7 +236,7 @@
     <!--/ sidebar  -->
 
 
-    <section class="main_content dashboard_part large_header_bg">
+    <section class="main_content dashboard_part large_header_bg mb-10">
         <!-- menu  -->
         <div class="container-fluid no-gutters">
             <div class="row">
@@ -281,7 +362,7 @@
         </div>
         <!--/ menu  -->
 
-      
+
         @RenderBody()
 
         <!-- footer part -->
@@ -469,7 +550,7 @@
 
     <script src="~/admin/js/custom.js"></script>
 
-    @RenderSection("addjs", required:false)
+    @RenderSection("addjs", required: false)
 </body>
 
 </html>

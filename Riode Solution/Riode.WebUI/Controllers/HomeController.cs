@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Riode.WebUI.AppCode.Extensions;
+using Riode.WebUI.Models;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.Entities;
 using System;
@@ -75,7 +76,9 @@ namespace Riode.WebUI.Controllers
 
                 string token = $"subscribetoken-{model.Id}-{DateTime.Now:yyyyMMddHHmmss}";
 
-                string path = $"{Request.Scheme}://{Request.Host}/subscribe-confirm?token={token}";
+                string chiperToken = token.Encrypt(configuration["Encryption-Key:Riode"]);
+
+                string path = $"{Request.Scheme}://{Request.Host}/subscribe-confirm?token={chiperToken}";
 
                 var mailSent = configuration.SendEmail(model.Email, "Riode Newsletter Subscription", $"Please confirm your Email through this <a href={path}>link</a>");
 
@@ -105,8 +108,8 @@ namespace Riode.WebUI.Controllers
         [Route("subscribe-confirm")]
         public IActionResult SubscribeConfirm(string token)
         {
-
-            Match match = Regex.Match(token, @"subscribetoken-(?<id>\d+)-(?<timeStampt>\d{14})");
+            string plainTokken = token.Decrypt(configuration["Encryption-Key:Riode"]);
+            Match match = Regex.Match(plainTokken, @"subscribetoken-(?<id>\d+)-(?<timeStampt>\d{14})");
 
             if (match.Success)
             {

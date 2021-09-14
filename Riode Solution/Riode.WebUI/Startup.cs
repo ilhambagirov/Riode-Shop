@@ -14,13 +14,13 @@ namespace Riode.WebUI
     public class Startup
     {
 
-       
+
         IConfiguration configuration;
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
 
-            
+
         }
         public void ConfigureServices(IServiceCollection services)
         {
