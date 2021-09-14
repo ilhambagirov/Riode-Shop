@@ -44,6 +44,7 @@
                                 <table class="table lms_table_active3 ">
                                     <thead>
                                         <tr>
+                                            <th scope="col">Image</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">SKUCode</th>
                                             <th scope="col">Brand</th>
@@ -54,17 +55,19 @@
 
                                         @foreach (var item in Model)
                                         {
-                                            <tr>
-                                                <td>@item.Name</td>
-                                                <td>@item.SKUCode</td>
-                                                <td>@item.Brand.Name</td>
-                                                <td>@item.Category.Name</td>
-                                                <td class="d-flex justify-content-end">
-                                                    <a asp-controller="products" asp-action="details" asp-route-id="@item.Id" class="btn btn-success mr-1"><i class="fas fa-info"></i></a>
-                                                    <a asp-controller="products" asp-action="edit" asp-route-id="@item.Id" class="btn btn-warning mr-1"><i class="fas fa-user-edit"></i></a>
-                                                    <a asp-controller="products" asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger mr-1"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td> <img width="53" height="38" style="object-fit:cover" src="~/uploads/images/product/@item.Images.FirstOrDefault(c=>c.ProductId==c.Product.Id)?.FileName"/>
+                                           </td>
+                                            <td>@item.Name</td>
+                                            <td>@item.SKUCode</td>
+                                            <td>@item.Brand.Name</td>
+                                            <td>@item.Category.Name</td>
+                                            <td class="d-flex justify-content-end">
+                                                <a asp-controller="products" asp-action="details" asp-route-id="@item.Id" class="btn btn-success mr-1"><i class="fas fa-info"></i></a>
+                                                <a asp-controller="products" asp-action="edit" asp-route-id="@item.Id" class="btn btn-warning mr-1"><i class="fas fa-user-edit"></i></a>
+                                                <a asp-controller="products" asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger mr-1"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>

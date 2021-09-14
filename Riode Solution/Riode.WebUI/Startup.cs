@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Riode.WebUI.AppCode.Extensions;
+using Riode.WebUI.AppCode.Provider;
 using Riode.WebUI.Models.DataContext;
 using System.IO;
 namespace Riode.WebUI
@@ -24,10 +25,13 @@ namespace Riode.WebUI
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews()
-                .AddNewtonsoftJson(cfg =>
+            services.AddControllersWithViews(cfg =>
+            {
+                cfg.ModelBinderProviders.Insert(0, new BooleanBinderProvider());
+            })
+                .AddNewtonsoftJson(nt =>
                 {
-                    cfg.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    nt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
             services.AddRouting(cfg => cfg.LowercaseUrls = true);
 
