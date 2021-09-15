@@ -12,8 +12,8 @@
                         @foreach (var item in Model.Images)
                         {
                             <figure class="product-image">
-                                <img src="~/uploads/images/product/@item.FileName" 
-                                 data-zoom-image="/uploads/images/product/@item.FileName" alt="Women's Brown Leather Backpacks" width="800" height="900">
+                                <img src="~/uploads/images/product/@item.FileName"
+                                     data-zoom-image="/uploads/images/product/@item.FileName" alt="Women's Brown Leather Backpacks" width="800" height="900">
                             </figure>
                         }
                         <a href="#" class="product-image-full"><i class="d-icon-zoom"></i></a><div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"></div>
@@ -23,10 +23,10 @@
 
                             @foreach (var item in Model.Images)
                             {
-                            <div class="product-thumb active">
-                                <img src="~/uploads/images/product/@item.FileName" 
-                                     alt="product thumbnail" width="109" height="122">
-                            </div>
+                                <div class="product-thumb active">
+                                    <img src="~/uploads/images/product/@item.FileName"
+                                         alt="product thumbnail" width="109" height="122">
+                                </div>
                             }
                         </div>
                         <button class="thumb-up disabled"><i class="fas fa-chevron-left"></i></button>
@@ -548,3 +548,62 @@
     </div>
 </div>
 
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+        PhotoSwipe keeps only 3 of them in the DOM to save memory.
+        Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" aria-label="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--zoom" aria-label="Zoom in/out"></button>
+
+                <div class="pswp__preloader">
+                    <div class="loading-spin"></div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button--arrow--left" aria-label="Previous (arrow left)"></button>
+            <button class="pswp__button--arrow--right" aria-label="Next (arrow right)"></button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section addcss{
+    <link rel="stylesheet" type="text/css" href="~/assets/vendor/photoswipe/photoswipe.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/vendor/photoswipe/default-skin/default-skin.min.css">
+}
+
+@section addjs{
+    <script src="~/assets/vendor/photoswipe/photoswipe.min.js"></script>
+    <script src="~/assets/vendor/photoswipe/photoswipe-ui-default.min.js"></script>
+
+}

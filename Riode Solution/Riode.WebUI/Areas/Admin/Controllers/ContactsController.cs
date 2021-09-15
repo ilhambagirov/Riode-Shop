@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Riode.WebUI.AppCode.Extensions;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.Entities;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {
@@ -14,9 +14,11 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     public class ContactsController : Controller
     {
         private readonly RiodeDBContext _context;
-        public ContactsController(RiodeDBContext context)
+        private readonly IConfiguration configuration;
+        public ContactsController(RiodeDBContext context, IConfiguration configuration)
         {
             _context = context;
+            this.configuration = configuration;
         }
 
         // GET: Admin/Contacts
@@ -87,6 +89,10 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             contact.AnswerBy = 1;
             contact.AnswerDate = DateTime.Now;
             await _context.SaveChangesAsync();
+
+            var content = "ContactAnswerTemplate.html".GetStaticFileContent();
+
+            var mailSent = configuration.SendEmail(contact.Email, "Riode Answer", content.Replace("##answer##", contact.Answer));
 
             return RedirectToAction("index");
         }
