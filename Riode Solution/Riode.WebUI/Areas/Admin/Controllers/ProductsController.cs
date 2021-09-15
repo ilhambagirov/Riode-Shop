@@ -90,6 +90,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                         "wwwroot",
                         "uploads",
                         "images",
+                        "product",
                         imagePath);
 
                     using (var stream = new FileStream(physicalPath, FileMode.Create, FileAccess.Write))

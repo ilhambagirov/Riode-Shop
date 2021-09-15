@@ -160,7 +160,7 @@ let noImage = `data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAEICAYAAABxiqL
             $(btnPlus).click(function () {
                 let fileInput = $(`<input name='${elName}[${ix - 1}].File' type="file" accept="image/x-png,image/gif,image/jpeg"/>`);
 
-                let label = $(`<label for='${guid}${ix}' class='img-thumb' style="background-image:url('../lib/multiple-imager-js/img/img-rendering.gif')">
+                let label = $(`<label for='${guid}${ix}' class='img-thumb' style="background-image:url('../libs/multiple-imager-js/img/img-rendering.gif')">
                                     <span class='remove-thumb'></span>
                                </label>`)
                     .append(fileInput)
