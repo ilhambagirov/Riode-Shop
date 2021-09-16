@@ -25,6 +25,10 @@
     {
       "library": "jquery-treegrid@0.2.0",
       "destination": "wwwroot/libs/jquery-treegrid/"
+    },
+    {
+      "library": "ckeditor5@29.2.0",
+      "destination": "wwwroot/libs/ckeditor5/"
     }
   ]
 }
