@@ -130,6 +130,9 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
+                <div class="load d-flex justify-content-center mb-5">
+                    <button class="btn-cart btn-primary">Load More</button>
+                </div>
                 <nav class="toolbox toolbox-pagination">
                     <p class="show-info">Showing 12 of 56 Products</p>
                     <ul class="pagination">
@@ -192,6 +195,36 @@
                 })
 
             })
+
+            @*let skip = 3;
+            $('.load').click(function (e) {
+                console.log("salam aye")
+                e.preventDefault();
+                 $.ajax(
+                     {
+                         url: '@Url.Action("LoadMore")?skip='+skip,
+                        type: 'POST',
+                        dataType: 'html',
+                        beforeSend: function () {
+                            $('.loader').show()
+                        },
+                        success: function (response) {
+                            $('#productContainer').html(response);
+                            skip =skip+3;
+                            const isList = $('a[href="#product-list"].active');
+
+                                if (isList != undefined) {
+                                    $(isList)[0].click('');
+                            }
+                            $('.loader').hide();
+                        },
+                        error: function (response) {
+                            console.log(response)
+                        }
+
+
+                    })
+            })*@
         })
 
         function setFilter() {

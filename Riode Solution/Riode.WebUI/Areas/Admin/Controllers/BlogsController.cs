@@ -136,6 +136,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
             var blog = await db.Blogs
                 .Include(b => b.Category)
+                .Include(b=>b.Images)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (blog == null)
             {

@@ -87,7 +87,23 @@ namespace Riode.WebUI.Controllers
                 data = query.ToList()
             });*/
         }
+      /*  public IActionResult LoadMore(int skipNumber)
+        {
+            int productCount = 3;
+            var product = db.Products
+             .Include(p => p.Images)
+             .Include(p => p.Brand)
+             .Include(p => p.SpesificationValues.Where(s => s.DeleteByUserId == null))
+             .ThenInclude(p => p.Spesification)
+             .Where(c => c.DeleteByUserId == null).Skip(skipNumber).Take(productCount).ToList();
+            if (product == null)
+            {
+                return NotFound();
+            }
 
+
+            return PartialView("_ProductContainer", product);
+        }*/
         public IActionResult Details(int id)
         {
             var product = db.Products

@@ -19,7 +19,7 @@
                 <article class="post-single">
                     <figure class="post-media">
                         <a href="#">
-                            <img style="object-fit:contain" src="~/uploads/images/blog/masonry/4col/@Model.Blog.Images.FirstOrDefault(b=> b.BlogId==Model.Blog.Id).Filename" width="880" height="450" alt="post" />
+                            <img style="object-fit:contain" src="~/uploads/images/blog/@Model.Blog.Images.FirstOrDefault(b=> b.BlogId==Model.Blog.Id).Filename" width="880" height="450" alt="post" />
                         </a>
                     </figure>
                     <div class="post-details">
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- End Author Detail -->
+                         End Author Detail 
                         <div class="post-footer mt-7 mb-3">
                             <div class="post-tags">
                                 <a href="#" class="tag">classic</a>
@@ -92,7 +92,7 @@
                         <span class="pager-link-title">Praesent placerat risus</span>
                     </a>
                 </nav>
-                <!-- End Page Navigation -->
+                 End Page Navigation 
                 <div class="related-posts">
                     <h3 class="title title-simple text-left text-normal font-weight-bold ls-normal">
                         Related
@@ -119,7 +119,7 @@
                                 <div class="post">
                                     <figure class="post-media">
                                         <a asp-controller="blog" asp-action="BlogSingle" asp-route-id="@item.Id">
-                                            <img src="~/uploads/images/blog/mask/masonry/@item.Images.FirstOrDefault(b=> b.BlogId==b.Id).Filename" width="380" height="250"
+                                            <img src="~/uploads/images/blog/@item.Images.FirstOrDefault(b=> b.BlogId==b.Id).Filename" width="380" height="250"
                                                  alt="post" />
                                         </a>
                                         <div class="post-calendar">
@@ -235,7 +235,7 @@
                         </li>
                     </ul>
                 </div>
-                <!-- End Comments -->
+                 End Comments 
                 <div class="reply">
                     <div class="title-wrapper text-left">
                         <h3 class="title title-simple text-left text-normal">Leave A Reply</h3>
@@ -259,7 +259,7 @@
                         </button>
                     </form>
                 </div>
-                <!-- End Reply -->
+                 End Reply 
             </div>
             <aside class="col-lg-3 right-sidebar sidebar-fixed sticky-sidebar-wrapper">
                 <div class="sidebar-overlay">
