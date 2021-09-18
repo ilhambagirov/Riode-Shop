@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,18 +16,19 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class BlogsController : Controller
     {
-        private readonly RiodeDBContext db;
+        readonly IWebHostEnvironment env;
+        readonly RiodeDBContext db;
 
-        public BlogsController(RiodeDBContext context)
+        public BlogsController(RiodeDBContext context, IWebHostEnvironment env)
         {
             db = context;
+            this.env = env;
         }
 
         // GET: Admin/Blogs
         public async Task<IActionResult> Index()
         {
             var riodeDBContext = db.Blogs.Include(b => b.Category)
-                .Include(i=>i.Images)
                 .Where(b => b.DeleteByUserId == null);
             return View(await riodeDBContext.ToListAsync());
         }
@@ -39,7 +43,6 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
             var blog = await db.Blogs
                 .Include(b => b.Category)
-                .Include(c=>c.Images)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (blog == null)
             {
@@ -61,10 +64,30 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,CategoryId,PublishedDate,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Blog blog)
+        public async Task<IActionResult> Create(Blog blog, IFormFile file)
         {
+            if (file == null)
+            {
+                ModelState.AddModelError("file", "Not chosen");
+            };
+
             if (ModelState.IsValid)
             {
+
+                var extension = Path.GetExtension(file.FileName);
+                blog.ImagePath = $"{Guid.NewGuid()}{extension}";
+                var physicalAddress = Path.Combine(env.ContentRootPath,
+                    "wwwroot",
+                    "uploads",
+                    "images",
+                    "blog",
+                    blog.ImagePath);
+
+                using (var stream = new FileStream(physicalAddress, FileMode.Create, FileAccess.Write))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
                 db.Add(blog);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -95,18 +118,61 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,CategoryId,PublishedDate,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Blog blog)
+        public async Task<IActionResult> Edit(int id, Blog blog, IFormFile file, string fileTemp)
         {
             if (id != blog.Id)
             {
                 return NotFound();
             }
 
+            if (string.IsNullOrEmpty(fileTemp) && file == null)
+            {
+                ModelState.AddModelError("file", "Not Chosen");
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.Update(blog);
+                    // db.Update(blog);
+                    var entity = await db.Blogs.FirstOrDefaultAsync(b => b.Id == id && b.DeleteByUserId == null);
+                    if (entity == null)
+                    {
+                        return NotFound();
+                    }
+
+                    entity.Name = blog.Name;
+                    entity.Description = blog.Description;
+                    entity.CategoryId = blog.CategoryId;
+
+                    if (file != null)
+                    {
+                        var extension = Path.GetExtension(file.FileName);
+                        blog.ImagePath = $"{Guid.NewGuid()}{extension}";
+                        var physicalAddress = Path.Combine(env.ContentRootPath,
+                            "wwwroot",
+                            "uploads",
+                            "images",
+                            "blog",
+                            blog.ImagePath);
+
+                        using (var stream = new FileStream(physicalAddress, FileMode.Create, FileAccess.Write))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        if (!string.IsNullOrEmpty(entity.ImagePath))
+                        {
+                            System.IO.File.Delete(Path.Combine(env.ContentRootPath,
+                                                       "wwwroot",
+                                                       "uploads",
+                                                       "images",
+                                                       "blog",
+                                                       entity.ImagePath));
+                        }
+                        entity.ImagePath = blog.ImagePath;
+                    }
+                   
                     await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -136,7 +202,6 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
             var blog = await db.Blogs
                 .Include(b => b.Category)
-                .Include(b=>b.Images)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (blog == null)
             {

@@ -21,7 +21,6 @@ namespace Riode.WebUI.Controllers
             ViewBag.pageCount = Decimal.Ceiling((decimal)db.Blogs.Where(c => c.DeleteByUserId == null).Count() / productCount);
             ViewBag.Page = page;
             var blogs = db.Blogs
-             .Include(p => p.Images)
              .Where(c => c.DeleteByUserId == null && c.PublishedDate != null).Skip((page - 1) * productCount).Take(productCount)
              .ToList();
             return View(blogs);
@@ -39,11 +38,9 @@ namespace Riode.WebUI.Controllers
                 .Where(c => c.ParentId == null && c.DeleteByUserId == null).ToList();
 
             bc.Blog = db.Blogs
-            .Include(p => p.Images)
             .FirstOrDefault(c => c.DeleteByUserId == null && c.Id == id && c.PublishedDate != null);
 
             bc.Blogs = db.Blogs
-           .Include(p => p.Images)
            .Where(c => c.DeleteByUserId == null && c.PublishedDate != null)
            .ToList();
 

@@ -31,7 +31,7 @@
                     <article class="post post-mask gradient">
                         <figure class="post-media">
                             <a asp-controller="blog" asp-action="BlogSingle" asp-route-id="@item.Id">
-                                <img src="~/uploads/images//blog/@item.Images.FirstOrDefault().Filename" width="380" height="200" alt="post" />
+                                <img src="~/uploads/images//blog/@item.ImagePath" width="380" height="200" alt="post" />
                             </a>
                         </figure>
                         <div class="post-details">
