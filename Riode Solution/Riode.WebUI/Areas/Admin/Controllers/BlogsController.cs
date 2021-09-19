@@ -170,6 +170,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                                                        "blog",
                                                        entity.ImagePath));
                         }
+
                         entity.ImagePath = blog.ImagePath;
                     }
                    

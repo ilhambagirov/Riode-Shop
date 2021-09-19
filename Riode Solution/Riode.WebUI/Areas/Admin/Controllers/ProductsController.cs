@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             var products = await _context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
+                .Include(p => p.Images)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (products == null)
             {
@@ -58,6 +60,8 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         {
             ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name");
             ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name");
+          /*  ViewData["SizeId"] = new SelectList(_context.ProductSizeColorCollection.Include(s=>s.Size), "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(_context.ProductSizeColorCollection.Include(s => s.Color), "Id", "Name");*/
             return View();
         }
 
@@ -66,10 +70,10 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,SKUCode,BrandId,CategoryId,ShortDescription,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Products products,ImageItem[] images)
+        public async Task<IActionResult> Create([Bind("Name,SKUCode,BrandId,CategoryId,ShortDescription,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Products products, ImageItem[] images)
         {
 
-            if (images==null || !images.Any(i=>i.File!=null) )
+            if (images == null || !images.Any(i => i.File != null))
             {
                 ModelState.AddModelError("Images", "Not Chosen");
 
@@ -101,7 +105,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                     products.Images.Add(new Images
                     {
                         IsMain = image.IsMain,
-                        FileName=imagePath
+                        FileName = imagePath
                     });
                 }
                 _context.Add(products);
@@ -121,7 +125,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products.FindAsync(id);
+            var products = await _context.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
             if (products == null)
             {
                 return NotFound();
@@ -136,18 +140,76 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,SKUCode,BrandId,CategoryId,ShortDescription,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Products products)
+        public async Task<IActionResult> Edit(int id, Products products, IFormFile[] file, string fileTemp)
         {
             if (id != products.Id)
             {
                 return NotFound();
             }
 
+            if (string.IsNullOrEmpty(fileTemp) && file == null)
+            {
+                ModelState.AddModelError("file", "Not Chosen");
+            }
+
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(products);
+
+                    var entity = await _context.Products.FirstOrDefaultAsync(b => b.Id == id && b.DeleteByUserId == null);
+                    if (entity == null)
+                    {
+                        return NotFound();
+                    }
+
+                    entity.Name = products.Name;
+                    entity.SKUCode = products.SKUCode;
+                    entity.ShortDescription = products.ShortDescription;
+                    entity.Description = products.Description;
+                    entity.CategoryId = products.CategoryId;
+                    entity.BrandId = products.BrandId;
+                    if (file != null)
+                    {
+                        products.Images = new List<Images>();
+                        foreach (var item in file)
+                        {
+                            var extension = Path.GetExtension(item.FileName);
+                            string imagePath = $"{Guid.NewGuid()}{extension}";
+                            var physicalAddress = Path.Combine(env.ContentRootPath,
+                                "wwwroot",
+                                "uploads",
+                                "images",
+                                "product",
+                               imagePath);
+
+                            using (var stream = new FileStream(physicalAddress, FileMode.Create, FileAccess.Write))
+                            {
+                                await item.CopyToAsync(stream);
+                            }
+                            products.Images.Add(new Images
+                            {
+                                FileName = imagePath
+                            });
+                        }
+                        foreach (var item in entity.Images)
+                        {
+                            if (!string.IsNullOrEmpty(item.FileName))
+                            {
+                                System.IO.File.Delete(Path.Combine(env.ContentRootPath,
+                                                           "wwwroot",
+                                                           "uploads",
+                                                           "images",
+                                                           "product",
+                                                           item.FileName));
+                            }
+                        }
+                        entity.Images = products.Images;
+                    }
+
+
+                    // _context.Update(products);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -179,6 +241,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             var products = await _context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
+                .Include(p => p.Images)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (products == null)
             {
