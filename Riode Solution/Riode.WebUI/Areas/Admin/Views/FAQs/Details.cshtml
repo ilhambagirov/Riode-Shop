@@ -1,0 +1,43 @@
+﻿@model Riode.WebUI.Models.Entities.FAQ
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+<div class="container">
+    <h1>Details</h1>
+    <h4>FAQ</h4>
+    <hr />
+
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Question
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.Question
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Answer
+        </label>
+        <p class="textarea col-sm-10">
+            @Model.Answer
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Created Date
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.CreatedDate
+        </p>
+    </div>
+    <div>
+        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a class="btn btn-primary" asp-action="Index">Back to List</a>
+    </div>
+</div>
+
