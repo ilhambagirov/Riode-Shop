@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Riode.WebUI.Models.Entities.Category>
+@using Riode.WebUI.AppCode.Extensions;
 
 @{
     ViewData["Title"] = "Index";
@@ -46,31 +47,32 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr class="treegrid-@item.Id">
-                                                <td>@item.Name</td>
-                                                <td class="d-flex justify-content-end">
-                                                    <a asp-controller="Categories" asp-action="details" asp-route-id="@item.Id" class="btn btn-success mr-1"><i class="fas fa-info"></i></a>
-                                                    <a asp-controller="Categories" asp-action="edit" asp-route-id="@item.Id" class="btn btn-warning mr-1"><i class="fas fa-user-edit"></i></a>
-                                                    <a asp-controller="Categories" asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger mr-1"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                            @if (item.Children.Any())
+                                        @Html.Raw(Model.GetCategoriesRawAdmin())
+                                        @*@foreach (var item in Model)
                                             {
-                                                @foreach (var item2 in item.Children)
+                                                <tr class="treegrid-@item.Id">
+                                                    <td>@item.Name</td>
+                                                    <td class="d-flex justify-content-end">
+                                                        <a asp-controller="Categories" asp-action="details" asp-route-id="@item.Id" class="btn btn-success mr-1"><i class="fas fa-info"></i></a>
+                                                        <a asp-controller="Categories" asp-action="edit" asp-route-id="@item.Id" class="btn btn-warning mr-1"><i class="fas fa-user-edit"></i></a>
+                                                        <a asp-controller="Categories" asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger mr-1"><i class="fas fa-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                                @if (item.Children.Any())
                                                 {
-                                                    <tr class="treegrid-@item2.Id treegrid-parent-@item2.ParentId">
-                                                        <td>@item2.Name</td>
-                                                        <td class="d-flex justify-content-end">
-                                                            <a asp-controller="Categories" asp-action="details" asp-route-id="@item2.Id" class="btn btn-success mr-1"><i class="fas fa-info"></i></a>
-                                                            <a asp-controller="Categories" asp-action="edit" asp-route-id="@item2.Id" class="btn btn-warning mr-1"><i class="fas fa-user-edit"></i></a>
-                                                            <a asp-controller="Categories" asp-action="delete" asp-route-id="@item2.Id" class="btn btn-danger mr-1"><i class="fas fa-trash"></i></a>
-                                                        </td>
-                                                    </tr>
+                                                    @foreach (var item2 in item.Children)
+                                                    {
+                                                        <tr class="treegrid-@item2.Id treegrid-parent-@item2.ParentId">
+                                                            <td>@item2.Name</td>
+                                                            <td class="d-flex justify-content-end">
+                                                                <a asp-controller="Categories" asp-action="details" asp-route-id="@item2.Id" class="btn btn-success mr-1"><i class="fas fa-info"></i></a>
+                                                                <a asp-controller="Categories" asp-action="edit" asp-route-id="@item2.Id" class="btn btn-warning mr-1"><i class="fas fa-user-edit"></i></a>
+                                                                <a asp-controller="Categories" asp-action="delete" asp-route-id="@item2.Id" class="btn btn-danger mr-1"><i class="fas fa-trash"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    }
                                                 }
-                                            }
-                                        }
+                                            }*@
                                     </tbody>
                                 </table>
                             </div>
