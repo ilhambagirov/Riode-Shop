@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using Riode.WebUI.AppCode.Extensions;
+using Riode.WebUI.AppCode.Middlewares;
 using Riode.WebUI.AppCode.Provider;
 using Riode.WebUI.Models.DataContext;
 using System.IO;
@@ -53,6 +53,8 @@ namespace Riode.WebUI
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuditMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
