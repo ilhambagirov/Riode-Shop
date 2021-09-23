@@ -54,6 +54,14 @@ namespace Riode.WebUI
 
             app.UseRouting();
 
+            app.UseRequestLocalization(cfg =>
+            {
+                cfg.AddSupportedCultures("az", "en");
+                cfg.AddSupportedUICultures("az", "en");
+                cfg.RequestCultureProviders.Clear();
+                cfg.RequestCultureProviders.Add(new CultureProvider());
+            });
+
             app.UseAuditMiddleware();
 
             app.UseEndpoints(endpoints =>
@@ -68,11 +76,25 @@ namespace Riode.WebUI
                     }
                 }
                     );
+                endpoints.MapControllerRoute(
+                name: "areas-with-lang",
+                pattern: "{lang}/{area:exists}/{controller=Dashboard}/{action=Index}/{id?}",
+                constraints: new
+                {
+                    lang = "az|en|ru"
+                }
+                    );
 
                 endpoints.MapControllerRoute(
                  name: "areas",
                  pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
-         );
+                     );
+
+                endpoints.MapControllerRoute("default-with-lang", "{lang}/{controller=home}/{action=index}/{id?}",
+                      constraints: new
+                      {
+                          lang = "az|en|ru"
+                      });
                 endpoints.MapControllerRoute("default", "{controller=home}/{action=index}/{id?}");
             });
         }

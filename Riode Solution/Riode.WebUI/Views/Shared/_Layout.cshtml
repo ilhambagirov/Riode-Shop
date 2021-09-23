@@ -49,10 +49,10 @@
                             <a href="#language">ENG</a>
                             <ul class="dropdown-box">
                                 <li>
-                                    <a href="#USD">ENG</a>
+                                    <a href="#" data-lang="az">AZE</a>
                                 </li>
                                 <li>
-                                    <a href="#EUR">FRH</a>
+                                    <a href="#" data-lang="en">ENG</a>
                                 </li>
                             </ul>
                         </div>
@@ -224,16 +224,16 @@
                         <nav class="main-nav ml-0">
                             <ul class="menu">
                                 <li class="active">
-                                    <a asp-controller="home" asp-action="index">Home</a>
+                                    <a asp-controller="home" asp-action="index">@LayoutResource.Home</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="home" asp-action="about">About Us</a>
+                                    <a asp-controller="home" asp-action="about">@LayoutResource.About_us</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="shop" asp-action="index">Shop</a>
+                                    <a asp-controller="shop" asp-action="index">@LayoutResource.Shop</a>
                                 </li>
                                 <li>
-                                    <a href="#">Pages</a>
+                                    <a href="#">@LayoutResource.Pages</a>
                                     <ul>
                                         <li><a asp-controller="account" asp-action="index">My Account</a></li>
                                         <li><a asp-controller="account" asp-action="WishList">Wishlist</a></li>
@@ -241,9 +241,9 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a asp-controller="blog" asp-action="blog">Blog</a>
+                                    <a asp-controller="blog" asp-action="blog">@LayoutResource.Blog</a>
                                 </li>
-                                <li><a asp-controller="home" asp-action="contact">Contact Us</a></li>
+                                <li><a asp-controller="home" asp-action="contact">@LayoutResource.Contact_us</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -665,7 +665,7 @@
     <script src="~/assets/js/main.min.js"></script>
 
     <script>
-       
+
         $(document).ready(function () {
             toastr.options = {
                 "closeButton": true,
@@ -722,6 +722,26 @@
                 errorElement: 'span'
             });
 
+
+            $('[data-lang]').click(function (e) {
+                e.preventDefault();
+
+                let path = `${window.location.pathname}${window.location.search}`;
+
+                let seletectedlang = $(e.currentTarget).data('lang');
+
+                let lang = /\/(en|az|ru)?\/?(.*)?/.exec(path);
+
+                if (lang != null && lang[2]!=undefined) {
+                    path = `/${seletectedlang}/${lang[2]}`;
+                }
+                else if (lang != null) {
+                    path = `${seletectedlang}`;
+                }
+
+                console.log(path)
+                window.location.href = path;
+            })
         });
     </script>
 
