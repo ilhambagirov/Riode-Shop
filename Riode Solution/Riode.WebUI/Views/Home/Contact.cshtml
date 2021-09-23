@@ -55,18 +55,20 @@
                             </p>
                             <div class="row mb-2">
                                 <div class="col-12 mb-4">
+                                    <label asp-for="Comment" class="control-label"></label>
                                     <textarea asp-for="Comment"
                                               class="form-control"
-                                              placeholder="Comment*"></textarea>
-                                    <span asp-validation-for="Comment" class="text-danger"></span>
+                                              placeholder="@ContactResource.Comment*"></textarea>
                                 </div>
                                 <div class="col-md-6 mb-4">
-                                    <input asp-for="Name" class="form-control" placeholder="Name *">
-                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                    <label asp-for="Name" class="control-label"></label>
+                                    <input asp-for="Name"
+                                           class="form-control"
+                                           placeholder="@ContactResource.Name *">
                                 </div>
                                 <div class="col-md-6 mb-4">
-                                    <input asp-for="Email" class="form-control" placeholder="Email *">
-                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                    <label asp-for="Email" class="control-label"></label>
+                                    <input asp-for="Email" class="form-control" placeholder="@ContactResource.Email *">
                                 </div>
                             </div>
                             <button class="btn btn-dark btn-rounded">
@@ -154,13 +156,25 @@
 </div>
 @section addcss{
 
-   
+    <style>
+        .is-invalid {
+            border: 1px solid red;
+        }
+
+            .is-invalid + span {
+                color: red;
+            }
+
+        .is-valid {
+            border: 1px solid teal;
+        }
+    </style>
 }
 
 @section addjs{
     @*<script src="~/libs/jquery-validate/jquery.validate.js"></script>
-    <script src="~/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/libs/toastr.js/toastr.min.js"></script>*@
+        <script src="~/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/libs/toastr.js/toastr.min.js"></script>*@
 
     <script>
        @* toastr.options = {
@@ -182,6 +196,38 @@
         }*@
 
         $(document).ready(function () {
+
+            $(`[data-val="true"]`).each(function (index, item) {
+                $(item).removeAttr('data-val')
+
+                let value = $(item).data('val-required')
+
+                if (value != undefined && value.length >0) {
+                    $(item).removeAttr('data-val-required')
+
+                    $(item).attr('data-rule-required',true)
+                    $(item).attr('data-msg-required',value)
+                }
+
+                value = $(item).data('val-email')
+
+                if (value != undefined && value.length > 0) {
+                    $(item).removeAttr('data-val-email')
+
+                    $(item).attr('data-rule-email', true)
+                    $(item).attr('data-msg-email', value)
+                }
+            })
+
+            $('#contact').validate({
+                errorElement: 'span',
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-invalid").removeClass("is-valid")
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-valid").removeClass("is-invalid")
+                }
+            })
 
             $('#contact').submit(function (e) {
                 e.preventDefault();

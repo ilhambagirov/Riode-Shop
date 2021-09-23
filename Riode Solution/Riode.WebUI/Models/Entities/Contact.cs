@@ -1,18 +1,22 @@
-﻿using System;
+﻿using Resources;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Riode.WebUI.Models.Entities
 {
     public class Contact : BaseEntity
     {
-        [Required]
+        [Display(ResourceType = typeof(ContactResource),Name = "Name")]
+        [Required(ErrorMessageResourceType = typeof(ContactResource), ErrorMessageResourceName = "Cantbenull")]
         public string Name { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Display(ResourceType = typeof(ContactResource), Name = "Email")]
+        [Required(ErrorMessageResourceType = typeof(ContactResource), ErrorMessageResourceName = "Cantbenull")]
+        [EmailAddress(ErrorMessageResourceType = typeof(ContactResource), ErrorMessageResourceName = "WrongEmailFormat")]
         public string Email { get; set; }
 
-        [Required]
+        [Display(ResourceType = typeof(ContactResource), Name = "Comment")]
+        [Required(ErrorMessageResourceType = typeof(ContactResource), ErrorMessageResourceName = "Cantbenull")]
         public string Comment { get; set; }
         public string Answer { get; set; }
         public DateTime? AnswerDate { get; set; }

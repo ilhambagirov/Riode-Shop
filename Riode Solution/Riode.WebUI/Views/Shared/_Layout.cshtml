@@ -46,7 +46,7 @@
                         </div>
                         <!-- End DropDown Menu -->
                         <div class="dropdown ml-5">
-                            <a href="#language">ENG</a>
+                            <a data-lang-viewer="language">ENG</a>
                             <ul class="dropdown-box">
                                 <li>
                                     <a href="#" data-lang="az">AZE</a>
@@ -722,6 +722,11 @@
                 errorElement: 'span'
             });
 
+            const lang = `@Context.GetCurrentCulture()`
+
+            const selectedLanguage = $(`[data-lang="${lang}"]`).text();
+
+            $(`[data-lang-viewer="language"]`).text(selectedLanguage)
 
             $('[data-lang]').click(function (e) {
                 e.preventDefault();

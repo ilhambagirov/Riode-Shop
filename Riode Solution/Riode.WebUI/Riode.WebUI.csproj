@@ -42,6 +42,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Sidebar.resx</DependentUpon>
     </Compile>
+    <Compile Update="AppCode\Resources\User\Contact\ContactResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ContactResource.resx</DependentUpon>
+    </Compile>
     <Compile Update="AppCode\Resources\User\LayoutResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -54,6 +59,11 @@
       <CustomToolNamespace>Resources</CustomToolNamespace>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Sidebar.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="AppCode\Resources\User\Contact\ContactResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>Resources</CustomToolNamespace>
+      <LastGenOutput>ContactResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="AppCode\Resources\User\LayoutResource.resx">
       <CustomToolNamespace>Resources</CustomToolNamespace>
