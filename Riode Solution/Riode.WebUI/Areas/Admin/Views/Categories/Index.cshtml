@@ -47,8 +47,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @Html.Raw(Model.GetCategoriesRawAdmin(Url))
-                                        @*@foreach (var item in Model)
+                                        @*@Html.Raw(Model.GetCategoriesRawAdmin(Url))*@
+                                        @foreach (var item in Model)
                                             {
                                                 <tr class="treegrid-@item.Id">
                                                     <td>@item.Name</td>
@@ -60,7 +60,7 @@
                                                 </tr>
                                                 @if (item.Children.Any())
                                                 {
-                                                    @foreach (var item2 in item.Children)
+                                                    @foreach (var item2 in item.GetChildren())
                                                     {
                                                         <tr class="treegrid-@item2.Id treegrid-parent-@item2.ParentId">
                                                             <td>@item2.Name</td>
@@ -72,7 +72,7 @@
                                                         </tr>
                                                     }
                                                 }
-                                            }*@
+                                            }
                                     </tbody>
                                 </table>
                             </div>

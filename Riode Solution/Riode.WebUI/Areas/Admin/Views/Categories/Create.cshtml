@@ -19,8 +19,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label asp-for="ParentId" class="control-label">Parent Category</label>
-                            <select asp-for="ParentId" class="form-control" asp-items="ViewBag.ParentId">
-                                <option disabled selected >Select an option</option>
+                            <select asp-for="ParentId" class="form-control select2" asp-items="ViewBag.ParentId">
+                                <option disabled selected>Select an option</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
@@ -52,7 +52,7 @@
                             <label asp-for="DeleteByUserId" class="control-label">DeleteByUserId</label>
                             <input asp-for="DeleteByUserId" class="form-control" placeholder="DeleteByUserId">
                             <span asp-validation-for="DeleteByUserId" class="text-danger"></span>
-                        </div> 
+                        </div>
                         <div class="form-group col-md-4">
                             <label asp-for="DeleteDate" class="control-label">DeleteDate</label>
                             <input asp-for="DeleteDate" class="form-control" placeholder="DeleteDate">
@@ -69,3 +69,15 @@
     </div>
 </div>
 
+@section addcss{
+    <link href="~/libs/select2/css/select2.css" rel="stylesheet" />
+}
+
+@section addjs{
+    <script src="~/libs/select2/js/select2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
+}

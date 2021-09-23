@@ -29,6 +29,10 @@
     {
       "library": "ckeditor5@29.2.0",
       "destination": "wwwroot/libs/ckeditor5/"
+    },
+    {
+      "library": "select2@4.0.13",
+      "destination": "wwwroot/libs/select2/"
     }
   ]
 }
