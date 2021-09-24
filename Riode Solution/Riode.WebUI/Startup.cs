@@ -1,7 +1,10 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +13,7 @@ using Newtonsoft.Json;
 using Riode.WebUI.AppCode.Middlewares;
 using Riode.WebUI.AppCode.Provider;
 using Riode.WebUI.Models.DataContext;
+using Riode.WebUI.Models.Entities.Membership;
 using System.IO;
 using System.Reflection;
 
@@ -31,6 +35,12 @@ namespace Riode.WebUI
             services.AddControllersWithViews(cfg =>
             {
                 cfg.ModelBinderProviders.Insert(0, new BooleanBinderProvider());
+
+                var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
+                cfg.Filters.Add(new AuthorizeFilter(policy));
             })
                 .AddNewtonsoftJson(nt =>
                 {
@@ -43,8 +53,46 @@ namespace Riode.WebUI
                 cfg.UseSqlServer(configuration.GetConnectionString("cString"));
             });
 
+            services.AddIdentity<RiodeUser, RiodeRole>()
+                .AddEntityFrameworkStores<RiodeDBContext>();
+
+            services.AddScoped<UserManager<RiodeUser>>();
+            services.AddScoped<SignInManager<RiodeUser>>();
+            services.AddScoped<RoleManager<RiodeRole>>();
+
+            services.Configure<IdentityOptions>(cfg =>
+            {
+                cfg.Password.RequireDigit = false;
+                cfg.Password.RequireLowercase = false;
+                cfg.Password.RequireUppercase = false;
+                cfg.Password.RequiredUniqueChars = 1;
+                cfg.Password.RequireNonAlphanumeric = false;
+                cfg.Password.RequiredLength = 3;
+
+                cfg.User.RequireUniqueEmail = true;
+                cfg.Lockout.MaxFailedAccessAttempts = 3;
+                cfg.Lockout.DefaultLockoutTimeSpan = new System.TimeSpan(0, 3, 0);
+
+            });
+
+            services.ConfigureApplicationCookie(cfg =>
+            {
+                cfg.LoginPath = "/signin.html";
+                cfg.AccessDeniedPath = "/accessdenied.html";
+
+                cfg.ExpireTimeSpan = new System.TimeSpan(0, 5, 0);
+                cfg.Cookie.Name = "Riode";
+            });
+
+            services.AddAuthentication();
+            services.AddAuthorization();
+
+
+
             var assembly = Assembly.GetExecutingAssembly();
             services.AddMediatR(assembly);
+
+
 
         }
 
@@ -69,6 +117,10 @@ namespace Riode.WebUI
             });
 
             app.UseAuditMiddleware();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -95,12 +147,21 @@ namespace Riode.WebUI
                  name: "areas",
                  pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
                      );
+                endpoints.MapControllerRoute("default-signIn", "signin.html",
+                    defaults: new
+                    {
+                        controller = "Account",
+                        area = "",
+                        action = "login"
+                    }
+                    );
+
 
                 endpoints.MapControllerRoute("default-with-lang", "{lang}/{controller=home}/{action=index}/{id?}",
-                      constraints: new
-                      {
-                          lang = "az|en|ru"
-                      });
+                       constraints: new
+                       {
+                           lang = "az|en|ru"
+                       });
                 endpoints.MapControllerRoute("default", "{controller=home}/{action=index}/{id?}");
             });
         }

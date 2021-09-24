@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.FormModels;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace Riode.WebUI.Controllers
 {
+    [AllowAnonymous]
     public class ShopController : Controller
     {
         readonly RiodeDBContext db;

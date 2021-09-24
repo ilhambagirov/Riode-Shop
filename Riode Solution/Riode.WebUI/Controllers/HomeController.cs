@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Riode.WebUI.AppCode.Extensions;
 using Riode.WebUI.Models;
@@ -10,6 +11,8 @@ using System.Text.RegularExpressions;
 
 namespace Riode.WebUI.Controllers
 {
+
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         readonly RiodeDBContext db;
