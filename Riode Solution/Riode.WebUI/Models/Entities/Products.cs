@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Riode.WebUI.Models.FormModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Riode.WebUI.Models.Entities
 {
-    public class Products :BaseEntity
+    public class Products : BaseEntity
     {
         [Required]
         public String Name { get; set; }
@@ -17,5 +20,7 @@ namespace Riode.WebUI.Models.Entities
         public virtual ICollection<SpesificationValues> SpesificationValues { get; set; }
         public String ShortDescription { get; set; }
         public String Description { get; set; }
+        [NotMapped]
+        public virtual ImageItem[] Files { get; set; }
     }
 }

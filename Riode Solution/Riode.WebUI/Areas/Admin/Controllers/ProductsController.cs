@@ -30,7 +30,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var riodeDBContext = _context.Products.Include(p => p.Brand).Include(p => p.Category)
-                .Include(p => p.Images.Where(i => i.IsMain == true));
+                .Include(p => p.Images.Where(i => i.IsMain == true && i.DeleteByUserId == null));
             return View(await riodeDBContext.ToListAsync());
         }
 
@@ -60,8 +60,8 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         {
             ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name");
             ViewData["CategoryId"] = new SelectList(_context.Category, "Id", "Name");
-          /*  ViewData["SizeId"] = new SelectList(_context.ProductSizeColorCollection.Include(s=>s.Size), "Id", "Name");
-            ViewData["CategoryId"] = new SelectList(_context.ProductSizeColorCollection.Include(s => s.Color), "Id", "Name");*/
+            /*  ViewData["SizeId"] = new SelectList(_context.ProductSizeColorCollection.Include(s=>s.Size), "Id", "Name");
+              ViewData["CategoryId"] = new SelectList(_context.ProductSizeColorCollection.Include(s => s.Color), "Id", "Name");*/
             return View();
         }
 
@@ -125,7 +125,9 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var products = await _context.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
+            var products = await _context.Products.Include(p => p.Images)
+                .Include(p => p.Images.Where(i => i.DeleteByUserId == null))
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (products == null)
             {
                 return NotFound();
@@ -136,21 +138,16 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Products products, IFormFile[] file, string fileTemp)
+        public async Task<IActionResult> Edit(int id, Products products)
         {
             if (id != products.Id)
             {
                 return NotFound();
             }
 
-            if (string.IsNullOrEmpty(fileTemp) && file == null)
-            {
-                ModelState.AddModelError("file", "Not Chosen");
-            }
+
 
 
             if (ModelState.IsValid)
@@ -158,7 +155,10 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                 try
                 {
 
-                    var entity = await _context.Products.FirstOrDefaultAsync(b => b.Id == id && b.DeleteByUserId == null);
+                    var entity = await _context.Products
+                        .Include(i => i.Images.Where(i => i.DeleteByUserId == null))
+                        .FirstOrDefaultAsync(b => b.Id == id && b.DeleteByUserId == null);
+
                     if (entity == null)
                     {
                         return NotFound();
@@ -170,13 +170,37 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                     entity.Description = products.Description;
                     entity.CategoryId = products.CategoryId;
                     entity.BrandId = products.BrandId;
-                    if (file != null)
+
+                    //deleted
+
+                    foreach (var _id in products.Files.Where(i => i.Id > 0 && string.IsNullOrWhiteSpace(i.TempPath))
+                        .Select(f => f.Id)
+                        .ToArray())
                     {
-                        products.Images = new List<Images>();
-                        foreach (var item in file)
+                        var oldImage = await _context.Images.FirstOrDefaultAsync(p => p.ProductId == entity.Id && p.Id == _id);
+                        if (oldImage == null)
+                            continue;
+
+                        oldImage.DeleteDate = DateTime.Now;
+                        oldImage.DeleteByUserId = 1;
+                    }
+
+                    //notchanged or chnaged condition
+                    foreach (var item in products.Files.
+                        Where(i => (i.Id > 0 && !string.IsNullOrWhiteSpace(i.TempPath))
+                          || i.File != null))
+                    {
+                        if (item.File == null)
                         {
-                            var extension = Path.GetExtension(item.FileName);
-                            string imagePath = $"{Guid.NewGuid()}{extension}";
+                            var notCahngedImage = await _context.Images.FirstOrDefaultAsync(p => p.ProductId == entity.Id && p.Id == item.Id);
+                            if (notCahngedImage == null)
+                                continue;
+                            notCahngedImage.IsMain = item.IsMain;
+                        }
+                        else if (item.File != null)
+                        {
+                            var extension = Path.GetExtension(item.File.FileName);
+                            var imagePath = $"{Guid.NewGuid()}{extension}";
                             var physicalAddress = Path.Combine(env.ContentRootPath,
                                 "wwwroot",
                                 "uploads",
@@ -186,30 +210,17 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
                             using (var stream = new FileStream(physicalAddress, FileMode.Create, FileAccess.Write))
                             {
-                                await item.CopyToAsync(stream);
+                                await item.File.CopyToAsync(stream);
                             }
-                            products.Images.Add(new Images
+
+                            entity.Images.Add(new Images
                             {
-                                FileName = imagePath
+                                FileName = imagePath,
+                                IsMain = item.IsMain
                             });
                         }
-                        foreach (var item in entity.Images)
-                        {
-                            if (!string.IsNullOrEmpty(item.FileName))
-                            {
-                                System.IO.File.Delete(Path.Combine(env.ContentRootPath,
-                                                           "wwwroot",
-                                                           "uploads",
-                                                           "images",
-                                                           "product",
-                                                           item.FileName));
-                            }
-                        }
-                        entity.Images = products.Images;
                     }
 
-
-                    // _context.Update(products);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

@@ -43,7 +43,7 @@ namespace Riode.WebUI.Controllers
               ViewBag.Page = page;*/
 
             viewmodel.Products = db.Products
-              .Include(p => p.Images.Where(i => i.IsMain == true))
+              .Include(p => p.Images.Where(i => i.IsMain == true && i.DeleteByUserId == null))
               .Include(C => C.Brand)
               .Where(c => c.DeleteByUserId == null)/*.Skip((page-1)* productCount).Take(productCount)*///2
               .ToList();
@@ -71,7 +71,7 @@ namespace Riode.WebUI.Controllers
 
             if (model?.Sizes?.Count() > 0)
             {
-                query = query.Where(p => p.ProductSizeColorCollection.Any(pscc =>model.Sizes.Contains(pscc.SizeId)));
+                query = query.Where(p => p.ProductSizeColorCollection.Any(pscc => model.Sizes.Contains(pscc.SizeId)));
             }
 
             if (model?.Colors?.Count() > 0)
@@ -81,36 +81,36 @@ namespace Riode.WebUI.Controllers
 
             return PartialView("_ProductContainer", query.ToList());
 
-           /* return Json(new
-            {
-                error = false,
-                data = query.ToList()
-            });*/
+            /* return Json(new
+             {
+                 error = false,
+                 data = query.ToList()
+             });*/
         }
-      /*  public IActionResult LoadMore(int skipNumber)
-        {
-            int productCount = 3;
-            var product = db.Products
-             .Include(p => p.Images)
-             .Include(p => p.Brand)
-             .Include(p => p.SpesificationValues.Where(s => s.DeleteByUserId == null))
-             .ThenInclude(p => p.Spesification)
-             .Where(c => c.DeleteByUserId == null).Skip(skipNumber).Take(productCount).ToList();
-            if (product == null)
-            {
-                return NotFound();
-            }
+        /*  public IActionResult LoadMore(int skipNumber)
+          {
+              int productCount = 3;
+              var product = db.Products
+               .Include(p => p.Images)
+               .Include(p => p.Brand)
+               .Include(p => p.SpesificationValues.Where(s => s.DeleteByUserId == null))
+               .ThenInclude(p => p.Spesification)
+               .Where(c => c.DeleteByUserId == null).Skip(skipNumber).Take(productCount).ToList();
+              if (product == null)
+              {
+                  return NotFound();
+              }
 
 
-            return PartialView("_ProductContainer", product);
-        }*/
+              return PartialView("_ProductContainer", product);
+          }*/
         public IActionResult Details(int id)
         {
             var product = db.Products
-             .Include(p => p.Images)
-             .Include(p=>p.Brand)
-             .Include(p=>p.SpesificationValues.Where(s=>s.DeleteByUserId==null))
-             .ThenInclude(p=>p.Spesification)
+             .Include(p => p.Images.Where(c => c.DeleteByUserId == null))
+             .Include(p => p.Brand)
+             .Include(p => p.SpesificationValues.Where(s => s.DeleteByUserId == null))
+             .ThenInclude(p => p.Spesification)
              .FirstOrDefault(c => c.DeleteByUserId == null && c.Id == id);
             if (product == null)
             {
