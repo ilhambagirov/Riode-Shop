@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.BrandModule;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {
@@ -14,34 +13,32 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     public class BrandsController : Controller
     {
         private readonly RiodeDBContext _context;
+        private readonly IMediator mediatr;
 
-        public BrandsController(RiodeDBContext context)
+        public BrandsController(RiodeDBContext context, IMediator mediatr)
         {
             _context = context;
+            this.mediatr = mediatr;
         }
 
         // GET: Admin/Brands
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(BrandPagedQuery request)
         {
-            return View(await _context.Brands.ToListAsync());
+            var response = await mediatr.Send(request);
+            return View(response);
         }
 
         // GET: Admin/Brands/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(BrandSingleQuery request)
         {
-            if (id == null)
+            var brand = await mediatr.Send(request);
+
+            if (brand == null)
             {
                 return NotFound();
             }
 
-            var brands = await _context.Brands
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (brands == null)
-            {
-                return NotFound();
-            }
-
-            return View(brands);
+            return View(brand);
         }
 
         // GET: Admin/Brands/Create
@@ -51,35 +48,30 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/Brands/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Brands brands)
+        public async Task<IActionResult> Create(BrandCreateCommand brand)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(brands);
-                await _context.SaveChangesAsync();
+                await mediatr.Send(brand);
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(brands);
+            return View(brand);
         }
 
         // GET: Admin/Brands/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(BrandSingleQuery request)
         {
-            if (id == null)
+            var brand = await mediatr.Send(request);
+
+            if (brand == null)
             {
                 return NotFound();
             }
 
-            var brands = await _context.Brands.FindAsync(id);
-            if (brands == null)
-            {
-                return NotFound();
-            }
-            return View(brands);
+            return View(brand);
         }
 
         // POST: Admin/Brands/Edit/5

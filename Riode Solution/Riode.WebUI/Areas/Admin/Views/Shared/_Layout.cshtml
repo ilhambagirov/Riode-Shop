@@ -51,15 +51,15 @@
     <!-- style CSS -->
     <link rel="stylesheet" href="~/admin/css/style.css" />
     <link rel="stylesheet" href="~/admin/css/colors/default.css" id="colorSkinCSS">
- 
+
     @RenderSection("addcss", required: false)
 
     <style>
-        p.textarea{
-            font-size:16px;
-            border-radius:2px;
-            border:1px solid #ccc;
-            min-height:150px;
+        p.textarea {
+            font-size: 16px;
+            border-radius: 2px;
+            border: 1px solid #ccc;
+            min-height: 150px;
         }
 
         .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -87,24 +87,43 @@
 
         .select2-container--default .select2-selection--single {
             border: none;
-            
-        }
-        .select2-container--default{
-            max-width:100% !important;
         }
 
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            padding: .375rem .75rem;
+        .select2-container--default {
+            max-width: 100% !important;
         }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                padding: .375rem .75rem;
+            }
 
         .select2-selection__arrow {
             height: 35px !important;
             top: 1px !important;
             right: 3px !important;
         }
-
-
+        ul.pagination li {
+            width: 25px;
+            background: white;
+            text-align:center;
         }
+
+        ul.pagination .prev,
+        ul.pagination .next {
+            width: 25px;
+            background: gray;
+        }
+
+            ul.pagination .prev a,
+            ul.pagination .next a {
+                display: flex;
+                justify-content: center;
+            }
+
+                ul.pagination .prev a i,
+                ul.pagination .next a i {
+                    padding-top: 3px;
+                }
     </style>
 </head>
 <body class="crm_body_bg">
@@ -161,21 +180,21 @@
                         <span>@Sidebar.Pages</span>
                     </div>
                 </a>
-               @* <ul>
-                    <li><a href="role_permissions.html">Role & Permissions</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a asp-controller="account" asp-action="login">Login</a></li>
-                    <li><a href="resister.html">Register</a></li>
-                    <li><a href="error_400.html">Error 404</a></li>
-                    <li><a href="error_500.html">Error 500</a></li>
-                    <li><a asp-controller="account" asp-action="forgotpassword">Forgot Password</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="module_setting.html">Module Setting</a></li>
-                    <li><a href="Products.html">Products</a></li>
-                    <li><a href="Product_Details.html">Product Details</a></li>
-                    <li><a href="Cart.html">Cart</a></li>
-                    <li><a href="Checkout.html">Checkout</a></li>
-                </ul>*@
+                @* <ul>
+                        <li><a href="role_permissions.html">Role & Permissions</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a asp-controller="account" asp-action="login">Login</a></li>
+                        <li><a href="resister.html">Register</a></li>
+                        <li><a href="error_400.html">Error 404</a></li>
+                        <li><a href="error_500.html">Error 500</a></li>
+                        <li><a asp-controller="account" asp-action="forgotpassword">Forgot Password</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="module_setting.html">Module Setting</a></li>
+                        <li><a href="Products.html">Products</a></li>
+                        <li><a href="Product_Details.html">Product Details</a></li>
+                        <li><a href="Cart.html">Cart</a></li>
+                        <li><a href="Checkout.html">Checkout</a></li>
+                    </ul>*@
             </li>
             <li class="afterli">
                 <a class="" asp-controller="contacts" asp-action="index" aria-expanded="false">

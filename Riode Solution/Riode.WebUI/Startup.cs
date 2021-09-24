@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,8 @@ using Riode.WebUI.AppCode.Middlewares;
 using Riode.WebUI.AppCode.Provider;
 using Riode.WebUI.Models.DataContext;
 using System.IO;
+using System.Reflection;
+
 namespace Riode.WebUI
 {
     public class Startup
@@ -39,6 +42,9 @@ namespace Riode.WebUI
             {
                 cfg.UseSqlServer(configuration.GetConnectionString("cString"));
             });
+
+            var assembly = Assembly.GetExecutingAssembly();
+            services.AddMediatR(assembly);
 
         }
 

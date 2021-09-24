@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Riode.WebUI.Models.Entities.Brands>
+﻿@model PagedViewModel<Brands>
 
 @{
     ViewData["Title"] = "Index";
@@ -37,6 +37,9 @@
                             </div>
 
                             <div class="QA_table mb_30">
+                                <div>
+                                    @Model.GetPagenation(Url,"Index","Admin")
+                                </div>
                                 <!-- table-responsive -->
                                 <table class="table lms_table_active3 ">
                                     <thead>
@@ -46,7 +49,7 @@
                                     </thead>
                                     <tbody>
 
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Model.Items)
                                         {
                                             <tr>
                                                 <td>@item.Name</td>
