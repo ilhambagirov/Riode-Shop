@@ -22,5 +22,7 @@ namespace Riode.WebUI.AppCode.Extensions
             }
             return "en";
         }
+
+
     }
 }

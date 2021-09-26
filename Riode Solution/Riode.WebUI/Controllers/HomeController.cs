@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Riode.WebUI.AppCode.Extensions;
-using Riode.WebUI.Models;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.Entities;
 using System;
@@ -72,7 +71,6 @@ namespace Riode.WebUI.Controllers
                         message = "Please Confirm Your Subscription"
                     });
                 }
-
 
                 db.Subscribes.Add(model);
                 db.SaveChanges();

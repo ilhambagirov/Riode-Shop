@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.AppCode.Application.BrandModule;
 using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -52,12 +51,10 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BrandCreateCommand brand)
         {
-            if (ModelState.IsValid)
-            {
-                await mediatr.Send(brand);
-
+            var id = await mediatr.Send(brand);
+            if (id > 0)
                 return RedirectToAction(nameof(Index));
-            }
+
             return View(brand);
         }
 
@@ -70,43 +67,25 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            BrandViewModel vm = new();
+            vm.Id = brand.Id;
+            vm.Name = brand.Name;
+            vm.Description = brand.Description;
 
-            return View(brand);
+            return View(vm);
         }
 
         // POST: Admin/Brands/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Brands brands)
+        public async Task<IActionResult> Edit(BrandEditCommand request)
         {
-            if (id != brands.Id)
+            int id = await mediatr.Send(request);
+            if (id > 0)
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(brands);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BrandsExists(brands.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(brands);
+            return View(request);
         }
 
         // GET: Admin/Brands/Delete/5
