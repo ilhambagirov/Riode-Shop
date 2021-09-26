@@ -88,38 +88,16 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(request);
         }
 
-        // GET: Admin/Brands/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(BrandDeleteCommand request)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var response = await mediatr.Send(request);
 
-            var brands = await _context.Brands
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (brands == null)
-            {
-                return NotFound();
-            }
-
-            return View(brands);
+            return Json(response);
         }
 
-        // POST: Admin/Brands/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var brands = await _context.Brands.FindAsync(id);
-            _context.Brands.Remove(brands);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+     
 
-        private bool BrandsExists(int id)
-        {
-            return _context.Brands.Any(e => e.Id == id);
-        }
+       
     }
 }
