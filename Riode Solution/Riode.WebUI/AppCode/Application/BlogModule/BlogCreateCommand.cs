@@ -19,6 +19,7 @@ namespace Riode.WebUI.AppCode.Application.BlogModule
         public string Description { get; set; }
         public IFormFile File { get; set; }
         public int CategoryId { get; set; }
+        public DateTime? PublishedDate { get; set; }
         public class BlogCreateCommandHandler : IRequestHandler<BlogCreateCommand, int>
         {
 
@@ -44,6 +45,7 @@ namespace Riode.WebUI.AppCode.Application.BlogModule
                     blog.Name = request.Name;
                     blog.Description = request.Description;
                     blog.CategoryId = request.CategoryId;
+                    blog.PublishedDate = request.PublishedDate;
                     var extension = Path.GetExtension(request.File.FileName);
                     blog.ImagePath = $"{Guid.NewGuid()}{extension}";
                     var physicalAddress = Path.Combine(env.ContentRootPath,

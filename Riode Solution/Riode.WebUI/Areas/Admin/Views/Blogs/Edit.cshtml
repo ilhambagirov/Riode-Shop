@@ -1,4 +1,4 @@
-﻿@model Riode.WebUI.Models.Entities.Blog
+﻿@model BlogViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -28,9 +28,9 @@
                                 Şəkil
                             </label>
                             <label class="image-input"
-                                   data-imgurl="/uploads/images/blog/@Model.ImagePath"
+                                   data-imgurl="/uploads/images/blog/@Model.fileTemp"
                                    for="file">
-                                <input type="hidden" name="fileTemp" value="@Model.ImagePath">
+                                <input type="hidden" name="fileTemp" value="@Model.fileTemp">
                                 <span>×</span>
                             </label>
                             <input name="file"

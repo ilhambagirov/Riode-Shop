@@ -23,8 +23,9 @@ namespace Riode.WebUI.AppCode.Application.BlogModule
             }
             public async Task<PagedViewModel<Blog>> Handle(BlogPagedQuery request, CancellationToken cancellationToken)
             {
-                var query = db.Blogs.Include(b => b.Category)
-                .Where(b => b.DeleteByUserId == null)
+                var query = db.Blogs
+                    .Include(b => b.Category)
+                .Where(b => b.DeleteByUserId == null && b.PublishedDate != null)
                      .AsQueryable();
 
                 return new PagedViewModel<Blog>(query, request.PageIndex, request.PageSize);

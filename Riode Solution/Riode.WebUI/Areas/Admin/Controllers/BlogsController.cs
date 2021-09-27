@@ -1,14 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.AppCode.Application.BlogModule;
 using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.Entities;
-using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
@@ -76,77 +71,29 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(db.Category, "Id", "Name", blog.CategoryId);
-            return View(blog);
+            BlogViewModel vm = new();
+            vm.Id = blog.Id;
+            vm.Name = blog.Name;
+            vm.Description = blog.Description;
+            vm.CategoryId = blog.CategoryId;
+            vm.fileTemp = blog.ImagePath;
+            return View(vm);
         }
 
         // POST: Admin/Blogs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Blog blog, IFormFile file, string fileTemp)
+        public async Task<IActionResult> Edit(BlogEditCommand command)
         {
-            if (id != blog.Id)
+            var id = await mediator.Send(command);
+            if (id > 0)
             {
-                return NotFound();
-            }
-
-            if (string.IsNullOrEmpty(fileTemp) && file == null)
-            {
-                ModelState.AddModelError("file", "Not Chosen");
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var entity = await db.Blogs.FirstOrDefaultAsync(b => b.Id == id && b.DeleteByUserId == null);
-                    if (entity == null)
-                    {
-                        return NotFound();
-                    }
-
-                    entity.Name = blog.Name;
-                    entity.Description = blog.Description;
-                    entity.CategoryId = blog.CategoryId;
-
-                    if (file != null)
-                    {
-                        var extension = Path.GetExtension(file.FileName);
-                        blog.ImagePath = $"{Guid.NewGuid()}{extension}";
-                        var physicalAddress = Path.Combine(env.ContentRootPath,
-                            "wwwroot",
-                            "uploads",
-                            "images",
-                            "blog",
-                            blog.ImagePath);
-
-                        using (var stream = new FileStream(physicalAddress, FileMode.Create, FileAccess.Write))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-
-                        if (!string.IsNullOrEmpty(entity.ImagePath))
-                        {
-                            System.IO.File.Delete(Path.Combine(env.ContentRootPath,
-                                                       "wwwroot",
-                                                       "uploads",
-                                                       "images",
-                                                       "blog",
-                                                       entity.ImagePath));
-                        }
-
-                        entity.ImagePath = blog.ImagePath;
-                    }
-
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return NotFound();
-                }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(db.Category, "Id", "Name", blog.CategoryId);
-            return View(blog);
+
+
+            ViewData["CategoryId"] = new SelectList(db.Category, "Id", "Name", command.CategoryId);
+            return View(command);
         }
 
         [HttpPost]
