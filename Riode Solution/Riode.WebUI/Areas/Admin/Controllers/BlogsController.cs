@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.BlogModule;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.Entities;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {
@@ -18,32 +18,26 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     {
         readonly IWebHostEnvironment env;
         readonly RiodeDBContext db;
+        readonly IMediator mediator;
 
-        public BlogsController(RiodeDBContext context, IWebHostEnvironment env)
+        public BlogsController(RiodeDBContext context, IWebHostEnvironment env, IMediator mediator)
         {
             db = context;
             this.env = env;
+            this.mediator = mediator;
         }
 
         // GET: Admin/Blogs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(BlogPagedQuery query)
         {
-            var riodeDBContext = db.Blogs.Include(b => b.Category)
-                .Where(b => b.DeleteByUserId == null);
-            return View(await riodeDBContext.ToListAsync());
+            var response = await mediator.Send(query);
+            return View(response);
         }
 
         // GET: Admin/Blogs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(BlogSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var blog = await db.Blogs
-                .Include(b => b.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var blog = await mediator.Send(query);
             if (blog == null)
             {
                 return NotFound();
@@ -60,51 +54,23 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/Blogs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Blog blog, IFormFile file)
+        public async Task<IActionResult> Create(BlogCreateCommand command)
         {
-            if (file == null)
+            var id = await mediator.Send(command);
+            if (id > 0)
             {
-                ModelState.AddModelError("file", "Not chosen");
-            };
-
-            if (ModelState.IsValid)
-            {
-
-                var extension = Path.GetExtension(file.FileName);
-                blog.ImagePath = $"{Guid.NewGuid()}{extension}";
-                var physicalAddress = Path.Combine(env.ContentRootPath,
-                    "wwwroot",
-                    "uploads",
-                    "images",
-                    "blog",
-                    blog.ImagePath);
-
-                using (var stream = new FileStream(physicalAddress, FileMode.Create, FileAccess.Write))
-                {
-                    await file.CopyToAsync(stream);
-                }
-
-                db.Add(blog);
-                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(db.Category, "Id", "Name", blog.CategoryId);
-            return View(blog);
+            ViewData["CategoryId"] = new SelectList(db.Category, "Id", "Name", command.CategoryId);
+            return View(command);
         }
 
         // GET: Admin/Blogs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(BlogSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var blog = await db.Blogs.FindAsync(id);
+            var blog = await mediator.Send(query);
             if (blog == null)
             {
                 return NotFound();
@@ -114,8 +80,6 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/Blogs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Blog blog, IFormFile file, string fileTemp)
@@ -134,7 +98,6 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             {
                 try
                 {
-                    // db.Update(blog);
                     var entity = await db.Blogs.FirstOrDefaultAsync(b => b.Id == id && b.DeleteByUserId == null);
                     if (entity == null)
                     {
@@ -173,19 +136,12 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
                         entity.ImagePath = blog.ImagePath;
                     }
-                   
+
                     await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogExists(blog.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -193,39 +149,12 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(blog);
         }
 
-        // GET: Admin/Blogs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(BlogDeleteCommand command)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var blog = await db.Blogs
-                .Include(b => b.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (blog == null)
-            {
-                return NotFound();
-            }
-
-            return View(blog);
+            var response = await mediator.Send(command);
+            return Json(response);
         }
 
-        // POST: Admin/Blogs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var blog = await db.Blogs.FindAsync(id);
-            db.Blogs.Remove(blog);
-            await db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool BlogExists(int id)
-        {
-            return db.Blogs.Any(e => e.Id == id);
-        }
     }
 }

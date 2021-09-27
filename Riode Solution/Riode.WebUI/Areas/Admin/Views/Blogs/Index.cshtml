@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Riode.WebUI.Models.Entities.Blog>
+﻿@model PagedViewModel<Blog>
 
 @{
     ViewData["Title"] = "Index";
@@ -36,6 +36,9 @@
                                 </div>
                             </div>
                             <div class="QA_table mb_30">
+                                <div>
+                                    @Model.GetPagenation(Url, "Index", "Admin")
+                                </div>
                                 <!-- table-responsive -->
                                 <table class="table lms_table_active3 ">
                                     <thead>
@@ -47,7 +50,7 @@
                                     </thead>
                                     <tbody>
 
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Model.Items)
                                         {
                                             <tr>
                                                 <td>
@@ -58,7 +61,7 @@
                                                 <td class="d-flex justify-content-end">
                                                     <a asp-controller="blogs" asp-action="details" asp-route-id="@item.Id" class="btn btn-success mr-1"><i class="fas fa-info"></i></a>
                                                     <a asp-controller="blogs" asp-action="edit" asp-route-id="@item.Id" class="btn btn-warning mr-1"><i class="fas fa-user-edit"></i></a>
-                                                    <a asp-controller="blogs" asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger mr-1"><i class="fas fa-trash"></i></a>
+                                                    <a onclick="removeEntity(@item.Id,'@item.Name')" class="btn btn-danger mr-1"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         }
@@ -72,11 +75,3 @@
         </div>
     </div>
 </div>
-
-@section addcss{
-    <style>
-        td > a {
-            width: 50px;
-        }
-    </style>
-}

@@ -1,10 +1,7 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.Entities;
 using Riode.WebUI.Models.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +30,7 @@ namespace Riode.WebUI.AppCode.Application.BrandModule
                    var pagedData = await query.Skip((request.PageIndex - 1) * request.PageSize)
                      .Take(request.PageSize).ToListAsync(cancellationToken);*/
 
-                return new PagedViewModel<Brands>(query, request.PageIndex, request.PageSize);
+                return new  PagedViewModel<Brands>(query, request.PageIndex, request.PageSize);
             }
         }
     }
