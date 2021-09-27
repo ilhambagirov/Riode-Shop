@@ -1,4 +1,4 @@
-﻿@model Riode.WebUI.Models.Entities.Category
+﻿@model CategoryCreateCommand
 
 @{
     ViewData["Title"] = "Create";
@@ -34,29 +34,6 @@
                             <label asp-for="Description" class="control-label">Description</label>
                             <input asp-for="Description" class="form-control" placeholder="Description">
                             <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label asp-for="CreatedByUserId" class="control-label">CreatedByUserId</label>
-                            <input asp-for="CreatedByUserId" class="form-control" placeholder="CreatedByUserId">
-                            <span asp-validation-for="CreatedByUserId" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label asp-for="CreatedDate" class="control-label">CreatedDate</label>
-                            <input asp-for="CreatedDate" class="form-control" placeholder="CreatedByUserId">
-                            <span asp-validation-for="CreatedDate" class="text-danger"></span>
-
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label asp-for="DeleteByUserId" class="control-label">DeleteByUserId</label>
-                            <input asp-for="DeleteByUserId" class="form-control" placeholder="DeleteByUserId">
-                            <span asp-validation-for="DeleteByUserId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label asp-for="DeleteDate" class="control-label">DeleteDate</label>
-                            <input asp-for="DeleteDate" class="form-control" placeholder="DeleteDate">
-                            <span asp-validation-for="DeleteDate" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">

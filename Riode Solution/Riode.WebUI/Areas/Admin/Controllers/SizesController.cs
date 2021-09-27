@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.ProductSizeModule;
 using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.Entities;
+using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {
@@ -14,28 +10,25 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     public class SizesController : Controller
     {
         private readonly RiodeDBContext _context;
+        readonly IMediator mediator;
 
-        public SizesController(RiodeDBContext context)
+        public SizesController(RiodeDBContext context, IMediator mediator)
         {
             _context = context;
+            this.mediator = mediator;
         }
 
         // GET: Admin/Sizes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ProductSizePagedQuery query)
         {
-            return View(await _context.Size.ToListAsync());
+            var sizes = await mediator.Send(query);
+            return View(sizes);
         }
 
         // GET: Admin/Sizes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(ProductSizeSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var size = await _context.Size
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var size = await mediator.Send(query);
             if (size == null)
             {
                 return NotFound();
@@ -51,104 +44,56 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/Sizes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Abbr,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Size size)
+        public async Task<IActionResult> Create(ProductSizeCreateCommand command)
         {
-            if (ModelState.IsValid)
+            var response = await mediator.Send(command);
+            if (response > 0)
             {
-                _context.Add(size);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(size);
+
+            return View(command);
         }
 
         // GET: Admin/Sizes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(ProductSizeSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var size = await _context.Size.FindAsync(id);
+            var size = await mediator.Send(query);
             if (size == null)
             {
                 return NotFound();
             }
-            return View(size);
+            ProductSizeViewModel vm = new();
+            vm.Id = size.Id;
+            vm.Name = size.Name;
+            vm.Description = size.Description;
+            vm.Abbr = size.Abbr;
+            return View(vm);
         }
 
         // POST: Admin/Sizes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Size size)
+        public async Task<IActionResult> Edit(ProductSizeEditCommand command)
         {
-            if (id != size.Id)
+            var response = await mediator.Send(command);
+            if (response > 0)
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(size);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SizeExists(size.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(size);
+
+            return View(command);
         }
 
-        // GET: Admin/Sizes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(ProductSizeDeleteCommand command)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var response = await mediator.Send(command);
 
-            var size = await _context.Size
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (size == null)
-            {
-                return NotFound();
-            }
-
-            return View(size);
-        }
-
-        // POST: Admin/Sizes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var size = await _context.Size.FindAsync(id);
-            _context.Size.Remove(size);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool SizeExists(int id)
-        {
-            return _context.Size.Any(e => e.Id == id);
+            return Json(response);
         }
     }
 }

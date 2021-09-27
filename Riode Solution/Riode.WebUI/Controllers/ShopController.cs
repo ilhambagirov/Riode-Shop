@@ -20,7 +20,7 @@ namespace Riode.WebUI.Controllers
         public IActionResult Index(int page = 1)
         {
 
-            var viewmodel = new CategoryViewModel();
+            var viewmodel = new CategoryViewModels();
             viewmodel.Category = db.Category
                 .Include(c => c.Parent)
                 .Include(c => c.Children)

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Riode.WebUI.AppCode.Application.ProductColorModule;
+using Riode.WebUI.AppCode.Application.ProductSizeModule;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {
@@ -14,34 +14,31 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     public class ColorsController : Controller
     {
         private readonly RiodeDBContext _context;
+        readonly IMediator mediator;
 
-        public ColorsController(RiodeDBContext context)
+        public ColorsController(RiodeDBContext context, IMediator mediator)
         {
             _context = context;
+            this.mediator = mediator;
         }
 
         // GET: Admin/Colors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ProductColorPagedQuery query)
         {
-            return View(await _context.Colors.ToListAsync());
+            var response = await mediator.Send(query);
+            return View(response);
         }
 
         // GET: Admin/Colors/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(ProductColorSingleQuery query)
         {
-            if (id == null)
+            var color = await mediator.Send(query);
+            if (color == null)
             {
                 return NotFound();
             }
 
-            var colors = await _context.Colors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (colors == null)
-            {
-                return NotFound();
-            }
-
-            return View(colors);
+            return View(color);
         }
 
         // GET: Admin/Colors/Create
@@ -51,104 +48,53 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/Colors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,HexCode,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Colors colors)
+        public async Task<IActionResult> Create(ProductColorCreateCommand command)
         {
-            if (ModelState.IsValid)
+            var response = await mediator.Send(command);
+            if (response > 0)
             {
-                _context.Add(colors);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            return View(colors);
+            return View(command);
         }
 
         // GET: Admin/Colors/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(ProductColorSingleQuery query)
         {
-            if (id == null)
+            var color = await mediator.Send(query);
+            if (color == null)
             {
                 return NotFound();
             }
+            ProductColorViewModel vm = new();
+            vm.Name = color.Name;
+            vm.Description = color.Description;
+            vm.HexCode = color.HexCode;
 
-            var colors = await _context.Colors.FindAsync(id);
-            if (colors == null)
-            {
-                return NotFound();
-            }
-            return View(colors);
+            return View(vm);
         }
 
         // POST: Admin/Colors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Colors colors)
+        public async Task<IActionResult> Edit(ProductColorEditCommand command)
         {
-            if (id != colors.Id)
+            var response = await mediator.Send(command);
+            if (response > 0)
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(colors);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ColorsExists(colors.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(colors);
+
+            return View(command);
         }
 
-        // GET: Admin/Colors/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(ProductColorDeleteCommand command)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var colors = await _context.Colors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (colors == null)
-            {
-                return NotFound();
-            }
-
-            return View(colors);
-        }
-
-        // POST: Admin/Colors/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var colors = await _context.Colors.FindAsync(id);
-            _context.Colors.Remove(colors);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ColorsExists(int id)
-        {
-            return _context.Colors.Any(e => e.Id == id);
+            var response = await mediator.Send(command);
+            return Json(response);
         }
     }
 }

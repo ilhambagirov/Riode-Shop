@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Riode.WebUI.Models.ViewModels
 {
-    public class CategoryViewModel
+    public class CategoryViewModels
     {
 
         public List<Category> Category { get; set; }

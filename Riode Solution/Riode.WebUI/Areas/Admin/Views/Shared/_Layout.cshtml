@@ -668,13 +668,14 @@
                         data: {id},
                         contentType: 'application/x-www-form-urlencoded',
                         dataType: 'json',
-                        beforeSend: function () {
-                            $('.loader').show()
+                          beforeSend: function () {
+                              console.log("girdi")
                         },
                         success: function (response) {
                             if (response.error == false) {
                                 toastr.success(response.message, "Successfuly")
                                 window.location.reload()
+                                console.log("aue")
                             }
                             else {
                                 toastr.error(response.message, "Error")
@@ -684,7 +685,7 @@
                             console.log(response)
                         }
                     }).always(function () {
-                        $('.loader').hide()
+                        console.log("cixdi")
                     })
                 }
             });

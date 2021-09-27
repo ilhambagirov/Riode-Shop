@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.ViewModels;
@@ -7,6 +8,7 @@ using System.Linq;
 
 namespace Riode.WebUI.Controllers
 {
+    [AllowAnonymous]
     public class BlogController : Controller
     {
         readonly RiodeDBContext db;
@@ -18,11 +20,14 @@ namespace Riode.WebUI.Controllers
         {
 
             int productCount = 3;
-            ViewBag.pageCount = Decimal.Ceiling((decimal)db.Blogs.Where(c => c.DeleteByUserId == null).Count() / productCount);
+            ViewBag.pageCount = Decimal.Ceiling((decimal)db.Blogs.Where(c => c.DeleteByUserId == null && c.PublishedDate != null).Count() / productCount);
             ViewBag.Page = page;
+
             var blogs = db.Blogs
-             .Where(c => c.DeleteByUserId == null && c.PublishedDate != null).Skip((page - 1) * productCount).Take(productCount)
-             .ToList();
+             .Where(c => c.DeleteDate == null && c.PublishedDate != null).Skip((page - 1) * productCount).Take(productCount)
+            .ToList();
+             productCount = 3;
+
             return View(blogs);
         }
 
@@ -37,12 +42,14 @@ namespace Riode.WebUI.Controllers
                 .ThenInclude(c => c.Children)
                 .Where(c => c.ParentId == null && c.DeleteByUserId == null).ToList();
 
+            bc.Blogs = db.Blogs
+                       .Where(c => c.DeleteByUserId == null && c.PublishedDate != null)
+                       .ToList();
+
             bc.Blog = db.Blogs
             .FirstOrDefault(c => c.DeleteByUserId == null && c.Id == id && c.PublishedDate != null);
 
-            bc.Blogs = db.Blogs
-           .Where(c => c.DeleteByUserId == null && c.PublishedDate != null)
-           .ToList();
+
 
             return View(bc);
         }

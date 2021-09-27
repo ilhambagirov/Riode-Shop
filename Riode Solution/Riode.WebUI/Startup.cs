@@ -1,10 +1,8 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -76,17 +74,17 @@ namespace Riode.WebUI
 
             });
 
-          /*  services.ConfigureApplicationCookie(cfg =>
+            services.ConfigureApplicationCookie(cfg =>
             {
                 cfg.LoginPath = "/signin.html";
                 cfg.AccessDeniedPath = "/accessdenied.html";
 
                 cfg.ExpireTimeSpan = new System.TimeSpan(0, 5, 0);
                 cfg.Cookie.Name = "Riode";
-            });*/
+            });
 
-            /*services.AddAuthentication();
-            services.AddAuthorization();*/
+            services.AddAuthentication();
+            services.AddAuthorization();
 
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
@@ -119,8 +117,8 @@ namespace Riode.WebUI
 
             app.UseAuditMiddleware();
 
-            /*app.UseAuthentication();
-            app.UseAuthorization();*/
+            app.UseAuthentication();
+            app.UseAuthorization();
 
 
             app.UseEndpoints(endpoints =>
@@ -148,14 +146,14 @@ namespace Riode.WebUI
                  name: "areas",
                  pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
                      );
-               /* endpoints.MapControllerRoute("default-signIn", "signin.html",
+                endpoints.MapControllerRoute("default-signIn", "signin.html",
                     defaults: new
                     {
                         controller = "Account",
                         area = "",
                         action = "login"
                     }
-                    );*/
+                    );
 
 
                 endpoints.MapControllerRoute("default-with-lang", "{lang}/{controller=home}/{action=index}/{id?}",
