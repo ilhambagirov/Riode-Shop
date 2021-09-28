@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {
-    [AllowAnonymous]
     [Area("Admin")]
     public class DashboardController : Controller
     {

@@ -1,8 +1,10 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,11 +37,11 @@ namespace Riode.WebUI
             {
                 cfg.ModelBinderProviders.Insert(0, new BooleanBinderProvider());
 
-                /*var policy = new AuthorizationPolicyBuilder()
+                var policy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build();
 
-                cfg.Filters.Add(new AuthorizeFilter(policy));*/
+                cfg.Filters.Add(new AuthorizeFilter(policy));
             })
                 .AddNewtonsoftJson(nt =>
                 {
@@ -102,10 +104,22 @@ namespace Riode.WebUI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.SeedMembership();
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.Use(async (context, next) =>
+            {
+                if (!context.User.Identity.IsAuthenticated && context.Request.RouteValues.TryGetValue("area", out object area)
+                && area.ToString().ToLower().Equals("Admin")
+                )
+                {
+                    context.Request.Path = "/admin/signin.html";
+
+                }
+                await next();
+            });
 
             app.UseRequestLocalization(cfg =>
             {
@@ -133,6 +147,14 @@ namespace Riode.WebUI
                     }
                 }
                     );
+                endpoints.MapControllerRoute("admin-signIn", "admin/signin.html",
+                  defaults: new
+                  {
+                      controller = "Account",
+                      area = "Admin",
+                      action = "login"
+                  }
+                  );
                 endpoints.MapControllerRoute(
                 name: "areas-with-lang",
                 pattern: "{lang}/{area:exists}/{controller=Dashboard}/{action=Index}/{id?}",
@@ -146,15 +168,16 @@ namespace Riode.WebUI
                  name: "areas",
                  pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
                      );
+
+
                 endpoints.MapControllerRoute("default-signIn", "signin.html",
                     defaults: new
                     {
                         controller = "Account",
-                        area = "",
+                        area = "Admin",
                         action = "login"
                     }
                     );
-
 
                 endpoints.MapControllerRoute("default-with-lang", "{lang}/{controller=home}/{action=index}/{id?}",
                        constraints: new
