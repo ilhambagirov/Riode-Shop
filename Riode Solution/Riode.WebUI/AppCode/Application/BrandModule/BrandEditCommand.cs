@@ -23,7 +23,7 @@ namespace Riode.WebUI.AppCode.Application.BrandModule
             public async Task<int> Handle(BrandEditCommand request, CancellationToken cancellationToken)
             {
 
-                if (/*request.Id == null ||*/ request.Id < 0)
+                if (request.Id == null || request.Id < 0)
                 {
                     return 0;
                 }

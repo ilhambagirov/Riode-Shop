@@ -25,7 +25,7 @@
         </figure>
         <div class="product-details">
             <div class="product-cat">
-                <a href="shop-grid-3col.html">@item.Category.Name</a>
+                <a href="shop-grid-3col.html">@item?.Category?.Name</a>
             </div>
             <h3 class="product-name">
                 <a asp-controller="shop" asp-action="details" asp-route-id="@item.Id">@item.Name</a>

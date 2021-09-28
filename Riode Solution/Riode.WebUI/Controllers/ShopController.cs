@@ -25,7 +25,7 @@ namespace Riode.WebUI.Controllers
                 .Include(c => c.Parent)
                 .Include(c => c.Children)
                 .ThenInclude(c => c.Children)
-                .Where(c => c.ParentId == null && c.DeleteByUserId == null)
+                .Where(c => c.ParentId == null && c.DeleteByUserId == null && c.DeleteDate == null)
                 .ToList();
 
             viewmodel.Brands = db.Brands
@@ -47,6 +47,7 @@ namespace Riode.WebUI.Controllers
             viewmodel.Products = db.Products
               .Include(p => p.Images.Where(i => i.IsMain == true && i.DeleteByUserId == null))
               .Include(C => C.Brand)
+              .Include(C => C.Category)
               .Where(c => c.DeleteByUserId == null)/*.Skip((page-1)* productCount).Take(productCount)*///2
               .ToList();
 
@@ -61,7 +62,7 @@ namespace Riode.WebUI.Controllers
             var query = db.Products
                  .Include(p => p.Images.Where(i => i.IsMain == true))
                  .Include(c => c.Brand)
-                 .Include(c => c.Category)
+                 .Include(c => c.Category).Where(c => c.DeleteByUserId == null && c.DeleteDate == null)
                  .Include(c => c.ProductSizeColorCollection)
                  .Where(c => c.DeleteByUserId == null)
                  .AsQueryable();

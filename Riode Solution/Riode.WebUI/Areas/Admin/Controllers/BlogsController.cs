@@ -83,9 +83,15 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Blogs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(BlogEditCommand command)
+        public async Task<IActionResult> Edit([FromRoute]int id ,BlogEditCommand command)
         {
-            var id = await mediator.Send(command);
+            if (id != command.Id)
+            {
+                return NotFound();
+            }
+
+            var _id = await mediator.Send(command);
+           
             if (id > 0)
             {
                 return RedirectToAction(nameof(Index));
