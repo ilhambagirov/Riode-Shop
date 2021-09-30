@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Riode.WebUI.AppCode.Application.CategoryModule;
@@ -19,14 +20,14 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             this.mediator = mediator;
         }
 
-        // GET: Admin/Categories
+        [Authorize(Policy = "admin.categories.index")]
         public async Task<IActionResult> Index(CategoryPagedQuery query)
         {
             var response = await mediator.Send(query);
             return View(response);
         }
 
-        // GET: Admin/Categories/Details/5
+        [Authorize(Policy = "admin.categories.details")]
         public async Task<IActionResult> Details(CategorySingleQuery query)
         {
             var category = await mediator.Send(query);
@@ -37,7 +38,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(category);
         }
 
-        // GET: Admin/Categories/Create
+        [Authorize(Policy = "admin.categories.create")]
         public IActionResult Create()
         {
             ViewData["ParentId"] = new SelectList(_context.Category, "Id", "Name");
@@ -58,7 +59,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(response);
         }
 
-        // GET: Admin/Categories/Edit/5
+        [Authorize(Policy = "admin.categories.edit")]
         public async Task<IActionResult> Edit(CategorySingleQuery query)
         {
             var category = await mediator.Send(query);
@@ -91,6 +92,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "admin.categories.delete")]
         public async Task<IActionResult> Delete(CategoryDeleteCommand command)
         {
             var response = await mediator.Send(command);

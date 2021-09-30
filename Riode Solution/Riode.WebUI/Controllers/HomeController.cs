@@ -21,6 +21,7 @@ namespace Riode.WebUI.Controllers
             this.db = db;
             this.configuration = configuration;
         }
+
         public IActionResult Index()
         {
             return View();

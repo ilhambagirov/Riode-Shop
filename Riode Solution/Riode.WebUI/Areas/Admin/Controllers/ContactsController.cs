@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Riode.WebUI.AppCode.Extensions;
@@ -21,7 +22,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             this.configuration = configuration;
         }
 
-        // GET: Admin/Contacts
+        [Authorize(Policy = "admin.contacts.index")]
         public async Task<IActionResult> Index(int typeId)
         {
 
@@ -47,7 +48,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(await query.ToListAsync());
         }
 
-        // GET: Admin/Contacts/Details/5
+        [Authorize(Policy = "admin.contacts.details")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -65,6 +66,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(contact);
         }
 
+        [Authorize(Policy = "admin.contacts.answer")]
         public async Task<IActionResult> Answer([FromRoute] int id, [Bind("Id,Answer")] Contact model)
         {
             if (model == null)
@@ -97,6 +99,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return RedirectToAction("index");
         }
 
+        [Authorize(Policy = "admin.contacts.mark")]
         public async Task<IActionResult> Mark([FromRoute] int id, [Bind("Id,Marked")] Contact model)
         {
             if (model == null)

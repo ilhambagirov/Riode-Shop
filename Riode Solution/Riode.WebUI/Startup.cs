@@ -86,7 +86,19 @@ namespace Riode.WebUI
             });
 
             services.AddAuthentication();
-            services.AddAuthorization();
+            services.AddAuthorization(cfg=> {
+                cfg.AddPolicy("shop.index", p =>
+                {
+                    p.RequireAssertion(assertion =>
+                    {
+
+                        var result= assertion.User.HasClaim(c => c.Type.Equals("shop.index") && c.Value.Equals(1));
+                        return result;
+                     });
+                });
+
+
+            });
 
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
@@ -111,12 +123,16 @@ namespace Riode.WebUI
 
             app.Use(async (context, next) =>
             {
-                if (!context.User.Identity.IsAuthenticated && context.Request.RouteValues.TryGetValue("area", out object area)
-                && area.ToString().ToLower().Equals("Admin")
+                if (!context.Request.Cookies.ContainsKey("Riode") && context.Request.RouteValues.TryGetValue("area", out object area)
+                && area.ToString().ToLower().Equals("admin")
                 )
                 {
-                    context.Request.Path = "/admin/signin.html";
-
+                    var attr = context.GetEndpoint().Metadata.GetMetadata<AllowAnonymousAttribute>();
+                    if (attr == null)
+                    {
+                        context.Response.Redirect("/admin/signin.html");
+                        await context.Response.CompleteAsync();
+                    }
                 }
                 await next();
             });
@@ -147,14 +163,7 @@ namespace Riode.WebUI
                     }
                 }
                     );
-                endpoints.MapControllerRoute("admin-signIn", "admin/signin.html",
-                  defaults: new
-                  {
-                      controller = "Account",
-                      area = "Admin",
-                      action = "login"
-                  }
-                  );
+              
                 endpoints.MapControllerRoute(
                 name: "areas-with-lang",
                 pattern: "{lang}/{area:exists}/{controller=Dashboard}/{action=Index}/{id?}",
@@ -169,12 +178,27 @@ namespace Riode.WebUI
                  pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
                      );
 
-
+                endpoints.MapControllerRoute("admin-signIn", "admin/signin.html",
+                defaults: new
+                {
+                    controller = "Account",
+                    area = "Admin",
+                    action = "login"
+                }
+                );
+                endpoints.MapControllerRoute("admin-signout", "admin/signout.html",
+               defaults: new
+               {
+                   controller = "Account",
+                   area = "Admin",
+                   action = "login"
+               }
+               );
                 endpoints.MapControllerRoute("default-signIn", "signin.html",
                     defaults: new
                     {
                         controller = "Account",
-                        area = "Admin",
+                        area = "",
                         action = "login"
                     }
                     );

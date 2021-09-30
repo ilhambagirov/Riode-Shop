@@ -4,14 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Riode.WebUI.AppCode.Extensions;
 using Riode.WebUI.Models.Entities.Membership;
 using Riode.WebUI.Models.FormModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {
-    [AllowAnonymous]
     [Area("Admin")]
     public class AccountController : Controller
     {
@@ -22,12 +18,14 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginFormModel model)
         {
             if (ModelState.IsValid)
@@ -48,7 +46,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
                     return View(model);
                 }
 
-                var signInResult = await signInManager.PasswordSignInAsync(found, model.Password,false,true);
+                var signInResult = await signInManager.PasswordSignInAsync(found, model.Password, false, true);
                 if (!signInResult.Succeeded)
                 {
                     ViewBag.Message = "Username or Password is incorrect";
@@ -57,10 +55,15 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
                 return RedirectToAction("index", "Dashboard");
             }
-
+            ViewBag.Message = "Fill the required fields!";
             return View(model);
         }
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
 
+            return RedirectToAction(nameof(Login));
+        }
         public IActionResult ForgotPassword()
         {
             return View();

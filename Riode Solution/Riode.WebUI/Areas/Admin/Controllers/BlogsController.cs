@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,14 +23,14 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             this.mediator = mediator;
         }
 
-        // GET: Admin/Blogs
+        [Authorize(Policy = "admin.blogs.index")]
         public async Task<IActionResult> Index(BlogPagedQuery query)
         {
             var response = await mediator.Send(query);
             return View(response);
         }
 
-        // GET: Admin/Blogs/Details/5
+        [Authorize(Policy = "admin.blogs.details")]
         public async Task<IActionResult> Details(BlogSingleQuery query)
         {
             var blog = await mediator.Send(query);
@@ -41,7 +42,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(blog);
         }
 
-        // GET: Admin/Blogs/Create
+        [Authorize(Policy = "admin.blogs.create")]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(db.Category, "Id", "Name");
@@ -62,7 +63,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(command);
         }
 
-        // GET: Admin/Blogs/Edit/5
+        [Authorize(Policy = "admin.blogs.edit")]
         public async Task<IActionResult> Edit(BlogSingleQuery query)
         {
             var blog = await mediator.Send(query);
@@ -103,6 +104,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "admin.blogs.delete")]
         public async Task<IActionResult> Delete(BlogDeleteCommand command)
         {
             var response = await mediator.Send(command);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,13 +21,13 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/FAQs
+        [Authorize(Policy = "admin.faq.index")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.FAQs.ToListAsync());
         }
 
-        // GET: Admin/FAQs/Details/5
+        [Authorize(Policy = "admin.faq.details")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,7 +45,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(fAQ);
         }
 
-        // GET: Admin/FAQs/Create
+        [Authorize(Policy = "admin.faq.create")]
         public IActionResult Create()
         {
             return View();
@@ -66,7 +67,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(fAQ);
         }
 
-        // GET: Admin/FAQs/Edit/5
+        [Authorize(Policy = "admin.faq.edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

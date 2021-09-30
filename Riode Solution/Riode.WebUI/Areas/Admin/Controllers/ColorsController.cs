@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.AppCode.Application.ProductColorModule;
@@ -22,14 +23,14 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             this.mediator = mediator;
         }
 
-        // GET: Admin/Colors
+        [Authorize(Policy = "admin.colors.index")]
         public async Task<IActionResult> Index(ProductColorPagedQuery query)
         {
             var response = await mediator.Send(query);
             return View(response);
         }
 
-        // GET: Admin/Colors/Details/5
+        [Authorize(Policy = "admin.colors.details")]
         public async Task<IActionResult> Details(ProductColorSingleQuery query)
         {
             var color = await mediator.Send(query);
@@ -41,7 +42,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(color);
         }
 
-        // GET: Admin/Colors/Create
+        [Authorize(Policy = "admin.colors.create")]
         public IActionResult Create()
         {
             return View();
@@ -60,7 +61,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(command);
         }
 
-        // GET: Admin/Colors/Edit/5
+        [Authorize(Policy = "admin.colors.edit")]
         public async Task<IActionResult> Edit(ProductColorSingleQuery query)
         {
             var color = await mediator.Send(query);
@@ -91,6 +92,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "admin.colors.delete")]
         public async Task<IActionResult> Delete(ProductColorDeleteCommand command)
         {
             var response = await mediator.Send(command);

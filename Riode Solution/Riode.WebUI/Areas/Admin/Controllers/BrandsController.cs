@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Riode.WebUI.AppCode.Application.BrandModule;
@@ -20,14 +21,14 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             this.mediatr = mediatr;
         }
 
-        // GET: Admin/Brands
+        [Authorize(Policy="admin.brands.index")]
         public async Task<IActionResult> Index(BrandPagedQuery request)
         {
             var response = await mediatr.Send(request);
             return View(response);
         }
 
-        // GET: Admin/Brands/Details/5
+        [Authorize(Policy = "admin.brands.details")]
         public async Task<IActionResult> Details(BrandSingleQuery request)
         {
             var brand = await mediatr.Send(request);
@@ -40,7 +41,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(brand);
         }
 
-        // GET: Admin/Brands/Create
+        [Authorize(Policy = "admin.brands.create")]
         public IActionResult Create()
         {
             return View();
@@ -58,7 +59,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(brand);
         }
 
-        // GET: Admin/Brands/Edit/5
+        [Authorize(Policy = "admin.brands.edit")]
         public async Task<IActionResult> Edit(BrandSingleQuery request)
         {
             var brand = await mediatr.Send(request);
@@ -89,6 +90,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "admin.brands.delete")]
         public async Task<IActionResult> Delete(BrandDeleteCommand request)
         {
             var response = await mediatr.Send(request);

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Riode.WebUI.AppCode.Application.ProductSizeModule;
 using Riode.WebUI.Models.DataContext;
@@ -18,14 +19,14 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             this.mediator = mediator;
         }
 
-        // GET: Admin/Sizes
+        [Authorize(Policy = "admin.sizes.index")]
         public async Task<IActionResult> Index(ProductSizePagedQuery query)
         {
             var sizes = await mediator.Send(query);
             return View(sizes);
         }
 
-        // GET: Admin/Sizes/Details/5
+        [Authorize(Policy = "admin.sizes.details")]
         public async Task<IActionResult> Details(ProductSizeSingleQuery query)
         {
             var size = await mediator.Send(query);
@@ -37,7 +38,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(size);
         }
 
-        // GET: Admin/Sizes/Create
+        [Authorize(Policy = "admin.sizes.create")]
         public IActionResult Create()
         {
             return View();
@@ -57,7 +58,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(command);
         }
 
-        // GET: Admin/Sizes/Edit/5
+        [Authorize(Policy = "admin.sizes.edit")]
         public async Task<IActionResult> Edit(ProductSizeSingleQuery query)
         {
             var size = await mediator.Send(query);
@@ -89,6 +90,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "admin.sizes.delete")]
         public async Task<IActionResult> Delete(ProductSizeDeleteCommand command)
         {
             var response = await mediator.Send(command);

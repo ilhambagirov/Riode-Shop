@@ -37,7 +37,7 @@
                                         </div>
                                         <div class="modal-body">
                                             @ViewBag.Message
-                                            <form method="post">
+                                            <form asp-action="Login" method="post">
                                                 <label class="col-form-label" asp-for="UserName">Username or Email</label>
                                                 <input type="text" asp-for="UserName" class="form-control" placeholder="Enter your email">
 

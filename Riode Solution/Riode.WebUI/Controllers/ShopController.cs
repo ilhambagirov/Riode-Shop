@@ -9,7 +9,6 @@ using System.Linq;
 
 namespace Riode.WebUI.Controllers
 {
-    [AllowAnonymous]
     public class ShopController : Controller
     {
         readonly RiodeDBContext db;
@@ -17,6 +16,7 @@ namespace Riode.WebUI.Controllers
         {
             this.db = db;
         }
+        [Authorize(Policy = "shop.index")]
         public IActionResult Index(int page = 1)
         {
 
@@ -107,6 +107,8 @@ namespace Riode.WebUI.Controllers
 
               return PartialView("_ProductContainer", product);
           }*/
+
+        [Authorize(Policy = "blog.details")]
         public IActionResult Details(int id)
         {
             var product = db.Products

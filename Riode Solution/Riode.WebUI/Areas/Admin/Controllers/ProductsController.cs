@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             this.env = env;
         }
 
-        // GET: Admin/Products
+        [Authorize(Policy = "admin.product.index")]
         public async Task<IActionResult> Index()
         {
             var riodeDBContext = _context.Products.Include(p => p.Brand).Include(p => p.Category)
@@ -34,7 +35,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(await riodeDBContext.ToListAsync());
         }
 
-        // GET: Admin/Products/Details/5
+        [Authorize(Policy = "admin.product.details")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -55,7 +56,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(products);
         }
 
-        // GET: Admin/Products/Create
+        [Authorize(Policy = "admin.product.create")]
         public IActionResult Create()
         {
             ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Name");
@@ -117,7 +118,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
             return View(products);
         }
 
-        // GET: Admin/Products/Edit/5
+        [Authorize(Policy = "admin.product.edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
