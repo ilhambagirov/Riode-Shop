@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -61,6 +62,8 @@ namespace Riode.WebUI
             services.AddScoped<SignInManager<RiodeUser>>();
             services.AddScoped<RoleManager<RiodeRole>>();
 
+            services.AddScoped<IClaimsTransformation,AppClaimProvider>();
+
             services.Configure<IdentityOptions>(cfg =>
             {
                 cfg.Password.RequireDigit = false;
@@ -86,17 +89,22 @@ namespace Riode.WebUI
             });
 
             services.AddAuthentication();
-            services.AddAuthorization(cfg=> {
-                cfg.AddPolicy("shop.index", p =>
+            services.AddAuthorization(cfg =>
+            {
+                foreach (var item in Program.principlies)
                 {
-                    p.RequireAssertion(assertion =>
+                    cfg.AddPolicy(item, p =>
                     {
+                        p.RequireAssertion(assertion =>
+                        {
+                            return
+                            assertion.User.IsInRole("SuperAdmin") ||
+                            assertion.User.HasClaim(c => c.Type.Equals(item) && c.Value.Equals("1"));
 
-                        var result= assertion.User.HasClaim(c => c.Type.Equals("shop.index") && c.Value.Equals(1));
-                        return result;
-                     });
-                });
+                        });
+                    });
 
+                }
 
             });
 
@@ -163,7 +171,7 @@ namespace Riode.WebUI
                     }
                 }
                     );
-              
+
                 endpoints.MapControllerRoute(
                 name: "areas-with-lang",
                 pattern: "{lang}/{area:exists}/{controller=Dashboard}/{action=Index}/{id?}",

@@ -52,6 +52,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Blogs/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.blogs.create")]
         public async Task<IActionResult> Create(BlogCreateCommand command)
         {
             var id = await mediator.Send(command);
@@ -84,6 +85,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Blogs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.blogs.edit")]
         public async Task<IActionResult> Edit([FromRoute]int id ,BlogEditCommand command)
         {
             if (id != command.Id)

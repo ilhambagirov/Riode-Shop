@@ -50,6 +50,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Brands/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.brands.create")]
         public async Task<IActionResult> Create(BrandCreateCommand brand)
         {
             var id = await mediatr.Send(brand);
@@ -79,6 +80,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Brands/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.brands.edit")]
         public async Task<IActionResult> Edit(BrandEditCommand request)
         {
             int id = await mediatr.Send(request);

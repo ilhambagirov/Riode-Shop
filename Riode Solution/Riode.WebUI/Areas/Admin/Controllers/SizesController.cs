@@ -47,6 +47,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Sizes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.sizes.create")]
         public async Task<IActionResult> Create(ProductSizeCreateCommand command)
         {
             var response = await mediator.Send(command);
@@ -78,6 +79,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.sizes.edit")]
         public async Task<IActionResult> Edit(ProductSizeEditCommand command)
         {
             var response = await mediator.Send(command);

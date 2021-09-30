@@ -108,7 +108,7 @@ namespace Riode.WebUI.Controllers
               return PartialView("_ProductContainer", product);
           }*/
 
-        [Authorize(Policy = "blog.details")]
+        [Authorize(Policy = "shop.details")]
         public IActionResult Details(int id)
         {
             var product = db.Products

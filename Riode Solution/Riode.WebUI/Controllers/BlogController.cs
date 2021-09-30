@@ -8,7 +8,6 @@ using System.Linq;
 
 namespace Riode.WebUI.Controllers
 {
-    [AllowAnonymous]
     public class BlogController : Controller
     {
         readonly RiodeDBContext db;
@@ -16,6 +15,7 @@ namespace Riode.WebUI.Controllers
         {
             this.db = db;
         }
+
         [Authorize(Policy = "blog.index")]
         public IActionResult Blog(int page = 1)
         {
@@ -31,6 +31,7 @@ namespace Riode.WebUI.Controllers
 
             return View(blogs);
         }
+
         [Authorize(Policy = "blog.details")]
         public IActionResult BlogSingle(int id)
         {

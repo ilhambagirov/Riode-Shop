@@ -51,6 +51,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Colors/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.colors.create")]
         public async Task<IActionResult> Create(ProductColorCreateCommand command)
         {
             var response = await mediator.Send(command);
@@ -80,6 +81,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Colors/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.colors.edit")]
         public async Task<IActionResult> Edit(ProductColorEditCommand command)
         {
             var response = await mediator.Send(command);

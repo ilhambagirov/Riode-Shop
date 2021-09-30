@@ -48,6 +48,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Categories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.categories.create")]
         public async Task<IActionResult> Create(CategoryCreateCommand command)
         {
             var response = await mediator.Send(command);
@@ -78,6 +79,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Categories/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.categories.edit")]
         public async Task<IActionResult> Edit(CategoryEditCommand command)
         {
             var response = await mediator.Send(command);

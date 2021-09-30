@@ -67,8 +67,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = "admin.product.create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,SKUCode,BrandId,CategoryId,ShortDescription,Description,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] Products products, ImageItem[] images)
@@ -141,6 +140,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         // POST: Admin/Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "admin.product.edit")]
         public async Task<IActionResult> Edit(int id, Products products)
         {
             if (id != products.Id)

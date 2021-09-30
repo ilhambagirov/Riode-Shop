@@ -50,11 +50,11 @@ namespace Riode.WebUI.Controllers
                     return View(model);
                 }
 
-                /*if (!await userManager.IsInRoleAsync(found, "User"))
+                if (!await userManager.IsInRoleAsync(found, "User"))
                 {
                     ViewBag.Message = "Username or Password is incorrect";
                     return View(model);
-                }*/
+                }
 
                 var signInResult = await signInManager.PasswordSignInAsync(found, model.Password, false, true);
                 if (!signInResult.Succeeded)
@@ -80,7 +80,7 @@ namespace Riode.WebUI.Controllers
         {
             return View();
         }
-
+        [Authorize(Policy = "account.wishlist")]
         public IActionResult WishList()
         {
             return View();

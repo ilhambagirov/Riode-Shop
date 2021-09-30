@@ -52,8 +52,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/FAQs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = "admin.faq.create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Question,Answer,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] FAQ fAQ)
@@ -84,8 +83,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         // POST: Admin/FAQs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = "admin.faq.edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Question,Answer,Id,CreatedByUserId,CreatedDate,DeleteByUserId,DeleteDate")] FAQ fAQ)
