@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Riode.WebUI.AppCode.Application.MailBoxModule;
 using Riode.WebUI.AppCode.Extensions;
 using Riode.WebUI.Models.DataContext;
 using Riode.WebUI.Models.Entities;
@@ -16,48 +18,27 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     {
         private readonly RiodeDBContext _context;
         private readonly IConfiguration configuration;
-        public ContactsController(RiodeDBContext context, IConfiguration configuration)
+        readonly IMediator mediator;
+        public ContactsController(RiodeDBContext context, IConfiguration configuration,IMediator mediator)
         {
             _context = context;
             this.configuration = configuration;
+            this.mediator = mediator;
         }
 
         [Authorize(Policy = "admin.contacts.index")]
-        public async Task<IActionResult> Index(int typeId)
+        public async Task<IActionResult> Index(MailBoxPagedQuery query)
         {
 
-            var query = _context.ContactPosts.Where(cp => cp.DeleteByUserId == null).AsQueryable();
-            ViewBag.all = query.Count();
-            ViewBag.ha = query.Where(cp => cp.AnswerBy != null).Count();
-            ViewBag.na = query.Where(cp => cp.AnswerBy == null).Count();
-            ViewBag.Marked = query.Where(cp => cp.Marked == true).Count();
-            switch (typeId)
-            {
-                case 1:
-                    query = query.Where(cp => cp.AnswerBy != null);
-                    break;
-                case 2:
-                    query = query.Where(cp => cp.AnswerBy == null);
-                    break;
-                case 3:
-                    query = query.Where(cp => cp.Marked == true);
-                    break;
-                default:
-                    break;
-            }
-            return View(await query.ToListAsync());
+            var response = await mediator.Send(query);
+            return View(response);
         }
 
         [Authorize(Policy = "admin.contacts.details")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(MailBoxSingleQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var contact = await mediator.Send(query);
 
-            var contact = await _context.ContactPosts
-                .FirstOrDefaultAsync(m => m.Id == id && m.DeleteByUserId == null && m.AnswerDate == null);
             if (contact == null)
             {
                 return NotFound();

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Riode.WebUI.Models.Entities.Contact>
+﻿@model PagedViewModel<Contact>
 
 @{
     ViewData["Title"] = "Index";
@@ -25,13 +25,13 @@
             <div class="col-md-3">
                 <div class="email-sidebar white_box">
                     <ul class="text-left mt-2">
+                        @*todo with typeids and pagination*@
                         <li><a asp-action="index"><i class="ti-user"></i> <span> <span>All</span>  <span class="round_badge">@ViewBag.all</span> </span> </a></li>
                         <li><a asp-route-typeId="1"><i class="ti-crown"></i> <span> <span>Have Answered</span>  <span class="round_badge">@ViewBag.ha</span> </span> </a></li>
                         <li><a asp-route-typeId="2"><i class="ti-star"></i> <span> <span>Not Answered</span>  <span class="round_badge">@ViewBag.na</span> </span> </a></li>
                         <li><a asp-route-typeId="3"><i class="ti-announcement"></i> <span> <span>Marked</span> <span class="round_badge">@ViewBag.Marked</span>  </span> </a></li>
                         <li><a asp-route-typeId="4"><i class="ti-pin"></i> <span> <span>Spam</span> </span> </a></li>
                         <li><a asp-route-typeId="5"><i class="ti-trash"></i> <span> <span>Deleted</span>  </span> </a></li>
-
                     </ul>
                 </div>
             </div>
@@ -54,6 +54,9 @@
                     </div>
 
                     <div class="QA_table ">
+                        <div>
+                            @Model.GetPagenation(Url, "Index", "Admin")
+                        </div>
                         <!-- table-responsive -->
                         <table class="table lms_table_active">
                             <thead>
@@ -73,7 +76,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.Items)
                                 {
                                     var pending = item.AnswerBy == null;
                                     <tr @(pending ? "class=bold" : "")
@@ -154,6 +157,13 @@
         }
 
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.dataTables_info').hide();
+            $('.dataTables_paginate').hide();
+        })
+    </script>
+
 }
 
 
