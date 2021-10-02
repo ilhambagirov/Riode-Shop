@@ -80,8 +80,13 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "admin.categories.edit")]
-        public async Task<IActionResult> Edit(CategoryEditCommand command)
+        public async Task<IActionResult> Edit([FromRoute] int id,CategoryEditCommand command)
         {
+            if (id != command.Id)
+            {
+                return NotFound();
+            }
+
             var response = await mediator.Send(command);
 
             if (response > 0)

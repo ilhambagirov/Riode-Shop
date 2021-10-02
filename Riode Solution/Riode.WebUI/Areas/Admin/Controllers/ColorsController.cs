@@ -82,9 +82,15 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "admin.colors.edit")]
-        public async Task<IActionResult> Edit(ProductColorEditCommand command)
+        public async Task<IActionResult> Edit([FromRoute] int id ,ProductColorEditCommand command)
         {
+            if (id != command.Id)
+            {
+                return NotFound();
+            }
+
             var response = await mediator.Send(command);
+
             if (response > 0)
             {
                 return RedirectToAction(nameof(Index));

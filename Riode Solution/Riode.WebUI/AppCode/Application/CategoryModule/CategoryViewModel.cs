@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Riode.WebUI.AppCode.Application.CategoryModule
 {
-    public class CategoryViewModel : BaseEntity
+    public class CategoryViewModel
     {
+        public int? Id { get; set; }
         public int? ParentId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

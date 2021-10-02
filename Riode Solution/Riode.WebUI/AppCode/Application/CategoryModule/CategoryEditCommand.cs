@@ -23,7 +23,7 @@ namespace Riode.WebUI.AppCode.Application.CategoryModule
             public async Task<int> Handle(CategoryEditCommand request, CancellationToken cancellationToken)
             {
 
-                if (/*request.Id == null ||*/ request.Id < 0)
+                if (request.Id == null || request.Id < 0)
                 {
                     return 0;
                 }

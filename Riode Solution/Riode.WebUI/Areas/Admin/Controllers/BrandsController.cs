@@ -81,10 +81,16 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "admin.brands.edit")]
-        public async Task<IActionResult> Edit(BrandEditCommand request)
+        public async Task<IActionResult> Edit([FromRoute] int id,BrandEditCommand request)
         {
-            int id = await mediatr.Send(request);
-            if (id > 0)
+            if (id != request.Id)
+            {
+                return NotFound();
+            }
+
+            int _id = await mediatr.Send(request);
+
+            if (_id > 0)
             {
                 return RedirectToAction(nameof(Index));
             }

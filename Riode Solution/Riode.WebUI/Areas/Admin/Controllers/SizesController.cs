@@ -80,9 +80,15 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "admin.sizes.edit")]
-        public async Task<IActionResult> Edit(ProductSizeEditCommand command)
+        public async Task<IActionResult> Edit([FromRoute] int id, ProductSizeEditCommand command)
         {
+            if (id != command.Id)
+            {
+                return NotFound();
+            }
+
             var response = await mediator.Send(command);
+
             if (response > 0)
             {
                 return RedirectToAction(nameof(Index));
