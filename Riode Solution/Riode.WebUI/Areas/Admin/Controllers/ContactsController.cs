@@ -19,7 +19,7 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         private readonly RiodeDBContext _context;
         private readonly IConfiguration configuration;
         readonly IMediator mediator;
-        public ContactsController(RiodeDBContext context, IConfiguration configuration,IMediator mediator)
+        public ContactsController(RiodeDBContext context, IConfiguration configuration, IMediator mediator)
         {
             _context = context;
             this.configuration = configuration;
@@ -48,68 +48,43 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         }
 
         [Authorize(Policy = "admin.contacts.answer")]
-        public async Task<IActionResult> Answer([FromRoute] int id, [Bind("Id,Answer")] Contact model)
+        [HttpPost]
+        public async Task<IActionResult> Answer([FromRoute] int id, MailBoxAnswerCommand command)
         {
-            if (model == null)
+            if (id != command.Id)
             {
                 return NotFound();
             }
 
-            if (id != model.Id)
+            var response = await mediator.Send(command);
+
+            if (response != null)
             {
-                return NotFound();
+                return RedirectToAction("index");
             }
 
-
-            var contact = await _context.ContactPosts
-                .FirstOrDefaultAsync(m => m.Id == id && m.DeleteByUserId == null && m.AnswerDate == null);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-
-            contact.Answer = model.Answer;
-            contact.AnswerBy = 1;
-            contact.AnswerDate = DateTime.Now;
-            await _context.SaveChangesAsync();
-
-            var content = "ContactAnswerTemplate.html".GetStaticFileContent();
-
-            var mailSent = configuration.SendEmail(contact.Email, "Riode Answer", content.Replace("##answer##", contact.Answer));
-
-            return RedirectToAction("index");
+            return View(command);
         }
 
         [Authorize(Policy = "admin.contacts.mark")]
-        public async Task<IActionResult> Mark([FromRoute] int id, [Bind("Id,Marked")] Contact model)
+        public async Task<IActionResult> Mark([FromRoute] int id, MailBoxMarkCommand command)
         {
-            if (model == null)
+            if (id != command.Id)
             {
                 return NotFound();
             }
 
-            if (id != model.Id)
-            {
-                return NotFound();
-            }
-            var contact = await _context.ContactPosts
-                .FirstOrDefaultAsync(m => m.Id == id && m.DeleteByUserId == null);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            if (contact.Marked == true)
-            {
-                contact.Marked = false;
-            }
-            else
-            {
-                contact.Marked = true;
-            }
-
-            await _context.SaveChangesAsync();
+            await mediator.Send(command);
 
             return RedirectToAction("index");
+
+
+
+
+
+
+
+
         }
     }
 }

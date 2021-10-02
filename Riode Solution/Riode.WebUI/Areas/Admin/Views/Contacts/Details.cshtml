@@ -73,10 +73,10 @@
                 @Html.DisplayFor(model => model.DeleteDate)
             </dd>
             <dd class="col-sm-6 form-answer mb-2" style="display:none;">
-                <form method="post" asp-action="answer" asp-route-id="@Model.Id">
+                <form method="post" asp-action="answer">
                     <textarea name="answer" class="form-control" placeholder="Text Answer"></textarea>
-                    <input type="hidden" asp-for="Id"/>
-                    <button class="btn btn-success">Send</button>
+                    <input hidden asp-for="Id" />
+                    <button type="submit" class="btn btn-success">Send</button>
                 </form>
             </dd>
         </dl>
