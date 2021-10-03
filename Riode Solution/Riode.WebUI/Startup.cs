@@ -210,6 +210,14 @@ namespace Riode.WebUI
                         action = "login"
                     }
                     );
+                endpoints.MapControllerRoute("default-signIn", "register.html",
+                   defaults: new
+                   {
+                       controller = "Account",
+                       area = "",
+                       action = "register"
+                   }
+                   );
 
                 endpoints.MapControllerRoute("default-with-lang", "{lang}/{controller=home}/{action=index}/{id?}",
                        constraints: new

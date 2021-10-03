@@ -10,50 +10,62 @@
     <h1>Details</h1>
     <h4>Size</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Abbr)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Abbr)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedByUserId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatedByUserId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DeleteByUserId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DeleteByUserId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DeleteDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DeleteDate)
-        </dd>
-    </dl>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Name
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.Name
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Abbr
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.Abbr
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Description
+        </label>
+        <p class="textarea col-sm-10">
+            @Model.Description
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Created by User id
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.CreatedByUserId
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Created Date
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.CreatedDate
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Deleted by User Id
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.DeleteByUserId
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Deleted Date
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.DeleteDate
+        </p>
+    </div>
 </div>
 <div class="ml-5">
     <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 

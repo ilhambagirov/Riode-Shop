@@ -50,7 +50,6 @@ namespace Riode.WebUI.AppCode.Extensions
 
         public static string Decrypt(this string value, string key)
         {
-
             try
             {
                 using (var tdes = new TripleDESCryptoServiceProvider())

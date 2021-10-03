@@ -17,22 +17,20 @@
             <div class="card-body">
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label asp-for="Name" class="control-label">Size</label>
-                            <input asp-for="Name" class="form-control" placeholder="Size">
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label asp-for="Abbr" class="control-label">Abbreviation</label>
-                            <input asp-for="Abbr" class="form-control" placeholder="Abbreviation">
-                            <span asp-validation-for="Abbr" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label asp-for="Description" class="control-label">Description</label>
-                            <input asp-for="Description" class="form-control" placeholder="Description">
-                            <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
+                    <div class="form-group row d-flex">
+                        <label asp-for="Name" class="control-label col-sm-2">Size</label>
+                        <input asp-for="Name" class="form-control col-sm-10" placeholder="Size">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row d-flex">
+                        <label asp-for="Abbr" class="control-label col-sm-2">Abbreviation</label>
+                        <input asp-for="Abbr" class="form-control col-sm-10" placeholder="Abbreviation">
+                        <span asp-validation-for="Abbr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row d-flex">
+                        <label asp-for="Description" class="control-label col-sm-2">Description</label>
+                        <textarea asp-for="Description" class="form-control col-sm-10" placeholder="Description"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />

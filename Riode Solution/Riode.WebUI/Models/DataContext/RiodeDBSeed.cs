@@ -95,7 +95,6 @@ namespace Riode.WebUI.Models.DataContext
                     }
                 }
 
-
                 var foundUser = userManager.FindByEmailAsync(user.Email).Result;
 
                 if (foundUser != null && !userManager.IsInRoleAsync(foundUser, role.Name).Result)
