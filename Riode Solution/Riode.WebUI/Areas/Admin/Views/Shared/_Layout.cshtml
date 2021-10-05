@@ -213,6 +213,16 @@
                 </a>
             </li>
             <li>
+                <a asp-controller="users" asp-action="index" aria-expanded="false">
+                    <div class="nav_icon_small">
+                        <img src="~/uploads/images/menu-icon/17.svg" alt="">
+                    </div>
+                    <div class="nav_title">
+                        <span>Users</span>
+                    </div>
+                </a>
+            </li>
+            <li>
                 <a asp-controller="products" asp-action="index" aria-expanded="false">
                     <div class="nav_icon_small">
                         <img src="~/uploads/images/menu-icon/17.svg" alt="">
@@ -627,9 +637,10 @@
         })
     </script>
 
-    <link href="~/libs/toastr.js/toastr.css" rel="stylesheet" />
+
 
     <script src="~/libs/sweetalert/sweetalert.min.js"></script>
+    <link href="~/libs/toastr.js/toastr.css" rel="stylesheet" />
     <script src="~/libs/toastr.js/toastr.min.js"></script>
 
     <script>
@@ -690,8 +701,53 @@
                 }
             });
         }
-    </script>
 
+        function banUser(id, name, banned) {
+
+            if (banned == "True") {
+                var txt = `You will unblock '${name}' user!`
+            }
+            else {
+                var txt = `You will block '${name}' user!`
+            }
+            swal({
+                title: "Are you sure?",
+                text: txt,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                buttons: ["No, cancel plx!", "Yes, do it!"]
+            }).then(function(isConfirm) {
+                if (isConfirm) {
+                  $.ajax(
+                    {
+                        url: '@Url.Action("Ban")',
+                        type: 'POST',
+                        data: {id},
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'json',
+                          beforeSend: function () {
+                              console.log("girdi")
+                        },
+                        success: function (response) {
+                            if (response.error == false) {
+                                toastr.success(response.message, "Successfuly")
+                                console.log("aue")
+                            }
+                            else {
+                                toastr.error(response.message, "Error")
+                            }
+                        },
+                        error: function (response) {
+                            console.log(response)
+                        }
+                    }).always(function () {
+                        console.log("cixdi")
+                    })
+                }
+            });
+        }
+    </script>
 
     <script src="~/admin/js/custom.js"></script>
 

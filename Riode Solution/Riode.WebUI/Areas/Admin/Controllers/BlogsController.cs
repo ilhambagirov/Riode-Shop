@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Riode.WebUI.AppCode.Application.BlogModule;
 using Riode.WebUI.Models.DataContext;
+using Riode.WebUI.Models.ViewModels;
 using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
@@ -26,6 +27,8 @@ namespace Riode.WebUI.Areas.Admin.Controllers
         [Authorize(Policy = "admin.blogs.index")]
         public async Task<IActionResult> Index(BlogPagedQuery query)
         {
+
+           
             var response = await mediator.Send(query);
             return View(response);
         }
