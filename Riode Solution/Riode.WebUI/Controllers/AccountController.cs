@@ -39,6 +39,12 @@ namespace Riode.WebUI.Controllers
             return View();
         }
 
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+        public IActionResult PopupLogin()
+=======
+=======
+>>>>>>> origin/feature-membership
         [HttpPost]
         public async Task<IActionResult> Login(LoginFormModel model)
         {
@@ -92,6 +98,14 @@ namespace Riode.WebUI.Controllers
             return View(model);
         }
 
+<<<<<<< HEAD
+        public async Task<IActionResult>Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("login") ;
+        }
+=======
+>>>>>>> origin/feature-membership
         public IActionResult Register()
         {
             return View();
