@@ -17,13 +17,15 @@
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/animate/animate.min.css">
 
+    <link href="~/libs/toastr.js/toastr.css" rel="stylesheet" />
+
     <!-- Plugins CSS File -->
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/magnific-popup/magnific-popup.min.css">
     <link rel="stylesheet" type="text/css" href="~/assets/vendor/owl-carousel/owl.carousel.min.css">
 
     <!-- Main CSS File -->
     <link rel="stylesheet" type="text/css" href="~/assets/css/style.min.css">
-    @RenderSection("addcss", required:false)
+    @RenderSection("addcss", required: false)
 </head>
 <body class="home">
     <div class="page-wrapper">
@@ -44,13 +46,13 @@
                         </div>
                         <!-- End DropDown Menu -->
                         <div class="dropdown ml-5">
-                            <a href="#language">ENG</a>
+                            <a data-lang-viewer="language">ENG</a>
                             <ul class="dropdown-box">
                                 <li>
-                                    <a href="#USD">ENG</a>
+                                    <a href="#" data-lang="az">AZE</a>
                                 </li>
                                 <li>
-                                    <a href="#EUR">FRH</a>
+                                    <a href="#" data-lang="en">ENG</a>
                                 </li>
                             </ul>
                         </div>
@@ -58,6 +60,7 @@
                         <span class="divider"></span>
                         <a asp-controller="home" asp-action="contact" class="contact d-lg-show"><i class="d-icon-map"></i>Contact</a>
                         <a href="#" class="help d-lg-show"><i class="d-icon-info"></i> Need Help</a>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
                         <a class="login-link" asp-controller="account" asp-action="PopupLogin" data-toggle="login-modal">
                             <i class="d-icon-user"></i>Sign in
@@ -81,6 +84,13 @@
                             <a class=" ml-0" asp-controller="account" asp-action="register">Register</a>
                         }
 >>>>>>> Stashed changes
+=======
+                        <a asp-controller="account" asp-action="Login" asp-area="" >
+                            <i class="d-icon-user"></i>Sign in
+                        </a>
+                        <span class="delimiter">/</span>
+                        <a class=" ml-0" asp-controller="account" asp-action="register">Register</a>
+>>>>>>> origin/feature-membership
                         <!-- End of Login -->
                     </div>
                 </div>
@@ -240,85 +250,28 @@
                         <nav class="main-nav ml-0">
                             <ul class="menu">
                                 <li class="active">
-                                    <a asp-controller="home" asp-action="index">Home</a>
+                                    <a asp-controller="home" asp-action="index">@LayoutResource.Home</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="shop" asp-action="index">Shop</a>
+                                    <a asp-controller="home" asp-action="about">@LayoutResource.About_us</a>
                                 </li>
                                 <li>
-                                    <a href="#">Pages</a>
+                                    <a asp-controller="shop" asp-action="index">@LayoutResource.Shop</a>
+                                </li>
+                                <li>
+                                    <a href="#">@LayoutResource.Pages</a>
                                     <ul>
-                                        <li><a asp-controller="home" asp-action="about">About</a></li>
-                                        <li><a asp-controller="home" asp-action="contact">Contact Us</a></li>
                                         <li><a asp-controller="account" asp-action="index">My Account</a></li>
-                                        <li><a asp-controller="home" asp-action="WishList">Wishlist</a></li>
+                                        <li><a asp-controller="account" asp-action="WishList">Wishlist</a></li>
                                         <li><a asp-controller="home" asp-action="faq">FAQs</a></li>
-                                        <li><a asp-controller="home" asp-action="notFoundPage">Error 404</a></li>
-                                        <li><a asp-controller="home" asp-action="comingsSoon">Coming Soon</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a asp-controller="home" asp-action="blog">Blog</a>
-                                    @*<ul>
-                                            <li><a href="blog-classic.html">Classic</a></li>
-                                            <li><a href="blog-listing.html">Listing</a></li>
-                                            <li>
-                                                <a href="#">Grid</a>
-                                                <ul>
-                                                    <li><a href="blog-grid-2col.html">Grid 2 columns</a></li>
-                                                    <li><a href="blog-grid-3col.html">Grid 3 columns</a></li>
-                                                    <li><a href="blog-grid-4col.html">Grid 4 columns</a></li>
-                                                    <li><a href="blog-grid-sidebar.html">Grid sidebar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="#">Masonry</a>
-                                                <ul>
-                                                    <li><a href="blog-masonry-2col.html">Masonry 2 columns</a></li>
-                                                    <li><a href="blog-masonry-3col.html">Masonry 3 columns</a></li>
-                                                    <li><a href="blog-masonry-4col.html">Masonry 4 columns</a></li>
-                                                    <li><a href="blog-masonry-sidebar.html">Masonry sidebar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="#">Mask</a>
-                                                <ul>
-                                                    <li><a href="blog-mask-grid.html">Blog mask grid</a></li>
-                                                    <li><a href="blog-mask-masonry.html">Blog mask masonry</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="post-single.html">Single Post</a>
-                                            </li>
-                                        </ul>*@
+                                    <a asp-controller="blog" asp-action="blog">@LayoutResource.Blog</a>
                                 </li>
-                                <li class="d-xl-show">
-                                    <a asp-controller="home" asp-action="elements">Elements</a>
-                                    <ul>
-                                        <li><a asp-controller="home" asp-action="elements">Products</a></li>
-                                        <li><a asp-controller="home" asp-action="elements">Typography</a></li>
-                                        <li><a asp-controller="home" asp-action="elements">Titles</a></li>
-                                        <li><a asp-controller="home" asp-action="elements">Product Category</a></li>
-                                        <li><a asp-controller="home" asp-action="elements">Buttons</a></li>
-                                        <li><a asp-controller="home" asp-action="elements">Accordions</a></li>
-                                        @* <li><a href="element-alerts.html">Alert &amp; Notification</a></li>
-                                            <li><a href="element-tabs.html">Tabs</a></li>
-                                            <li><a href="element-testimonials.html">Testimonials</a></li>
-                                            <li><a href="element-blog-posts.html">Blog Posts</a></li>
-                                            <li><a href="element-instagrams.html">Instagrams</a></li>
-                                            <li><a href="element-cta.html">Call to Action</a></li>
-                                            <li><a href="element-icon-boxes.html">Icon Boxes</a></li>
-                                            <li><a href="element-icons.html">Icons</a></li>*@
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a asp-controller="home" asp-action="about">About Us</a>
-                                </li>
+                                <li><a asp-controller="home" asp-action="contact">@LayoutResource.Contact_us</a></li>
                             </ul>
                         </nav>
-                    </div>
-                    <div class="header-right">
-                        <a href="https://d-themes.com/buynow/riodehtml" target="_blank" class="ml-6">Buy Riode!</a>
                     </div>
                 </div>
             </div>
@@ -345,9 +298,13 @@
                                     <h4 class="widget-title">Subscribe to our Newsletter</h4>
                                     <p class="mb-0">Get all the latest information, Sales and Offers.</p>
                                 </div>
-                                <form action="#" class="input-wrapper input-wrapper-inline">
+                                <form id="frmsubscribe" method="post" class="input-wrapper input-wrapper-inline">
                                     <input type="email" class="form-control" name="email" id="email"
-                                           placeholder="Email address here..." required />
+                                           placeholder="Email address here..."
+                                           data-rule-required="true"
+                                           data-msg-required="Fill the form!"
+                                           data-rule-email="true"
+                                           data-msg-email="Not an Email!" />
                                     <button class="btn btn-primary btn-rounded btn-md ml-2" type="submit">
                                         subscribe<i class="d-icon-arrow-right"></i>
                                     </button>
@@ -695,7 +652,7 @@
         </div>
     </div>
 
-    <div class="newsletter-popup mfp-hide" id="newsletter-popup" style="background-image: url(images/newsletter-popup.jpg)">
+    <div class="newsletter-popup mfp-hide" id="newsletter-popup" style="background-image: url(uploads/images/newsletter-popup.jpg)">
         <div class="newsletter-content">
             <h4 class="text-uppercase text-dark">Up to <span class="text-primary">20% Off</span></h4>
             <h2 class="font-weight-semi-bold">Sign up to <span>RIODE</span></h2>
@@ -720,31 +677,105 @@
     <script src="~/assets/vendor/jquery/jquery.min.js"></script>
     <script src="~/assets/vendor/elevatezoom/jquery.elevatezoom.min.js"></script>
     <script src="~/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-
+    @RenderSection("addjs", required: false)
     <script src="~/assets/vendor/owl-carousel/owl.carousel.min.js"></script>
     <script src="~/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="~/assets/vendor/isotope/isotope.pkgd.min.js"></script>
     <script src="~/assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
     <script src="~/assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
+
+    <script src="~/libs/jquery-validate/jquery.validate.js"></script>
+    @*<script src="~/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>*@
+    <script src="~/libs/toastr.js/toastr.min.js"></script>
     <!-- Main JS File -->
     <script src="~/assets/js/main.min.js"></script>
 
-   @* <script>
+    <script>
+
         $(document).ready(function () {
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            $('#frmsubscribe').submit(function (e) {
+                e.preventDefault();
 
+                if (!$(e.currentTarget).valid())
+                    return;
 
-            $.ajax({
-                type: "POST",
-                url: "https://localhost:44397/home/contact",
-                success: function (response) {
-                    console.log(response);
-                }
+                const formData = new FormData(e.currentTarget)
+                $.ajax({
+                    url: '@Url.Action("Subscribe")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        console.log('before');
+                    },
+                    success: function (response) {
+                        console.log(response)
+                        if (response.error == false) {
+                            toastr.success(response.message, "Successfuly")
+                            e.currentTarget.reset();
+                        }
+                        else {
+                            toastr.error(response.message, "Error")
+                        }
+
+                    },
+                    error: function (response) {
+                        toastr.error("Try Again", "Error!")
+                    }
+                }).always(function () {
+                    console.log('after');
+                })
+            }).validate({
+                errorElement: 'span'
             });
 
+            const lang = `@Context.GetCurrentCulture()`
 
+            const selectedLanguage = $(`[data-lang="${lang}"]`).text();
+
+            $(`[data-lang-viewer="language"]`).text(selectedLanguage)
+
+            $('[data-lang]').click(function (e) {
+                e.preventDefault();
+
+                let path = `${window.location.pathname}${window.location.search}`;
+
+                let seletectedlang = $(e.currentTarget).data('lang');
+
+                let lang = /\/(en|az|ru)?\/?(.*)?/.exec(path);
+
+                if (lang != null && lang[2]!=undefined) {
+                    path = `/${seletectedlang}/${lang[2]}`;
+                }
+                else if (lang != null) {
+                    path = `${seletectedlang}`;
+                }
+
+                console.log(path)
+                window.location.href = path;
+            })
         });
-    </script>*@
+    </script>
 
-    @RenderSection("addjs", required: false)
+
 </body>
 </html>

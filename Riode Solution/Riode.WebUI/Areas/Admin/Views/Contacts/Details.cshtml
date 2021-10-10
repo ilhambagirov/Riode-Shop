@@ -1,0 +1,105 @@
+﻿@model Riode.WebUI.Models.Entities.Contact
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+<div class="ml-5">
+    <h1>Details</h1>
+    <div >
+        <h4>Contact</h4>
+        <hr />
+        <dl class="row ">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Comment)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Comment)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Answer)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Answer)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AnswerDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AnswerDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AnswerBy)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AnswerBy)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CreatedByUserId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreatedByUserId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DeleteByUserId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DeleteByUserId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DeleteDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DeleteDate)
+            </dd>
+            <dd class="col-sm-6 form-answer mb-2" style="display:none;">
+                <form method="post" asp-action="answer">
+                    <textarea name="answer" class="form-control" placeholder="Text Answer"></textarea>
+                    <input hidden asp-for="Id" />
+                    <button type="submit" class="btn btn-success">Send</button>
+                </form>
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        <a asp-action="Index" class="btn btn-success" id="btnReply">Reply</a>
+    </div>
+</div>
+
+@section addjs{ 
+
+<script>
+
+    $(document).ready(function () {
+        $('#btnReply').click(function (e) {
+            e.preventDefault();
+            $('.form-answer').show()
+            $('#btnReply').hide()
+        })
+
+    })
+</script>
+}
+
+

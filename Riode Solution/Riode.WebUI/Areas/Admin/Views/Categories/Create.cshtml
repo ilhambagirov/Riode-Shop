@@ -1,0 +1,60 @@
+﻿@model CategoryCreateCommand
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="col-lg-12">
+    <div class="white_card card_height_100 mb_30">
+        <div class="white_card_header">
+            <div class="box_header m-0">
+                <div class="main-title">
+                    <h3 class="m-0">Create Categories</h3>
+                </div>
+            </div>
+        </div>
+        <div class="white_card_body">
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="ParentId" class="control-label">Parent Category</label>
+                            <select asp-for="ParentId" class="form-control select2" asp-items="ViewBag.ParentId">
+                                <option disabled selected>Select an option</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Name" class="control-label">Category</label>
+                            <input asp-for="Name" class="form-control" placeholder="Category">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Description" class="control-label">Description</label>
+                            <input asp-for="Description" class="form-control" placeholder="Description">
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <a asp-controller="Categories" asp-action="Index" class="btn btn-primary">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section addcss{
+    <link href="~/libs/select2/css/select2.css" rel="stylesheet" />
+}
+
+@section addjs{
+    <script src="~/libs/select2/js/select2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
+}

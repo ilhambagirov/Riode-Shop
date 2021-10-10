@@ -1,0 +1,89 @@
+﻿@model Riode.WebUI.Models.Entities.Products
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="ml-5">
+    <h1>Details</h1>
+    <h4>Products</h4>
+</div>
+<div class="ml-5 d-flex">
+
+    <hr />
+    <div class="col-6">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SKUCode)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SKUCode)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Brand)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Brand.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Category)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ShortDescription)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ShortDescription)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.Raw(Model.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CreatedByUserId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreatedByUserId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DeleteByUserId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DeleteByUserId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DeleteDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DeleteDate)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-6 d-flex flex-wrap">
+        @foreach (var item in Model.Images)
+        {
+            <img style="width:50px;height:220px; object-fit:cover" class="col-6 mb-3 " src="~/uploads/images/product/@item.FileName" />
+        }
+    </div>
+
+</div>
+<div class="ml-5 mb-5">
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-primary" asp-action="Index">Back to List</a>
+</div>

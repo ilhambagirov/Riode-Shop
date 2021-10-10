@@ -12,8 +12,8 @@
                         @foreach (var item in Model.Images)
                         {
                             <figure class="product-image">
-                                <img src="~/uploads/images/product/@item.FileName" 
-                                 data-zoom-image="~/uploads/images/product/@item.FileName" alt="Women's Brown Leather Backpacks" width="800" height="900">
+                                <img src="~/uploads/images/product/@item.FileName"
+                                     data-zoom-image="/uploads/images/product/@item.FileName" alt="Women's Brown Leather Backpacks" width="800" height="900">
                             </figure>
                         }
                         <a href="#" class="product-image-full"><i class="d-icon-zoom"></i></a><div class="owl-nav"><button type="button" role="presentation" class="owl-prev disabled"><i class="d-icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="d-icon-angle-right"></i></button></div><div class="owl-dots disabled"></div>
@@ -23,10 +23,10 @@
 
                             @foreach (var item in Model.Images)
                             {
-                            <div class="product-thumb active">
-                                <img src="~/uploads/images/product/@item.FileName" 
-                                     alt="product thumbnail" width="109" height="122">
-                            </div>
+                                <div class="product-thumb active">
+                                    <img src="~/uploads/images/product/@item.FileName"
+                                         alt="product thumbnail" width="109" height="122">
+                                </div>
                             }
                         </div>
                         <button class="thumb-up disabled"><i class="fas fa-chevron-left"></i></button>
@@ -67,7 +67,7 @@
                     <h1 class="product-name">@Model.Name</h1>
                     <div class="product-meta">
                         SKU: <span class="product-sku">@Model.SKUCode</span>
-                        BRAND: <span class="product-brand">@Model.Brand</span>
+                        BRAND: <span class="product-brand">@Model.Brand.Name</span>
                     </div>
                     <div class="product-price">
                         <ins class="new-price">$184.00</ins><del class="old-price">$220.00</del>
@@ -143,47 +143,22 @@
                 <div class="tab-pane active in" id="product-tab-description">
                     <div class="row mt-6">
                         <div class="col-md-6">
-                            <h5 class="description-title mb-4 font-weight-semi-bold ls-m">Features</h5>
-                            <p class="mb-2">
-                                Praesent id enim sit amet.Tdio vulputate eleifend in in tortor.
-                                ellus massa. siti iMassa ristique sit amet condim vel, facilisis
-                                quimequistiqutiqu amet condim Dilisis Facilisis quis sapien. Praesent id
-                                enim sit amet.
-                            </p>
-                            <ul class="mb-8">
-                                <li>Praesent id enim sit amet.Tdio vulputate</li>
-                                <li>Eleifend in in tortor. ellus massa.Dristique sitii</li>
-                                <li>Massa ristique sit amet condim vel</li>
-                                <li>Dilisis Facilisis quis sapien. Praesent id enim sit amet</li>
-                            </ul>
+                            @Html.Raw(Model.Description)
                             <h5 class="description-title mb-3 font-weight-semi-bold ls-m">
                                 Specifications
                             </h5>
                             <table class="table">
                                 <tbody>
-                                    <tr>
-                                        <th class="font-weight-semi-bold text-dark pl-0">Material</th>
-                                        <td class="pl-4">Praesent id enim sit amet.Tdio</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="font-weight-semi-bold text-dark pl-0">Claimed Size</th>
-                                        <td class="pl-4">Praesent id enim sit</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="font-weight-semi-bold text-dark pl-0">
-                                            Recommended Use
-                                        </th>
-                                        <td class="pl-4">
-                                            Praesent id enim sit amet.Tdio vulputate eleifend
-                                            in in tortor. ellus massa. siti
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="font-weight-semi-bold text-dark border-no pl-0">
-                                            Manufacturer
-                                        </th>
-                                        <td class="border-no pl-4">Praesent id enim</td>
-                                    </tr>
+
+                                    @foreach (var item in Model.SpesificationValues)
+                                    {
+                                        <tr>
+                                            <th class="font-weight-semi-bold text-dark pl-0">@item.Spesification.Name</th>
+                                            <td class="pl-4">@item.Value</td>
+                                        </tr>
+                                    }
+
+
                                 </tbody>
                             </table>
                         </div>
@@ -561,3 +536,62 @@
     </div>
 </div>
 
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+        PhotoSwipe keeps only 3 of them in the DOM to save memory.
+        Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" aria-label="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--zoom" aria-label="Zoom in/out"></button>
+
+                <div class="pswp__preloader">
+                    <div class="loading-spin"></div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button--arrow--left" aria-label="Previous (arrow left)"></button>
+            <button class="pswp__button--arrow--right" aria-label="Next (arrow right)"></button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section addcss{
+    <link rel="stylesheet" type="text/css" href="~/assets/vendor/photoswipe/photoswipe.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/vendor/photoswipe/default-skin/default-skin.min.css">
+}
+
+@section addjs{
+    <script src="~/assets/vendor/photoswipe/photoswipe.min.js"></script>
+    <script src="~/assets/vendor/photoswipe/photoswipe-ui-default.min.js"></script>
+
+}

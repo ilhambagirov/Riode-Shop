@@ -1,0 +1,47 @@
+﻿@model RiodeUser
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="container">
+    <h1>Details</h1>
+    <h4>User</h4>
+    <hr />
+
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Username
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.UserName
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Email
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.Email
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+            Phone Number
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.PhoneNumber
+        </p>
+    </div>
+    <div class="form-group row d-flex">
+        <label class="col-sm-2">
+           Email Confirmed
+        </label>
+        <p class="form-control col-sm-10">
+            @Model.EmailConfirmed
+        </p>
+    </div>
+    <div>
+        <a class="btn btn-primary" asp-action="Index">Back to List</a>
+    </div>
+</div>

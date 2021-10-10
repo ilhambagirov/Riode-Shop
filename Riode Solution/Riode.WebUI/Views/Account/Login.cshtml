@@ -1,4 +1,4 @@
-﻿
+﻿@model LoginFormModel
 @{
     ViewData["Title"] = "Login";
 }
@@ -19,21 +19,25 @@
                 <div class="tab tab-nav-simple tab-nav-boxed form-tab">
                     <ul class="nav nav-tabs nav-fill align-items-center border-no justify-content-center mb-5" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active border-no lh-1 ls-normal" href="#signin">Login</a>
-                        </li>
-                        <li class="delimiter">or</li>
-                        <li class="nav-item">
-                            <a class="nav-link border-no lh-1 ls-normal" href="#register">Register</a>
+                            <a class="nav-link active border-no lh-1 ls-normal" asp-controller="account" asp-action="login">Login</a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="signin">
-                            <form action="#">
+                            @ViewBag.Message
+                            <form method="post">
                                 <div class="form-group mb-3">
-                                    <input type="text" class="form-control" id="singin-email" name="singin-email" placeholder="Username or Email Address *" required />
+                                    <input type="text"
+                                           class="form-control"
+                                           asp-for="UserName"
+                                           placeholder="Username or Email Address *"
+                                           required />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" id="singin-password" name="singin-password" placeholder="Password *"
+                                    <input type="password"
+                                           class="form-control"
+                                           asp-for="Password"
+                                           placeholder="Password *"
                                            required />
                                 </div>
                                 <div class="form-footer">

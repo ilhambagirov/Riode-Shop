@@ -703,12 +703,21 @@
         }
 
         function banUser(id, name, banned) {
+<<<<<<< HEAD
             var txt = ``
             if (banned == "True") {
                  txt = `You will unblock '${name}' user!`
             }
             else {
                  txt = `You will block '${name}' user!`
+=======
+
+            if (banned == "True") {
+                var txt = `You will unblock '${name}' user!`
+            }
+            else {
+                var txt = `You will block '${name}' user!`
+>>>>>>> origin/feature-membership
             }
             swal({
                 title: "Are you sure?",
@@ -732,7 +741,10 @@
                         success: function (response) {
                             if (response.error == false) {
                                 toastr.success(response.message, "Successfuly")
+<<<<<<< HEAD
                                 window.location.reload()
+=======
+>>>>>>> origin/feature-membership
                                 console.log("aue")
                             }
                             else {

@@ -1,26 +1,50 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Riode.WebUI.AppCode.Extensions;
+using Riode.WebUI.Models.DataContext;
+using Riode.WebUI.Models.Entities.Membership;
+using Riode.WebUI.Models.FormModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Riode.WebUI.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
+        readonly UserManager<RiodeUser> userManager;
+        readonly SignInManager<RiodeUser> signInManager;
+        readonly IConfiguration configuration;
+        readonly RiodeDBContext db;
+        public AccountController(UserManager<RiodeUser> userManager, SignInManager<RiodeUser> signInManager, IConfiguration configuration, RiodeDBContext db)
+        {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.configuration = configuration;
+            this.db = db;
+        }
         public IActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
         public IActionResult PopupLogin()
 =======
+=======
+>>>>>>> origin/feature-membership
         [HttpPost]
         public async Task<IActionResult> Login(LoginFormModel model)
         {
@@ -74,11 +98,14 @@ namespace Riode.WebUI.Controllers
             return View(model);
         }
 
+<<<<<<< HEAD
         public async Task<IActionResult>Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("login") ;
         }
+=======
+>>>>>>> origin/feature-membership
         public IActionResult Register()
         {
             return View();
@@ -179,7 +206,10 @@ namespace Riode.WebUI.Controllers
         }
 
         public IActionResult EmailConfrimationNotice()
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> origin/feature-membership
         {
             return View();
         }
