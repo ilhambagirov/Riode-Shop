@@ -60,11 +60,21 @@
                         <span class="divider"></span>
                         <a asp-controller="home" asp-action="contact" class="contact d-lg-show"><i class="d-icon-map"></i>Contact</a>
                         <a href="#" class="help d-lg-show"><i class="d-icon-info"></i> Need Help</a>
-                        <a asp-controller="account" asp-action="Login" asp-area="" >
-                            <i class="d-icon-user"></i>Sign in
-                        </a>
-                        <span class="delimiter">/</span>
-                        <a class=" ml-0" asp-controller="account" asp-action="register">Register</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="#">@User.Identity.Name</a>
+                            <a asp-controller="account" asp-action="logout" asp-area="">
+                                Log out
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="account" asp-action="Login" asp-area="">
+                                <i class="d-icon-user"></i>Sign in
+                            </a>
+                            <span class="delimiter">/</span>
+                            <a class=" ml-0" asp-controller="account" asp-action="register">Register</a>
+                        }
                         <!-- End of Login -->
                     </div>
                 </div>
