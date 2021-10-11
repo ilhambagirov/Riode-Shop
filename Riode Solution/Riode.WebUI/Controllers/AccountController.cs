@@ -40,7 +40,11 @@ namespace Riode.WebUI.Controllers
         }
 
 
+<<<<<<< HEAD
         /*public IActionResult PopupLogin()*/
+=======
+       /* public IActionResult PopupLogin()*/
+>>>>>>> origin/feature-membership
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginFormModel model)
