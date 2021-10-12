@@ -23,6 +23,7 @@ namespace Riode.WebUI
 {
     public class Startup
     {
+        //test2
         IConfiguration configuration;
         public Startup(IConfiguration configuration)
         {
