@@ -703,63 +703,51 @@
         }
 
         function banUser(id, name, banned) {
-<<<<<<< HEAD
             var txt = ``
             if (banned == "True") {
-                 txt = `You will unblock '${name}' user!`
+                txt = `You will unblock '${name}' user!`
             }
             else {
-                 txt = `You will block '${name}' user!`
-=======
-
-            if (banned == "True") {
-                var txt = `You will unblock '${name}' user!`
+                txt = `You will block '${name}' user!`
             }
-            else {
-                var txt = `You will block '${name}' user!`
->>>>>>> origin/feature-membership
+                swal({
+                    title: "Are you sure?",
+                    text: txt,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    buttons: ["No, cancel plx!", "Yes, do it!"]
+                }).then(function (isConfirm) {
+                    if (isConfirm) {
+                        $.ajax(
+                            {
+                                url: '@Url.Action("Ban")',
+                                type: 'POST',
+                                data: { id },
+                                contentType: 'application/x-www-form-urlencoded',
+                                dataType: 'json',
+                                beforeSend: function () {
+                                    console.log("girdi")
+                                },
+                                success: function (response) {
+                                    if (response.error == false) {
+                                        toastr.success(response.message, "Successfuly")
+                                        window.location.reload()
+                                        console.log("aue")
+                                    }
+                                    else {
+                                        toastr.error(response.message, "Error")
+                                    }
+                                },
+                                error: function (response) {
+                                    console.log(response)
+                                }
+                            }).always(function () {
+                                console.log("cixdi")
+                            })
+                    }
+                });
             }
-            swal({
-                title: "Are you sure?",
-                text: txt,
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                buttons: ["No, cancel plx!", "Yes, do it!"]
-            }).then(function(isConfirm) {
-                if (isConfirm) {
-                  $.ajax(
-                    {
-                        url: '@Url.Action("Ban")',
-                        type: 'POST',
-                        data: {id},
-                        contentType: 'application/x-www-form-urlencoded',
-                        dataType: 'json',
-                          beforeSend: function () {
-                              console.log("girdi")
-                        },
-                        success: function (response) {
-                            if (response.error == false) {
-                                toastr.success(response.message, "Successfuly")
-<<<<<<< HEAD
-                                window.location.reload()
-=======
->>>>>>> origin/feature-membership
-                                console.log("aue")
-                            }
-                            else {
-                                toastr.error(response.message, "Error")
-                            }
-                        },
-                        error: function (response) {
-                            console.log(response)
-                        }
-                    }).always(function () {
-                        console.log("cixdi")
-                    })
-                }
-            });
-        }
     </script>
 
     <script src="~/admin/js/custom.js"></script>

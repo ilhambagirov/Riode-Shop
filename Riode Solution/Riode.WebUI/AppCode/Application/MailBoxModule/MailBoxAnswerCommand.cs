@@ -14,10 +14,8 @@ namespace Riode.WebUI.AppCode.Application.MailBoxModule
    
     public class MailBoxAnswerCommand : IRequest<Contact>
     {
-
         public int Id { get; set; }
         public string Answer { get; set; }
-
 
         public class MailBoxAnswerCommandHandler : IRequestHandler<MailBoxAnswerCommand, Contact>
         {
