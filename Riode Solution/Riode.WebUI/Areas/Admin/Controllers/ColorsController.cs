@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Riode.WebUI.AppCode.Application.ProductColorModule;
-using Riode.WebUI.AppCode.Application.ProductSizeModule;
-using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.Entities;
+using Riode.Application.ProductColorModule;
+using Riode.Application.ProductSizeModule;
+using Riode.Domain.Models.DataContext;
+using Riode.Domain.Models.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 

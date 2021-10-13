@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.ViewModels;
+using Riode.Domain.Models.DataContext;
+using Riode.Domain.Models.ViewModels;
 using System;
 using System.Linq;
 

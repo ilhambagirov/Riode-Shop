@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Riode.WebUI.AppCode.Application.BrandModule;
-using Riode.WebUI.Models.DataContext;
+using Riode.Application.BrandModule;
+using Riode.Domain.Models.DataContext;
 using System.Linq;
 using System.Threading.Tasks;
 

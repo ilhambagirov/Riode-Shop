@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Riode.WebUI.AppCode.Extensions;
-using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.Entities;
+using Riode.Application.Core.Extensions;
+using Riode.Domain.Models.DataContext;
+using Riode.Domain.Models.Entities;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;

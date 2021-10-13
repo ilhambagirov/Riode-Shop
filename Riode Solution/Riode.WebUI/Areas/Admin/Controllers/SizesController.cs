@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Riode.WebUI.AppCode.Application.ProductSizeModule;
-using Riode.WebUI.Models.DataContext;
+using Riode.Application.ProductSizeModule;
+using Riode.Domain.Models.DataContext;
 using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Riode.WebUI.AppCode.Infrastructure;
-using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.ViewModels;
+using Riode.Application.Core.Infrastructure;
+using Riode.Domain.Models.DataContext;
 using System.Linq;
 
 namespace Riode.WebUI.Areas.Admin.Controllers

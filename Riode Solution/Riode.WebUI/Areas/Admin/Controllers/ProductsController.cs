@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Riode.Domain.Models.DataContext;
+using Riode.Domain.Models.Entities;
+using Riode.Domain.Models.FormModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.Entities;
-using Riode.WebUI.Models.FormModels;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {

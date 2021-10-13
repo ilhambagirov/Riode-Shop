@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Riode.WebUI.AppCode.Application.BlogModule;
-using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.ViewModels;
+using Riode.Application.BlogModule;
+using Riode.Domain.Models.DataContext;
+using Riode.Domain.Models.ViewModels;
 using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers

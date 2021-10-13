@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Riode.WebUI.AppCode.Application.FaqModule;
-using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.Entities;
+using Riode.Application.FaqModule;
+using Riode.Domain.Models.DataContext;
+using Riode.Domain.Models.Entities;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
 {

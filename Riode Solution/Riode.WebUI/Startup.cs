@@ -12,11 +12,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using Riode.WebUI.AppCode.Middlewares;
-using Riode.WebUI.AppCode.Provider;
-using Riode.WebUI.Models.DataContext;
-using Riode.WebUI.Models.Entities.Membership;
+using Riode.Application.Core.Extensions;
+using Riode.Application.Core.Middlewares;
+using Riode.Application.Core.Provider;
+using Riode.Domain.Models.DataContext;
+using Riode.Domain.Models.Entities.Membership;
+using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Riode.WebUI
@@ -61,7 +64,7 @@ namespace Riode.WebUI
             services.AddScoped<SignInManager<RiodeUser>>();
             services.AddScoped<RoleManager<RiodeRole>>();
 
-            services.AddScoped<IClaimsTransformation,AppClaimProvider>();
+            services.AddScoped<IClaimsTransformation, AppClaimProvider>();
 
             services.Configure<IdentityOptions>(cfg =>
             {
@@ -90,7 +93,7 @@ namespace Riode.WebUI
             services.AddAuthentication();
             services.AddAuthorization(cfg =>
             {
-                foreach (var item in Program.principlies)
+                foreach (var item in Extension.principlies)
                 {
                     cfg.AddPolicy(item, p =>
                     {
@@ -109,8 +112,8 @@ namespace Riode.WebUI
 
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
-            var assembly = Assembly.GetExecutingAssembly();
-            services.AddMediatR(assembly);
+            var asmbls=AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("Riode")).ToArray();
+            services.AddMediatR(asmbls);
 
 
 

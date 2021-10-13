@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Riode.WebUI.AppCode.Application.CategoryModule;
-using Riode.WebUI.Models.DataContext;
+using Riode.Application.CategoryModule;
+using Riode.Domain.Models.DataContext;
 using System.Threading.Tasks;
 
 namespace Riode.WebUI.Areas.Admin.Controllers
