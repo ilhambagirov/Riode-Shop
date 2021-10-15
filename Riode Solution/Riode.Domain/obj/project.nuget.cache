@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bPWwZMsr7hlm7uY3aCFeDHf5wQY7WYy02nqUCaJApb9mg26q1Js5bb2uAkG7iMzasXiif50sYMQLpFJitJNJ1w==",
+  "dgSpecHash": "5gsr5Jaj/ni2TT6XdaQOhwvE/6okPiRQhMCe1ibkAeFzJrxDYF+x4dK1NGdTDqA/RBEyQ/BBqlNd0+anm43R/w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Riode-Project\\Riode-Shop\\Riode Solution\\Riode.Domain\\Riode.Domain.csproj",
+  "projectFilePath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Solutions\\Riode-Shop\\Riode Solution\\Riode.Domain\\Riode.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ACER\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.9\\microsoft.aspnetcore.cryptography.internal.5.0.9.nupkg.sha512",

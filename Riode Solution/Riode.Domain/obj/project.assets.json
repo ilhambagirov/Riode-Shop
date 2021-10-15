@@ -6198,11 +6198,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ACER\\OneDrive\\Desktop\\Riode-Project\\Riode-Shop\\Riode Solution\\Riode.Domain\\Riode.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\ACER\\OneDrive\\Desktop\\Solutions\\Riode-Shop\\Riode Solution\\Riode.Domain\\Riode.Domain.csproj",
       "projectName": "Riode.Domain",
-      "projectPath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Riode-Project\\Riode-Shop\\Riode Solution\\Riode.Domain\\Riode.Domain.csproj",
+      "projectPath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Solutions\\Riode-Shop\\Riode Solution\\Riode.Domain\\Riode.Domain.csproj",
       "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Riode-Project\\Riode-Shop\\Riode Solution\\Riode.Domain\\obj\\",
+      "outputPath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Solutions\\Riode-Shop\\Riode Solution\\Riode.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6219,8 +6219,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\ACER\\OneDrive\\Desktop\\Riode-Project\\Riode-Shop\\Riode Solution\\Riode.Resources\\Riode.Resources.csproj": {
-              "projectPath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Riode-Project\\Riode-Shop\\Riode Solution\\Riode.Resources\\Riode.Resources.csproj"
+            "C:\\Users\\ACER\\OneDrive\\Desktop\\Solutions\\Riode-Shop\\Riode Solution\\Riode.Resources\\Riode.Resources.csproj": {
+              "projectPath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Solutions\\Riode-Shop\\Riode Solution\\Riode.Resources\\Riode.Resources.csproj"
             }
           }
         }
@@ -6291,7 +6291,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

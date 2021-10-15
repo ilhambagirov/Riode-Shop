@@ -12,7 +12,6 @@ using Riode.Application.Core.Provider;
 using Riode.Domain.Models.DataContext;
 using System;
 using System.Linq;
-
 namespace Riode.WebApi
 {
     public class Startup

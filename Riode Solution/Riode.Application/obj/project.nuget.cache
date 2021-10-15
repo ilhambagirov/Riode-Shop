@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WwE31cB9CLQ9YeK5ht7Wz5bKPSKn35PVr3pPim55xOPSmK4R2xcsffI5WMkp4/XMDYfagH111oB25fSB6g2TLA==",
+  "dgSpecHash": "lKsLpTO+RIsuCYjh1IdGUo9wvhyR828ZMXRPFdsR9k/UfUsi0Fm7UHBmipjWt53dClGvEHlR2bVwR7MfLYqyZw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Riode-Project\\Riode-Shop\\Riode Solution\\Riode.Application\\Riode.Application.csproj",
+  "projectFilePath": "C:\\Users\\ACER\\OneDrive\\Desktop\\Solutions\\Riode-Shop\\Riode Solution\\Riode.Application\\Riode.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ACER\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\mediatr\\9.0.0\\mediatr.9.0.0.nupkg.sha512",

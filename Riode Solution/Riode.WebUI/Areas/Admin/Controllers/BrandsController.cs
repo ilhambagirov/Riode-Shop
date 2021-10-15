@@ -12,12 +12,12 @@ namespace Riode.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class BrandsController : Controller
     {
-        private readonly RiodeDBContext _context;
+        //private readonly RiodeDBContext _context;
         private readonly IMediator mediatr;
 
         public BrandsController(RiodeDBContext context, IMediator mediatr)
         {
-            _context = context;
+            //_context = context;
             this.mediatr = mediatr;
         }
 
